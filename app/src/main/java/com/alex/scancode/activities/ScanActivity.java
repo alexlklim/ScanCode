@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,8 @@ import android.widget.Button;
 
 import com.alex.scancode.R;
 import com.alex.scancode.managers.adapters.CodeAdapter;
+import com.alex.scancode.managers.databases.DBCodeManager;
+import com.alex.scancode.managers.databases.DBOrderManager;
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Profile;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,13 +40,16 @@ public class ScanActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CodeAdapter codeAdapter;
     private Button scan_btn_do_finish_order;
+    private DBCodeManager dbCodeManager;
+    private DBOrderManager dbOrderManager;
 
     private List<Code> codeList = new LinkedList<>();
+    private String orderNumber;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -69,10 +75,48 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: scan_btn_do_finish_order was pressed");
+                saveNewOrder();
+
                 // open alert dialog with ": OrderSaved and show button "Come back to main menu"
                 // save all codes from list to DB
             }
         });
+    }
+
+    private void saveNewOrder() {
+        Log.i(TAG, "saveNewOrder: ");
+        dbOrderManager = new DBOrderManager(ScanActivity.this);
+        Intent intent = getIntent();
+        if (intent != null) {
+            orderNumber = intent.getStringExtra("ORDER_NUMBER");
+        } else {
+            Log.d(TAG, "saveNewOrder: INTENT IS NULL");
+        }
+        dbOrderManager.addOrderToDB(orderNumber);
+        Cursor cursor = dbOrderManager.getOrderIdByOrderNumber(orderNumber);
+        if (cursor == null){
+            Log.d(TAG, "saveNewOrder: CURSOR HAS NO DATA");
+        } else {
+            Log.d(TAG, "saveNewOrder: LLLLLLLLLLLLLLLLL");
+            cursor.moveToFirst();
+            cursor = dbOrderManager.getOrderIdByOrderNumber(orderNumber);
+            int id = -1;
+
+            if (cursor != null && cursor.moveToFirst()) {
+                Log.i(TAG, "saveNewOrder: CURSOR HAS NO DATA");
+                // Get the order ID from the cursor
+                id =  cursor.getInt(0);
+                saveNewCodesToDB(id);
+            }
+        }
+    }
+
+    private void saveNewCodesToDB(int orderNum) {
+        Log.d(TAG, "saveNewCodesToDB: " + orderNum);
+        for (Code c: codeList){
+            dbCodeManager = new DBCodeManager(ScanActivity.this);
+            dbCodeManager.addCodeToDB(c.getCode(), c.getTime(), c.getType(), c.getGps(), c.getIsSent(), orderNum);
+        }
     }
 
 

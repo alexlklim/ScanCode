@@ -15,7 +15,6 @@ public class Code {
     private String type;
     private String gps;
     private int isSent;
-    private int isVisible;
     private int orderID;
 
 
@@ -30,7 +29,6 @@ public class Code {
         this.type = type.substring("LABEL-TYPE-".length());
         this.gps = convertGpsToString(gps);
         this.isSent = 0;
-        this.isVisible = 0;
     }
 
     private String getCurrentTimeString() {
@@ -49,7 +47,7 @@ public class Code {
     @Override
     public String toString() {
         return "Code{code='" + code + ", time='" + time + ", type='" + type + ", gps='" + gps +
-                ", isSent=" + isSent + ", isVisible=" + isVisible + ", orderNumber='" + orderID + '}';
+                ", isSent=" + isSent + ", orderNumber='" + orderID + '}';
     }
 
     public String getCode() {
@@ -90,14 +88,6 @@ public class Code {
 
     public void setIsSent(int isSent) {
         this.isSent = isSent;
-    }
-
-    public int getIsVisible() {
-        return isVisible;
-    }
-
-    public void setIsVisible(int isVisible) {
-        this.isVisible = isVisible;
     }
 
     public int getOrderID() {

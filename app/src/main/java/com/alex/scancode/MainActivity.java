@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.alex.scancode.activities.OrdersActivity;
 import com.alex.scancode.activities.ScanActivity;
 import com.alex.scancode.activities.SettingsActivity;
+import com.alex.scancode.managers.databases.DBOrderManager;
 
 public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
@@ -67,11 +68,15 @@ public class MainActivity extends AppCompatActivity{
 
         scan_btn_do_start_order.setOnClickListener(view -> {
             Log.d(TAG, "onClick: scan_btn_do_start_order was pressed");
+            DBOrderManager dbManager = new DBOrderManager(MainActivity.this);
             String orderNumber = scan_text_order_number.getText().toString();
             if (orderNumber.isEmpty()){
-                // check is this orderNumber is exist in DB
                 Log.d(TAG, "onClick: orderNumber is empty");
                 Toast.makeText(MainActivity.this, "Order number could not be empty", Toast.LENGTH_SHORT).show();
+            } else if (dbManager.checkIOrderExistByOrderNumber(orderNumber)){
+                Log.d(TAG, "onClick: orderNumber already exists");
+                // check is this orderNumber is exist in DB
+                Toast.makeText(MainActivity.this, "Order number already exists", Toast.LENGTH_SHORT).show();
             } else{
                 Intent intent = new Intent(MainActivity.this, ScanActivity.class);
                 alertDialog.dismiss();
