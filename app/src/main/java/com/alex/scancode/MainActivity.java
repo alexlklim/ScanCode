@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.alex.scancode.activities.LoginActivity;
 import com.alex.scancode.activities.OrdersActivity;
 import com.alex.scancode.activities.ScanActivity;
 import com.alex.scancode.activities.SettingsActivity;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // initialize the buttons
         main_btn_go_scan = findViewById(R.id.main_btn_go_scan);
         main_btn_go_orders = findViewById(R.id.main_btn_go_orders);
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity{
 
         main_btn_go_settings.setOnClickListener(view -> {
             Log.d(TAG, "onCreate: main_btn_go_settings was pressed");
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 

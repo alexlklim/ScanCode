@@ -23,12 +23,12 @@ import com.alex.scancode.managers.adapters.CodeAdapter;
 import com.alex.scancode.managers.databases.DBCodeManager;
 import com.alex.scancode.managers.databases.DBOrderManager;
 import com.alex.scancode.models.Code;
-import com.alex.scancode.models.Profile;
+import com.alex.scancode.models.settings.Filter;
+import com.alex.scancode.models.settings.Profile;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,15 +71,9 @@ public class ScanActivity extends AppCompatActivity {
 
 
         scan_btn_do_finish_order = findViewById(R.id.scan_btn_do_finish_order);
-        scan_btn_do_finish_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: scan_btn_do_finish_order was pressed");
-                saveNewOrder();
-
-                // open alert dialog with ": OrderSaved and show button "Come back to main menu"
-                // save all codes from list to DB
-            }
+        scan_btn_do_finish_order.setOnClickListener(v ->{
+            Log.d(TAG, "onClick: scan_btn_do_finish_order was pressed");
+            saveNewOrder();
         });
     }
 
@@ -95,12 +89,12 @@ public class ScanActivity extends AppCompatActivity {
         dbOrderManager.addOrderToDB(orderNumber);
         Cursor cursor = dbOrderManager.getOrderIdByOrderNumber(orderNumber);
         if (cursor == null){
-            Log.d(TAG, "saveNewOrder: CURSOR HAS NO DATA");
+            Log.d(TAG, "saveNewOrder dbOrderManager.getOrderIdByOrderNumber(orderNumber): CURSOR HAS NO DATA");
         } else {
-            Log.d(TAG, "saveNewOrder: LLLLLLLLLLLLLLLLL");
+            Log.d(TAG, "saveNewOrder dbOrderManager.getOrderIdByOrderNumber(orderNumber): LLLLLLLLLLLLLLLLL");
             cursor.moveToFirst();
             cursor = dbOrderManager.getOrderIdByOrderNumber(orderNumber);
-            int id = -1;
+            int id;
 
             if (cursor != null && cursor.moveToFirst()) {
                 Log.i(TAG, "saveNewOrder: CURSOR HAS NO DATA");
@@ -112,7 +106,7 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     private void saveNewCodesToDB(int orderNum) {
-        Log.d(TAG, "saveNewCodesToDB: " + orderNum);
+        Log.d(TAG, "saveNewCodesToDB with orderNumber=" + orderNum);
         for (Code c: codeList){
             dbCodeManager = new DBCodeManager(ScanActivity.this);
             dbCodeManager.addCodeToDB(c.getCode(), c.getTime(), c.getType(), c.getGps(), c.getIsSent(), orderNum);
@@ -121,11 +115,11 @@ public class ScanActivity extends AppCompatActivity {
 
 
     private void saveNewCodeToLocalMemory(String decodedData, String decodedLabelType){
-        Log.i(TAG, "saveNewCodeToLocalMemory");
+        Log.i(TAG, "saveNewCodeToLocalMemory: " + decodedData);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
         Code code = new Code(decodedData, decodedLabelType, Arrays.asList(currentLocation.getLongitude(), currentLocation.getLatitude()));
-        if (Profile.getIsDoFilter() == 1){
+        if (Filter.getIsDoFilter() == 1){
             Log.d(TAG, "Do filter");
         } else {
             codeList.add(code);

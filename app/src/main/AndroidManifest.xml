@@ -25,6 +25,13 @@
         android:theme="@style/Theme.ScanCode"
         tools:targetApi="30">
         <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
             android:name=".activities.SpecialOrderActivity"
             android:exported="false" />
         <activity
