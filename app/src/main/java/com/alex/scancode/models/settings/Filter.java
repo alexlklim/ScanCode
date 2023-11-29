@@ -4,15 +4,28 @@ import com.alex.scancode.models.enums.LabelType;
 
 public class Filter {
     private static int isDoFilter = 0; //false
-    private static int isNonUniqueCodeAllow = 0; //false
-    private static int isCheckCodeLength = 0; //false
-    private static int codeLength;
-    private static String prefix;
-    private static String suffix;
-    private static String ending;
-    private static String type;
+    private int isNonUniqueCodeAllow = 0; //false
+    private int isCheckCodeLength = 0; //false
+    private int codeLength;
+    private String prefix;
+    private String suffix;
+    private String ending;
+    private String type;
 
     public Filter() {
+    }
+
+    @Override
+    public String toString() {
+        return "Filter{" +
+                "isNonUniqueCodeAllow=" + isNonUniqueCodeAllow +
+                ", isCheckCodeLength=" + isCheckCodeLength +
+                ", codeLength=" + codeLength +
+                ", prefix='" + prefix + '\'' +
+                ", suffix='" + suffix + '\'' +
+                ", ending='" + ending + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 
     public static int getIsDoFilter() {
@@ -23,59 +36,59 @@ public class Filter {
         Filter.isDoFilter = isDoFilter;
     }
 
-    public static int getIsNonUniqueCodeAllow() {
+    public int getIsNonUniqueCodeAllow() {
         return isNonUniqueCodeAllow;
     }
 
-    public static void setIsNonUniqueCodeAllow(int isNonUniqueCodeAllow) {
-        Filter.isNonUniqueCodeAllow = isNonUniqueCodeAllow;
+    public void setIsNonUniqueCodeAllow(int isNonUniqueCodeAllow) {
+        this.isNonUniqueCodeAllow = isNonUniqueCodeAllow;
     }
 
-    public static int getIsCheckCodeLength() {
+    public int getIsCheckCodeLength() {
         return isCheckCodeLength;
     }
 
-    public static void setIsCheckCodeLength(int isCheckCodeLength) {
-        Filter.isCheckCodeLength = isCheckCodeLength;
+    public void setIsCheckCodeLength(int isCheckCodeLength) {
+        this.isCheckCodeLength = isCheckCodeLength;
     }
 
-    public static int getCodeLength() {
+    public int getCodeLength() {
         return codeLength;
     }
 
-    public static void setCodeLength(int codeLength) {
-        Filter.codeLength = codeLength;
+    public void setCodeLength(int codeLength) {
+        this.codeLength = codeLength;
     }
 
-    public static String getPrefix() {
+    public String getPrefix() {
         return prefix;
     }
 
-    public static void setPrefix(String prefix) {
-        Filter.prefix = prefix;
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
-    public static String getSuffix() {
+    public String getSuffix() {
         return suffix;
     }
 
-    public static void setSuffix(String suffix) {
-        Filter.suffix = suffix;
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 
-    public static String getEnding() {
+    public String getEnding() {
         return ending;
     }
 
-    public static void setEnding(String ending) {
-        Filter.ending = ending;
+    public void setEnding(String ending) {
+        this.ending = ending;
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 
-    public static void setType(String type) {
-        Filter.type = type;
+    public void setType(String type) {
+        this.type = type;
     }
 }

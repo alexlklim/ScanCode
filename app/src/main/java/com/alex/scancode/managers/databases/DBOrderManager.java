@@ -9,15 +9,15 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.alex.scancode.utiles.Util;
+
 public class DBOrderManager extends SQLiteOpenHelper {
     private static final String TAG = "DBOrderManager";
 
     private Context context;
-    public static final int DATABASE_VERSION = 4;
-    private static final String DATABASE_NAME = "scanner", TABLE_NAME = "orders",
-            KEY_ID = "id", KEY_ORDER = "orderNumber";
+    private static final String TABLE_NAME = Util.TABLE_NAME_ORDER, KEY_ID = "id", KEY_ORDER = "orderNumber";
     public DBOrderManager(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, Util.DATABASE_NAME, null, Util.DATABASE_VERSION);
     }
 
     @Override
@@ -95,7 +95,8 @@ public class DBOrderManager extends SQLiteOpenHelper {
 
 
     private static final String QUERY_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-            KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_ORDER + " TEXT);";
+            KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            KEY_ORDER + " TEXT);";
     private static final String QUERY_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     private static final String QUERY_DELETE_ALL = "DELETE FROM " + TABLE_NAME;
     private static final String QUERY_SELECT_ALL = "SELECT * FROM " + TABLE_NAME;

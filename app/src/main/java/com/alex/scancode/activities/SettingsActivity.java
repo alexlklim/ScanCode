@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.alex.scancode.R;
+import com.alex.scancode.managers.databases.DBFilterManager;
+import com.alex.scancode.models.settings.Filter;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
@@ -17,12 +19,15 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText settings_filter_labelType; // change to multiple choice
     private Switch settings_filter_nonUniqueCodeAllow,settings_filter_doFilter;
     private Button settings_btn_do_to_default;
+    private DBFilterManager dbFilterManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        dbFilterManager = new DBFilterManager(SettingsActivity.this);
+        dbFilterManager.onCreate(dbFilterManager.getWritableDatabase());
 
         initializeFilterSection();
     }
@@ -39,9 +44,23 @@ public class SettingsActivity extends AppCompatActivity {
         settings_filter_doFilter = findViewById(R.id.settings_filter_doFilter);
         settings_btn_do_to_default = findViewById(R.id.settings_btn_do_to_default);
 
-        // get values from DB and set values in View
 
+        Filter filter = dbFilterManager.getFilterData();
 
+        System.out.println(filter.toString());
+        settings_filter_code_length.setText(String.valueOf(filter.getCodeLength()));
+        settings_filter_prefix.setText(String.valueOf(filter.getPrefix()));
+        settings_filter_suffix.setText(String.valueOf(filter.getSuffix()));
+        settings_filter_ending.setText(String.valueOf(filter.getEnding()));
+        settings_filter_labelType.setText(String.valueOf(filter.getType()));
+
+        settings_filter_nonUniqueCodeAllow.setChecked(filter.getIsNonUniqueCodeAllow() == 1);
+        settings_filter_doFilter.setChecked(Filter.getIsDoFilter() == 1);
+
+//        settings_btn_do_to_default.setOnClickListener(view -> {
+//            Log.d(TAG, "initializeFilterSection: come back to default settings");
+//            dbFilterManager.initializeDBTableFilter();
+//        });
 
     }
 }

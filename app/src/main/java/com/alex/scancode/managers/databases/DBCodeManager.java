@@ -9,19 +9,20 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.alex.scancode.utiles.Util;
+
 import java.util.Random;
 
 public class DBCodeManager extends SQLiteOpenHelper {
     private static final String TAG = "DBCodeManager";
 
     private Context context;
-    public static final int DATABASE_VERSION = 5;
-    private static final String DATABASE_NAME = "scanner", TABLE_NAME = "codes",
+    private static final String TABLE_NAME = Util.TABLE_NAME_CODE,
             KEY_ID = "id", KEY_CODE = "code", KEY_TIME = "time", KEY_TYPE = "type",
             KEY_GPS = "gps", KEY_IS_SENT = "isSent", KEY_ORDER = "orderNumber";
 
     public DBCodeManager(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, Util.DATABASE_NAME, null,  Util.DATABASE_VERSION);
         this.context = context;
     }
 
@@ -59,8 +60,13 @@ public class DBCodeManager extends SQLiteOpenHelper {
 
 
     private static final String QUERY_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-            KEY_ID + " INTEGER PRIMARY KEY, " + KEY_CODE + " TEXT, " + KEY_TIME + " TEXT, " +
-            KEY_TYPE + " TEXT, " + KEY_GPS + " TEXT, " + KEY_IS_SENT + " INTEGER, " + KEY_ORDER + " INTEGER);";
+            KEY_ID + " INTEGER PRIMARY KEY, " +
+            KEY_CODE + " TEXT, " +
+            KEY_TIME + " TEXT, " +
+            KEY_TYPE + " TEXT, " +
+            KEY_GPS + " TEXT, " +
+            KEY_IS_SENT + " INTEGER, " +
+            KEY_ORDER + " INTEGER);";
 
     private static final String QUERY_DROP_TABLE ="DROP TABLE IF EXISTS " + TABLE_NAME;
     private static final String QUERY_DELETE_ALL = "DELETE FROM " + TABLE_NAME;

@@ -10,18 +10,18 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.alex.scancode.models.enums.Lang;
+import com.alex.scancode.utiles.Util;
 
 public class DBProfileManager extends SQLiteOpenHelper {
-    private static final String TAG = "DBCodeManager";
+    private static final String TAG = "DBProfileManager";
 
     private Context context;
-    public static final int DATABASE_VERSION = 6;
-    private static final String DATABASE_NAME = "scanner", TABLE_NAME = "profile";
+    private static final String TABLE_NAME = Util.TABLE_NAME_PROFILE;
     private static final String KEY_ID = "id", KEY_IDENTIFIER = "identifier", KEY_LOGIN = "login", KEY_PW = "pw", KEY_LANG = "lang";
 
 
     public DBProfileManager(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, Util.DATABASE_NAME, null, Util.DATABASE_VERSION);
         this.context = context;
     }
 
@@ -81,6 +81,8 @@ public class DBProfileManager extends SQLiteOpenHelper {
         Log.i(TAG, "getDataFromDB:  profileID=" + cursor.moveToFirst());
         return cursor;
     }
+
+
     public boolean checkLoginAndPassword(String login, String password) {
         Log.d(TAG, "checkLoginAndPassword: ");
         SQLiteDatabase db = this.getReadableDatabase();
@@ -102,9 +104,13 @@ public class DBProfileManager extends SQLiteOpenHelper {
 
 
 
+
     private static final String QUERY_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-            KEY_ID + " INTEGER PRIMARY KEY, " + KEY_IDENTIFIER + " INTEGER, " + KEY_LOGIN + " TEXT, " +
-            KEY_PW + " TEXT, " + KEY_LANG + " TEXT);";
+            KEY_ID + " INTEGER PRIMARY KEY, " +
+            KEY_IDENTIFIER + " INTEGER, " +
+            KEY_LOGIN + " TEXT, " +
+            KEY_PW + " TEXT, " +
+            KEY_LANG + " TEXT);";
     private static final String QUERY_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     private static final String QUERY_DELETE_ALL = "DELETE FROM " + TABLE_NAME;
     private static final String QUERY_SELECT_ALL = "SELECT * FROM " + TABLE_NAME;

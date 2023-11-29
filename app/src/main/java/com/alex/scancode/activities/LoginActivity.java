@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             String login = login_edit_text_login.getText().toString();
             String password = login_edit_text_password.getText().toString();
             dbProfileManager = new DBProfileManager(LoginActivity.this);
-            if (dbProfileManager.checkLoginAndPassword(login, password)){
+            if (!dbProfileManager.checkLoginAndPassword(login, password)){
                 Log.d(TAG, "onCreate: checkLoginAndPassword: true");
                 Intent intent = new Intent(LoginActivity.this, SettingsActivity.class);
                 startActivity(intent);
