@@ -19,8 +19,8 @@ public interface OrderDAO {
     @Query("SELECT * FROM orders")
     List<Order> getAll();
 
-    @Query("SELECT id from orders WHERE orderNumber = :orderNumber")
-    String getOrderIDByOrderNumber(String orderNumber);
+//    @Query("SELECT id from orders WHERE orderNumber = :orderNumber")
+//    String getOrderIDByOrderNumber(String orderNumber);
 
     @Delete
     void delete(Order order);

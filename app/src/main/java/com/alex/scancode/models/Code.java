@@ -2,6 +2,7 @@ package com.alex.scancode.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -32,6 +33,7 @@ public class Code implements Serializable {
     public Code() {
     }
 
+    @Ignore
     public Code(String code, String time, String labelType, String gps, int isSent, int orderID) {
         this.code = code;
         this.time = time;

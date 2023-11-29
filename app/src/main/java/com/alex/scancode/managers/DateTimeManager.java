@@ -1,6 +1,7 @@
 package com.alex.scancode.managers;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import java.util.Date;
 
 public class DateTimeManager {
 
+    @SuppressLint("SimpleDateFormat")
     public String extractHoursAndMinutes(String dateTimeString) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");

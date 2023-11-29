@@ -2,6 +2,7 @@ package com.alex.scancode.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "orders")
@@ -13,7 +14,14 @@ public class Order {
     @ColumnInfo(name = "orderNumber")
     private String orderNumber;
 
+
+
     public Order() {
+    }
+
+    @Ignore
+    public Order(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public int getId() {
