@@ -1,6 +1,10 @@
 package com.alex.scancode.models.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum LabelType {
+    NONE,
     CODE39,
     CODABAR,
     CODE128,
@@ -58,5 +62,14 @@ public enum LabelType {
     GS1_QRCODE,
     DOTCODE,
     GRIDMATRIX,
-    UNDEFINED
+    UNDEFINED;
+
+
+    public static List<String> getLabelTypes() {
+        List<String> meanings = new ArrayList<>();
+        for (LabelType labelType : LabelType.values()) {
+            meanings.add(labelType.name());
+        }
+        return meanings;
+    }
 }

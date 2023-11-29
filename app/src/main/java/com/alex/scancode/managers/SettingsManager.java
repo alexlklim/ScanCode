@@ -13,10 +13,13 @@ public class SettingsManager extends AppCompatActivity {
     public static final String PREF_NAME = "ScanApp";
     public static final String KEY_ID = "identifier", KEY_LOGIN = "login", KEY_PW = "pw", KEY_LANG = "lang",
             KEY_IS_DO_FILTER = "isDoFilter", KEY_IS_NON_UNIQUE_CODE_ALLOW = "isNonUniqueCodeAllow",
-            KEY_IS_CHECK_CODE_LENGTH = "isCheckCodeLength", KEY_CODE_LENGTH = "codeLength",
-            KEY_CODE_LENGTH_MAX = "codeLengthMAX", KEY_CODE_LENGTH_MIN = "codeLengthMIN",
-            KEY_PREFIX = "prefix", KEY_SUFFIX = "suffix", KEY_ENDING = "ending",
-            KEY_LABEL_TYPE = "labelType",
+
+            KEY_IS_CHECK_CODE_LENGTH = "isCheckCodeLength",
+            KEY_CODE_LENGTH = "codeLength", KEY_CODE_LENGTH_MAX = "codeLengthMAX", KEY_CODE_LENGTH_MIN = "codeLengthMIN",
+
+            KEY_ADVANCED_FILTER = "advancedFilter",
+            KEY_PREFIX = "prefix", KEY_SUFFIX = "suffix", KEY_ENDING = "ending", KEY_LABEL_TYPE = "labelType",
+
             KEY_IS_SERVER_CONFIGURED = "isServerConfigured", KEY_SERVER_ADDRESS = "serverAddress";
 
 

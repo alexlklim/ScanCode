@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,7 +20,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:paddingTop="20dp"
@@ -30,7 +35,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/settings_btn_lang_ENG"
+            android:id="@+id/s_btn_lang_ENG"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -40,7 +45,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
-            android:id="@+id/settings_btn_lang_PL"
+            android:id="@+id/s_btn_lang_PL"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,7 +55,7 @@
             tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
         <ImageButton
-            android:id="@+id/settings_btn_lang_UA"
+            android:id="@+id/s_btn_lang_UA"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -69,7 +74,7 @@
 
 
         <TextView
-            android:id="@+id/settings_text_filter"
+            android:id="@+id/s_tv_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/gray"
@@ -81,176 +86,284 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/settings_text_code_length"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Code length" />
-
-            <EditText
-                android:id="@+id/settings_filter_code_length"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:width="100dp"
-                android:ems="10"
-                android:hint="000"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="TouchTargetSizeCheck" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/settings_text_prefix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Prefix" />
-
-            <EditText
-                android:id="@+id/settings_filter_prefix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:width="100dp"
-                android:ems="10"
-                android:hint="000"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="TouchTargetSizeCheck" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/settings_text_suffix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sufix" />
-
-            <EditText
-                android:id="@+id/settings_filter_suffix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:width="100dp"
-                android:ems="10"
-                android:hint="000"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="TouchTargetSizeCheck" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/settings_text_ending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Ending" />
-
-            <EditText
-                android:id="@+id/settings_filter_ending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:width="100dp"
-                android:ems="10"
-                android:hint="000"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="TouchTargetSizeCheck" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/settings_text_labelType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Label Type" />
-
-            <EditText
-                android:id="@+id/settings_filter_labelType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:width="100dp"
-                android:ems="10"
-                android:hint="type"
-                android:inputType="text"
-                android:text=""
-                tools:ignore="TouchTargetSizeCheck" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/settings_text_nonUniqueCodeAllow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Allow non unique code" />
-
-            <Switch
-                android:id="@+id/settings_filter_nonUniqueCodeAllow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                tools:ignore="TouchTargetSizeCheck" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/settings_text_doFilter"
-                android:layout_width="wrap_content"
+                android:id="@+id/s_tv_doFilter"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Do filter" />
 
-            <Switch
-                android:id="@+id/settings_filter_doFilter"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/s_filter_doFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                tools:ignore="TouchTargetSizeCheck" />
+                android:text="" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/settings_btn_do_to_default"
+        <LinearLayout
+            android:id="@+id/s_f_section_doFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="To default" />
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/s_tv_nonUniqueAllow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Allow non unique code" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/s_filter_isNonUniqueAllow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/s_tv_checkCodeLength"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Check Code Length" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/s_filter_checkCodeLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/s_f_section_checkCodeLength"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/s_tv_codeLength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Code length" />
+
+                    <EditText
+                        android:id="@+id/s_filter_codeLength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="100dp"
+                        android:ems="10"
+                        android:hint="none"
+                        android:inputType="text"
+                        android:text=""
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/s_tv_codeLengthMIN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="MIN Code length" />
+
+                    <EditText
+                        android:id="@+id/s_filter_codeLengthMIN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="100dp"
+                        android:ems="10"
+                        android:hint="none"
+                        android:inputType="text"
+                        android:text=""
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/s_tv_codeLengthMAX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="MAX Code length" />
+
+                    <EditText
+                        android:id="@+id/s_filter_codeLengthMAX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="100dp"
+                        android:ems="10"
+                        android:hint="none"
+                        android:inputType="text"
+                        android:text=""
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/s_tv_advancedFilter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Advanced filter" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/s_filter_advancedFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/s_f_section_advancedFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/s_tv_prefix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Prefix" />
+
+                    <EditText
+                        android:id="@+id/s_filter_prefix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="100dp"
+                        android:ems="10"
+                        android:hint="none"
+                        android:inputType="text"
+                        android:text=""
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/s_tv_suffix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sufix" />
+
+                    <EditText
+                        android:id="@+id/s_filter_suffix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="100dp"
+                        android:ems="10"
+                        android:hint="none"
+                        android:inputType="text"
+                        android:text=""
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/s_tv_ending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Ending" />
+
+                    <EditText
+                        android:id="@+id/s_filter_ending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="100dp"
+                        android:ems="10"
+                        android:hint="none"
+                        android:inputType="text"
+                        android:text=""
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/s_tv_labelType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Label Type" />
+
+                    <Spinner
+                        android:id="@+id/s_filter_labelType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/s_btn_toDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="To default" />
+        </LinearLayout>
     </LinearLayout>
 
 
 </LinearLayout>
+</ScrollView>
