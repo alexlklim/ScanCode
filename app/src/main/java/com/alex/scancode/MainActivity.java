@@ -16,8 +16,7 @@ import android.widget.Toast;
 import com.alex.scancode.activities.LoginActivity;
 import com.alex.scancode.activities.OrdersActivity;
 import com.alex.scancode.activities.ScanActivity;
-import com.alex.scancode.activities.SettingsActivity;
-import com.alex.scancode.managers.databases.DBOrderManager;
+import com.alex.scancode.managers.databasesSQLite.DBOrderManager;
 
 public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";

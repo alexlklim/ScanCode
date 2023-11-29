@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.alex.scancode.R;
-import com.alex.scancode.managers.databases.DBFilterManager;
+import com.alex.scancode.managers.databasesSQLite.DBFilterManager;
 import com.alex.scancode.models.settings.Filter;
 
 public class SettingsActivity extends AppCompatActivity {

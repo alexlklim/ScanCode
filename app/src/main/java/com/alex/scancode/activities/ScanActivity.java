@@ -15,16 +15,14 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
 import com.alex.scancode.R;
 import com.alex.scancode.managers.adapters.CodeAdapter;
-import com.alex.scancode.managers.databases.DBCodeManager;
-import com.alex.scancode.managers.databases.DBOrderManager;
+import com.alex.scancode.managers.databasesSQLite.DBCodeManager;
+import com.alex.scancode.managers.databasesSQLite.DBOrderManager;
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.settings.Filter;
-import com.alex.scancode.models.settings.Profile;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;

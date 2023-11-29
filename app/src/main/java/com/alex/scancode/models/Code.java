@@ -1,53 +1,65 @@
 package com.alex.scancode.models;
 
-import android.icu.text.SimpleDateFormat;
-import android.text.TextUtils;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-import androidx.annotation.NonNull;
-
-import java.util.Date;
-import java.util.List;
+import java.io.Serializable;
 
 
-public class Code {
+@Entity(tableName = "codes")
+public class Code implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo(name = "code")
     private String code;
+    @ColumnInfo(name ="time")
     private String time;
-    private String type;
+    @ColumnInfo(name = "labelType")
+    private String labelType;
+    @ColumnInfo(name = "gps")
     private String gps;
+    @ColumnInfo(name = "isSent")
     private int isSent;
+    @ColumnInfo(name = "orderID")
     private int orderID;
 
 
 
     //standard methods
 
+    public Code() {
+    }
 
-
-    public Code(String code, String type, List<Double> gps) {
+    public Code(String code, String time, String labelType, String gps, int isSent, int orderID) {
         this.code = code;
-        this.time = getCurrentTimeString();
-        this.type = type.substring("LABEL-TYPE-".length());
-        this.gps = convertGpsToString(gps);
-        this.isSent = 0;
+        this.time = time;
+        this.labelType = labelType;
+        this.gps = gps;
+        this.isSent = isSent;
+        this.orderID = orderID;
     }
 
-    private String getCurrentTimeString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return dateFormat.format(new Date());
-    }
-    private String convertGpsToString(List<Double> gps) {
-        if (gps != null && !gps.isEmpty()) {
-            return TextUtils.join(",", gps);
-        }
-        return "";
-    }
-
-
-    @NonNull
     @Override
     public String toString() {
-        return "Code{code='" + code + ", time='" + time + ", type='" + type + ", gps='" + gps +
-                ", isSent=" + isSent + ", orderNumber='" + orderID + '}';
+        return "Code{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", time='" + time + '\'' +
+                ", labelType='" + labelType + '\'' +
+                ", gps='" + gps + '\'' +
+                ", isSent=" + isSent +
+                ", orderID=" + orderID +
+                '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -66,12 +78,12 @@ public class Code {
         this.time = time;
     }
 
-    public String getType() {
-        return type;
+    public String getLabelType() {
+        return labelType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setLabelType(String labelType) {
+        this.labelType = labelType;
     }
 
     public String getGps() {

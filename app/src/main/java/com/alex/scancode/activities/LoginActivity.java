@@ -8,9 +8,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.alex.scancode.MainActivity;
 import com.alex.scancode.R;
-import com.alex.scancode.managers.databases.DBProfileManager;
+import com.alex.scancode.managers.databasesSQLite.DBProfileManager;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";

@@ -1,39 +1,46 @@
 package com.alex.scancode.models.settings;
 
-import com.alex.scancode.models.enums.LabelType;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "filter")
 public class Filter {
-    private static int isDoFilter = 0; //false
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo(name = "isNonUniqueCodeAllow")
     private int isNonUniqueCodeAllow = 0; //false
+
+    @ColumnInfo(name = "isCheckCodeLength")
     private int isCheckCodeLength = 0; //false
+
+    @ColumnInfo(name = "codeLength")
     private int codeLength;
+
+    @ColumnInfo(name = "prefix")
     private String prefix;
+
+    @ColumnInfo(name = "suffix")
     private String suffix;
+
+    @ColumnInfo(name = "ending")
     private String ending;
-    private String type;
+
+    @ColumnInfo(name = "labelType")
+    private String labelType;
 
     public Filter() {
     }
 
-    @Override
-    public String toString() {
-        return "Filter{" +
-                "isNonUniqueCodeAllow=" + isNonUniqueCodeAllow +
-                ", isCheckCodeLength=" + isCheckCodeLength +
-                ", codeLength=" + codeLength +
-                ", prefix='" + prefix + '\'' +
-                ", suffix='" + suffix + '\'' +
-                ", ending='" + ending + '\'' +
-                ", type='" + type + '\'' +
-                '}';
+    public int getId() {
+        return id;
     }
 
-    public static int getIsDoFilter() {
-        return isDoFilter;
-    }
-
-    public static void setIsDoFilter(int isDoFilter) {
-        Filter.isDoFilter = isDoFilter;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIsNonUniqueCodeAllow() {
@@ -84,11 +91,25 @@ public class Filter {
         this.ending = ending;
     }
 
-    public String getType() {
-        return type;
+    public String getLabelType() {
+        return labelType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setLabelType(String labelType) {
+        this.labelType = labelType;
+    }
+
+    @Override
+    public String toString() {
+        return "Filter{" +
+                "id=" + id +
+                ", isNonUniqueCodeAllow=" + isNonUniqueCodeAllow +
+                ", isCheckCodeLength=" + isCheckCodeLength +
+                ", codeLength=" + codeLength +
+                ", prefix='" + prefix + '\'' +
+                ", suffix='" + suffix + '\'' +
+                ", ending='" + ending + '\'' +
+                ", labelType='" + labelType + '\'' +
+                '}';
     }
 }

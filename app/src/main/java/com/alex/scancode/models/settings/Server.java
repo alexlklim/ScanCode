@@ -1,21 +1,27 @@
 package com.alex.scancode.models.settings;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "server")
 public class Server {
-    private static int isServerConfigured;
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo(name = "config_ip")
     private static String config_ip;
+
+    @ColumnInfo(name = "config_port")
     private static String config_port;
+
+    @ColumnInfo(name = "config_address")
     private static String config_address;
 
     public Server() {
     }
 
-    public static int getIsServerConfigured() {
-        return isServerConfigured;
-    }
-
-    public static void setIsServerConfigured(int isServerConfigured) {
-        Server.isServerConfigured = isServerConfigured;
-    }
 
     public static String getConfig_ip() {
         return config_ip;
