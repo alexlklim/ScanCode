@@ -14,8 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alex.scancode.activities.LoginActivity;
 import com.alex.scancode.activities.OrdersActivity;
+import com.alex.scancode.activities.ScanActivity;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     Button main_btn_go_scan, main_btn_go_orders, main_btn_go_exit;
     ImageButton main_btn_go_settings;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private AlertDialog alertDialog;
+
     private void showInputDialog() {
         LayoutInflater inflater = getLayoutInflater();
         View dialog = inflater.inflate(R.layout.dialog_input_order_number, null);
@@ -66,7 +68,11 @@ public class MainActivity extends AppCompatActivity{
 
         scan_btn_do_start_order.setOnClickListener(view -> {
             Log.d(TAG, "onClick: scan_btn_do_start_order was pressed");
-//            String orderNumber = scan_text_order_number.getText().toString();
+            String orderNumber = scan_text_order_number.getText().toString();
+            Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+            alertDialog.dismiss();
+            intent.putExtra("ORDER_NUMBER", orderNumber); // pass the data on
+            startActivity(intent);
 //            if (orderNumber.isEmpty()){
 //                Log.d(TAG, "onClick: orderNumber is empty");
 //                Toast.makeText(MainActivity.this, "Order number could not be empty", Toast.LENGTH_SHORT).show();
@@ -84,7 +90,6 @@ public class MainActivity extends AppCompatActivity{
         alertDialog = builder.create();
         alertDialog.show();
     }
-
 
 
 }

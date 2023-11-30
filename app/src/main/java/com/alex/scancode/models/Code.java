@@ -5,12 +5,14 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.alex.scancode.managers.DateTimeManager;
+
 import java.io.Serializable;
+import java.util.Date;
 
 
 @Entity(tableName = "codes")
 public class Code implements Serializable {
-
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "code")
@@ -34,13 +36,12 @@ public class Code implements Serializable {
     }
 
     @Ignore
-    public Code(String code, String time, String labelType, String gps, int isSent, int orderID) {
+    public Code(String code, String labelType, String gps) {
         this.code = code;
-        this.time = time;
-        this.labelType = labelType;
+        this.time = DateTimeManager.getCurrentTimeString();
+        this.labelType = labelType.replace("LABEL-TYPE-", "");
         this.gps = gps;
-        this.isSent = isSent;
-        this.orderID = orderID;
+        this.isSent = 0;
     }
 
     @Override

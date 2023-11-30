@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -92,6 +93,7 @@ public class SettingsActivity extends AppCompatActivity {
         s_btn_comeBack.setOnClickListener(v -> {
             Log.d(TAG, "createListenerForButtons: s_btn_comeBack was pressed");
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+            finish();
             startActivity(intent);
         });
         s_btn_saveSettings.setOnClickListener(v -> {
@@ -115,6 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationToDefault: d_btn_yes");
             comeBackToDefaultSettings();
+            Toast.makeText(SettingsActivity.this, "Settings have been reset", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
             alertDialog.dismiss();
             finish();
@@ -144,6 +147,7 @@ public class SettingsActivity extends AppCompatActivity {
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationSaveSettings: d_btn_yes");
             saveNewSettings();
+            Toast.makeText(SettingsActivity.this, "Settings have been saved", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
             alertDialog.dismiss();
             finish();

@@ -22,7 +22,7 @@ import java.util.Date;
 public class DateTimeManager {
 
     @SuppressLint("SimpleDateFormat")
-    public String extractHoursAndMinutes(String dateTimeString) {
+    public static String extractHoursAndMinutes(String dateTimeString) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
 
@@ -33,6 +33,11 @@ public class DateTimeManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String getCurrentTimeString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(new Date());
     }
 
 
