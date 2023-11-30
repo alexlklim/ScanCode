@@ -15,10 +15,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/scan_text_order_number"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Scanning"
+            android:text="Order N."
             android:textSize="20sp"
             tools:layout_editor_absoluteX="183dp"
             tools:layout_editor_absoluteY="27dp" />
@@ -29,16 +29,26 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/scan_text_date_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16dp"
+            android:paddingLeft="10dp"
+            app:layout_constraintWidth_percent="0.7"
+            android:text="11 November 11:45" />
+
+        <TextView
+            android:id="@+id/scan_text_stopwatch"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Time"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="183dp"
-            tools:layout_editor_absoluteY="27dp" />
+            android:layout_height="wrap_content"
+            android:textSize="17dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="19dp"
+            android:text="00:00:10" />
     </LinearLayout>
 
     <LinearLayout

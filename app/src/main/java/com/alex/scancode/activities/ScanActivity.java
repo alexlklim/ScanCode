@@ -1,15 +1,19 @@
 package com.alex.scancode.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.icu.text.SimpleDateFormat;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -24,8 +28,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class ScanActivity extends AppCompatActivity {
     private static final String TAG = "ScanActivity";
@@ -40,6 +46,15 @@ public class ScanActivity extends AppCompatActivity {
     private String orderNumber;
 
 
+
+    private TextView scan_text_stopwatch, scan_text_date_time, scan_text_order_number;
+    private CountDownTimer countDownTimer;
+    private long startTimeInMillis = 0;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
@@ -48,6 +63,14 @@ public class ScanActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
 
+        scan_text_stopwatch = findViewById(R.id.scan_text_stopwatch);
+        scan_text_date_time = findViewById(R.id.scan_text_date_time);
+        scan_text_order_number = findViewById(R.id.scan_text_order_number);
+
+        Intent intent = getIntent();
+        orderNumber = intent.getStringExtra("ORDER_NUMBER");
+        scan_text_order_number.setText("Order N. " + orderNumber);
+
 
         // for getting and filtering codes
         IntentFilter filter = new IntentFilter();
@@ -55,6 +78,8 @@ public class ScanActivity extends AppCompatActivity {
         filter.addAction(getResources().getString(R.string.activity_intent_filter_action));
         registerReceiver(myBroadcastReceiver, filter);
 
+        startStopwatch();
+        displayDateTime();
 
         // initialize recyclerView to show data
         recyclerView = findViewById(R.id.recyclerView);
@@ -86,8 +111,9 @@ public class ScanActivity extends AppCompatActivity {
         getLastLocation();
 
         Code code = new Code(decodedData, decodedLabelType, GPSManager.convertGpsToString(currentLocation));
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(code);
+        codeList.add(code);
+        Log.d(TAG, "Code was saved: " + code);
+        updateRecyclerView();
 
 
         // add new code to a Recycler View
@@ -142,5 +168,34 @@ public class ScanActivity extends AppCompatActivity {
             return;}
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(location -> {if (location != null) {currentLocation = location;}});
+    }
+
+
+
+
+
+
+
+    private void startStopwatch() {
+        countDownTimer = new CountDownTimer(Long.MAX_VALUE, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                startTimeInMillis += 1000;
+                updateTimer();}
+            @Override
+            public void onFinish() {}};
+        countDownTimer.start();
+    }
+
+    private void stopStopwatch() {if (countDownTimer != null) {countDownTimer.cancel();}}
+    private void updateTimer() {
+        int seconds = (int) (startTimeInMillis / 1000), minutes = seconds / 60, hours = minutes / 60;
+        @SuppressLint("DefaultLocale") String timeFormatted = String.format("%02d:%02d:%02d", hours % 24, minutes % 60, seconds % 60);
+        scan_text_stopwatch.setText(timeFormatted);
+    }
+    private void displayDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm", Locale.getDefault());
+        String formattedDateTime = dateFormat.format(new Date());
+        scan_text_date_time.setText(formattedDateTime);
     }
 }

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             String orderNumber = scan_text_order_number.getText().toString();
             Intent intent = new Intent(MainActivity.this, ScanActivity.class);
             alertDialog.dismiss();
-            intent.putExtra("ORDER_NUMBER", orderNumber); // pass the data on
+            intent.putExtra("ORDER_NUMBER", orderNumber);
             startActivity(intent);
 //            if (orderNumber.isEmpty()){
 //                Log.d(TAG, "onClick: orderNumber is empty");
