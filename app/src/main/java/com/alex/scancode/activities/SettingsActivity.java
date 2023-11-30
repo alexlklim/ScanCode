@@ -20,7 +20,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.alex.scancode.MainActivity;
 import com.alex.scancode.R;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.models.enums.LabelType;
@@ -59,7 +58,6 @@ public class SettingsActivity extends AppCompatActivity {
         s_btn_lang_EN.setOnClickListener(v -> {
             changeLanguage("EN");
         });
-
         s_btn_lang_PL.setOnClickListener(v -> {
             changeLanguage("PL");
         });
@@ -115,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationToDefault: d_btn_yes");
             comeBackToDefaultSettings();
-            Toast.makeText(SettingsActivity.this, "Settings have been reset", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SettingsActivity.this, getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
             alertDialog.dismiss();
             finish();
@@ -145,7 +143,7 @@ public class SettingsActivity extends AppCompatActivity {
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationSaveSettings: d_btn_yes");
             saveNewSettings();
-            Toast.makeText(SettingsActivity.this, "Settings have been saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SettingsActivity.this, getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
             alertDialog.dismiss();
             finish();

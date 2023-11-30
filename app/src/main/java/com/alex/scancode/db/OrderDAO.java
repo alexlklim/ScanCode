@@ -19,8 +19,11 @@ public interface OrderDAO {
     @Query("SELECT * FROM orders")
     List<Order> getAll();
 
-//    @Query("SELECT id from orders WHERE orderNumber = :orderNumber")
-//    String getOrderIDByOrderNumber(String orderNumber);
+    @Query("SELECT * FROM orders WHERE orderNumber = :orderNumber")
+    Order getOrderByOrderNumber(String orderNumber);
+
+    @Query("SELECT EXISTS(SELECT 1 FROM orders WHERE orderNumber = :orderNumber LIMIT 1)")
+    boolean isOrderExist(String orderNumber);
 
     @Delete
     void delete(Order order);

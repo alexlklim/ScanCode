@@ -5,7 +5,9 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "orders")
+import com.alex.scancode.utiles.Util;
+
+@Entity(tableName = Util.TABLE_NAME_ORDER)
 public class Order {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)

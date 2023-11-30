@@ -1,7 +1,6 @@
 package com.alex.scancode.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +24,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alex.scancode.MainActivity;
 import com.alex.scancode.R;
 import com.alex.scancode.managers.GPSManager;
 import com.alex.scancode.managers.adapters.CodeAdapter;
@@ -49,8 +47,6 @@ public class ScanActivity extends AppCompatActivity {
 
     private String orderNumber;
 
-
-    private Button sc_btn_doFinishOrder;
 
     private CountDownTimer countDownTimer;
     private long startTimeInMillis = 0;
@@ -86,7 +82,7 @@ public class ScanActivity extends AppCompatActivity {
 
     private void addListenerForFinish() {
         Log.i(TAG, "addListenerForFinish: ");
-        sc_btn_doFinishOrder = findViewById(R.id.sc_btn_doFinishOrder);
+        Button sc_btn_doFinishOrder = findViewById(R.id.sc_btn_doFinishOrder);
         sc_btn_doFinishOrder.setOnClickListener(v -> {
             Log.d(TAG, "onClick: sc_btn_doFinishOrder was pressed");
             showDialogConfirmationFinishOrder();
@@ -255,9 +251,7 @@ public class ScanActivity extends AppCompatActivity {
         d_btn_comeBackToMenu.setOnClickListener(v -> {
             Log.d(TAG, "showDialogOrderSavedResult: d_btn_comeBackToMenu was pressed");
             alertDialog.dismiss();
-//            Intent intent = new Intent(ScanActivity.this, MainActivity.class);
             finish();
-//            startActivity(intent);
         });
         alertDialog = builder.create();
         alertDialog.show();

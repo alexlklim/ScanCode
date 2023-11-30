@@ -37,5 +37,12 @@
 
 <!--    For Toast-->
     <string name="toast_order_has_been_saved">Order had been saved</string>
+    <string name="toast_settings_reset">Settings have been reset</string>
+    <string name="toast_settings_saved">Settings have been saved</string>
+    <string name="toast_wrong_login_pw">Wrong login or password</string>
+    <string name="toast_empty_order_number">Order number could not be empty</string>
+    <string name="toast_order_number_already_exists">Order number already exists</string>
+
+
 
 </resources>

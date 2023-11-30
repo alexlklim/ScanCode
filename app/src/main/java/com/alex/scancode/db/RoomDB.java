@@ -8,11 +8,12 @@ import androidx.room.RoomDatabase;
 
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Order;
+import com.alex.scancode.utiles.Util;
 
-@Database(entities = {Code.class, Order.class}, version = 1, exportSchema = false)
+@Database(entities = {Code.class, Order.class}, version = Util.DATABASE_VERSION, exportSchema = false)
 public abstract class RoomDB extends RoomDatabase{
     private static RoomDB database;
-    private static final String DATABASE_NAME = "scan";
+    private static final String DATABASE_NAME = Util.DATABASE_NAME;
 
     public synchronized static RoomDB getInstance(Context context){
         if (database == null){
