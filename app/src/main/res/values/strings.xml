@@ -8,10 +8,12 @@
     <string name="datawedge_intent_key_label_type_legacy" translatable="false">com.motorolasolutions.emdk.datawedge.label_type</string>
     <string name="datawedge_intent_key_data_legacy" translatable="false">com.motorolasolutions.emdk.datawedge.data_string</string>
 
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login" translatable="false">Login</string>
 
 
     <!--    For Main Activity-->
+    <string name="new_order">New Order</string>
+    <string name="settings">Settings</string>
 
 
     <!--    For Scan Activity-->

@@ -1,6 +1,8 @@
 package com.alex.scancode.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import com.alex.scancode.models.enums.LabelType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
@@ -30,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     EditText s_filter_codeLength, s_filter_codeLengthMIN, s_filter_codeLengthMAX, s_filter_prefix, s_filter_suffix, s_filter_ending, s_filter_serverAddress;
     Spinner s_filter_labelType;
     Button s_btn_toDefault, s_btn_comeBack, s_btn_saveSettings;
+    ImageButton s_btn_lang_EN, s_btn_lang_PL, s_btn_lang_UA;
     LinearLayout s_f_section_doFilter, s_f_section_checkCodeLength, s_f_section_advancedFilter, s_f_section_serverConfiguration;
     private SettingsManager settingsManager;
     private AlertDialog alertDialog;
@@ -43,7 +48,36 @@ public class SettingsActivity extends AppCompatActivity {
         initializeServerConfigurationSection();
         getSharedPreferences();
         createListenerForButtons();
+        addListenerForLangButtons();
     }
+
+    private void addListenerForLangButtons() {
+        s_btn_lang_EN = findViewById(R.id.s_btn_lang_ENG);
+        s_btn_lang_PL = findViewById(R.id.s_btn_lang_PL);
+        s_btn_lang_UA = findViewById(R.id.s_btn_lang_UA);
+        s_btn_lang_EN.setOnClickListener(v -> {
+            changeLanguage("EN");
+        });
+
+        s_btn_lang_PL.setOnClickListener(v -> {
+            changeLanguage("PL");
+        });
+        s_btn_lang_UA.setOnClickListener(v -> {
+            changeLanguage("UK");
+        });
+
+    }
+    private void changeLanguage(String languageCode) {
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        config.locale = new Locale(languageCode);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+
 
     private void createListenerForButtons() {
         s_btn_toDefault = findViewById(R.id.s_btn_toDefault);
