@@ -1,7 +1,9 @@
 package com.alex.scancode.models.enums;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public enum LabelType {
     NONE("NONE"), CODE39("CODE39"), CODABAR("CODABAR"), CODE128("CODE128"), D2OF5("D2OF5"),
@@ -28,8 +30,8 @@ public enum LabelType {
 
     public static List<String> getListLabelTypes() {
         List<String> stringValues = new ArrayList<>();
-        for (LabelType labelType : LabelType.values()) {
-            stringValues.add(labelType.getCode());
+        for (LabelType label : LabelType.values()) {
+            stringValues.add(label.getCode());
         }
         return stringValues;
     }

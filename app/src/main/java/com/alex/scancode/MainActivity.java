@@ -3,9 +3,13 @@ package com.alex.scancode;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alex.scancode.activities.LoginActivity;
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity{
         // Set OnClickListener for all buttons
         main_btn_go_scan.setOnClickListener(view -> {
             Log.d(TAG, "onCreate: main_btn_go_scan was pressed");
-//            showInputDialog();
+            showInputDialog();
         });
         main_btn_go_orders.setOnClickListener(view -> {
             Log.d(TAG, "onCreate: main_btn_go_orders was pressed");
@@ -51,18 +55,17 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-//    private AlertDialog alertDialog;
-//    private void showInputDialog() {
-//        LayoutInflater inflater = getLayoutInflater();
-//        View dialog = inflater.inflate(R.layout.dialog_input_order_number, null);
-//        EditText scan_text_order_number = dialog.findViewById(R.id.scan_text_order_number);
-//        Button scan_btn_do_start_order = dialog.findViewById(R.id.scan_btn_do_start_order);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setView(dialog);
-//
-//        scan_btn_do_start_order.setOnClickListener(view -> {
-//            Log.d(TAG, "onClick: scan_btn_do_start_order was pressed");
-//            DBOrderManager dbManager = new DBOrderManager(MainActivity.this);
+    private AlertDialog alertDialog;
+    private void showInputDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.dialog_input_order_number, null);
+        EditText scan_text_order_number = dialog.findViewById(R.id.scan_text_order_number);
+        Button scan_btn_do_start_order = dialog.findViewById(R.id.scan_btn_do_start_order);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialog);
+
+        scan_btn_do_start_order.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: scan_btn_do_start_order was pressed");
 //            String orderNumber = scan_text_order_number.getText().toString();
 //            if (orderNumber.isEmpty()){
 //                Log.d(TAG, "onClick: orderNumber is empty");
@@ -77,10 +80,10 @@ public class MainActivity extends AppCompatActivity{
 //                intent.putExtra("ORDER_NUMBER", orderNumber); // pass the data on
 //                startActivity(intent);
 //            }
-//        });
-//        alertDialog = builder.create();
-//        alertDialog.show();
-//    }
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
 
 
 

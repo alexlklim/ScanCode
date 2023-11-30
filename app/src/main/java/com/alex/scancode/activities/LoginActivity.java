@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             if (!login.equals(settingsManager.getLogin()) && !password.equals(settingsManager.getPassword())){
                 Log.d(TAG, "onCreate: checkLoginAndPassword: true");
                 Intent intent = new Intent(LoginActivity.this, SettingsActivity.class);
+                finish();
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Wrong login or password", Toast.LENGTH_SHORT).show();
