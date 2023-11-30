@@ -12,14 +12,20 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alex.scancode.MainActivity;
 import com.alex.scancode.R;
 import com.alex.scancode.managers.GPSManager;
 import com.alex.scancode.managers.adapters.CodeAdapter;
@@ -39,20 +45,19 @@ public class ScanActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private RecyclerView recyclerView;
     private CodeAdapter codeAdapter;
-    private Button scan_btn_do_finish_order;
-
-
     private List<Code> codeList = new LinkedList<>();
+
     private String orderNumber;
 
 
+    private Button sc_btn_doFinishOrder;
 
-    private TextView scan_text_stopwatch, scan_text_date_time, scan_text_order_number;
     private CountDownTimer countDownTimer;
     private long startTimeInMillis = 0;
 
 
 
+    private TextView sc_tv_timer, sc_tv_dateTime, sc_tv_orderNumber;
 
 
     @Override
@@ -62,46 +67,49 @@ public class ScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
-
-        scan_text_stopwatch = findViewById(R.id.scan_text_stopwatch);
-        scan_text_date_time = findViewById(R.id.scan_text_date_time);
-        scan_text_order_number = findViewById(R.id.scan_text_order_number);
-
-        Intent intent = getIntent();
-        orderNumber = intent.getStringExtra("ORDER_NUMBER");
-        scan_text_order_number.setText("Order N. " + orderNumber);
-
-
+        initializeTopBar();
+        
         // for getting and filtering codes
         IntentFilter filter = new IntentFilter();
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.addAction(getResources().getString(R.string.activity_intent_filter_action));
         registerReceiver(myBroadcastReceiver, filter);
-
-        startStopwatch();
-        displayDateTime();
-
+        
         // initialize recyclerView to show data
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.sc_rv_codes);
         codeAdapter = new CodeAdapter(codeList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(codeAdapter);
 
+        addListenerForFinish();
+    }
 
-        scan_btn_do_finish_order = findViewById(R.id.scan_btn_do_finish_order);
-        scan_btn_do_finish_order.setOnClickListener(v ->{
-            Log.d(TAG, "onClick: scan_btn_do_finish_order was pressed");
-            saveNewOrder();
+    private void addListenerForFinish() {
+        Log.i(TAG, "addListenerForFinish: ");
+        sc_btn_doFinishOrder = findViewById(R.id.sc_btn_doFinishOrder);
+        sc_btn_doFinishOrder.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: sc_btn_doFinishOrder was pressed");
+            showDialogConfirmationFinishOrder();
         });
+        
+        
     }
 
-    private void saveNewOrder() {
-        Log.i(TAG, "saveNewOrder: ");
-    }
+    private void initializeTopBar() {
+        Log.i(TAG, "initializeTopBar: ");
+        sc_tv_timer = findViewById(R.id.sc_tv_timer);
+        sc_tv_dateTime = findViewById(R.id.sc_tv_dateTime);
+        sc_tv_orderNumber = findViewById(R.id.sc_tv_orderNumber);
 
-    private void saveNewCodesToDB(int orderNum) {
-        Log.d(TAG, "saveNewCodesToDB with orderNumber=" + orderNum);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm", Locale.getDefault());
+        String formattedDateTime = dateFormat.format(new Date());
+        sc_tv_dateTime.setText(formattedDateTime);
 
+        startStopwatch();
+
+        Intent intent = getIntent();
+        orderNumber = intent.getStringExtra("ORDER_NUMBER");
+        sc_tv_orderNumber.setText("Order N. " + orderNumber);
     }
 
 
@@ -109,14 +117,10 @@ public class ScanActivity extends AppCompatActivity {
         Log.i(TAG, "saveNewCodeToLocalMemory: " + decodedData);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
-
         Code code = new Code(decodedData, decodedLabelType, GPSManager.convertGpsToString(currentLocation));
         codeList.add(code);
         Log.d(TAG, "Code was saved: " + code);
         updateRecyclerView();
-
-
-        // add new code to a Recycler View
     }
 
     private void updateRecyclerView() {
@@ -171,12 +175,8 @@ public class ScanActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     private void startStopwatch() {
+        Log.i(TAG, "startStopwatch: ");
         countDownTimer = new CountDownTimer(Long.MAX_VALUE, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -187,15 +187,86 @@ public class ScanActivity extends AppCompatActivity {
         countDownTimer.start();
     }
 
-    private void stopStopwatch() {if (countDownTimer != null) {countDownTimer.cancel();}}
+    private void stopStopwatch() {
+        Log.i(TAG, "stopStopwatch: ");
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+    }
     private void updateTimer() {
         int seconds = (int) (startTimeInMillis / 1000), minutes = seconds / 60, hours = minutes / 60;
-        @SuppressLint("DefaultLocale") String timeFormatted = String.format("%02d:%02d:%02d", hours % 24, minutes % 60, seconds % 60);
-        scan_text_stopwatch.setText(timeFormatted);
+        String timeFormatted = String.format("%02d:%02d:%02d", hours % 24, minutes % 60, seconds % 60);
+        sc_tv_timer.setText(timeFormatted);
     }
-    private void displayDateTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm", Locale.getDefault());
-        String formattedDateTime = dateFormat.format(new Date());
-        scan_text_date_time.setText(formattedDateTime);
+
+    AlertDialog alertDialog;
+
+    private void showDialogConfirmationFinishOrder() {
+        Log.i(TAG, "showDialogConfirmationFinishOrder: ");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.dialog_confirmation, null);
+
+        TextView d_tv_confirmation = dialog.findViewById(R.id.d_tv_confirmation);
+        Button d_btn_yes = dialog.findViewById(R.id.d_btn_yes);
+        Button d_btn_no = dialog.findViewById(R.id.d_btn_no);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialog);
+        d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_confirm_finishOrder)));
+
+        d_btn_yes.setOnClickListener(v -> {
+            Log.d(TAG, "showDialogConfirmationFinishOrder: d_btn_yes was pressed");
+            stopStopwatch();
+            boolean result = saveNewOrder();
+            if (result)
+                Toast.makeText(ScanActivity.this, getString(R.string.toast_order_has_been_saved), Toast.LENGTH_SHORT).show();
+            alertDialog.dismiss();
+            showDialogOrderSavedResult(result);
+        });
+
+        d_btn_no.setOnClickListener(v -> {
+            Log.d(TAG, "showDialogConfirmationFinishOrder: d_btn_no was pressed");
+            alertDialog.dismiss();
+        });
+
+        alertDialog = builder.create();
+        alertDialog.show();
     }
+
+    private void showDialogOrderSavedResult(boolean result) {
+        Log.i(TAG, "showDialogOrderSavedResult: ");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.dialog_order_saved_result, null);
+
+        TextView d_tv_confirmation = dialog.findViewById(R.id.d_tv_confirmation);
+        ImageView d_iv_result = dialog.findViewById(R.id.d_iv_result);
+        Button d_btn_comeBackToMenu = dialog.findViewById(R.id.d_btn_comeBackToMenu);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialog);
+
+        if (result){
+            d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_result_success)));
+            d_iv_result.setImageResource(R.drawable.ic_success);
+        } else {
+            d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_result_fail)));
+            d_iv_result.setImageResource(R.drawable.ic_fail);
+        }
+        d_btn_comeBackToMenu.setOnClickListener(v -> {
+            Log.d(TAG, "showDialogOrderSavedResult: d_btn_comeBackToMenu was pressed");
+            alertDialog.dismiss();
+//            Intent intent = new Intent(ScanActivity.this, MainActivity.class);
+            finish();
+//            startActivity(intent);
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private boolean saveNewOrder() {
+        Log.i(TAG, "saveNewOrder: ");
+        return true;
+    }
+
+
 }

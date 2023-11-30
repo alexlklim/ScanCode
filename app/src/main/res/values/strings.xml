@@ -23,8 +23,19 @@
 
 
     <!--    For Settings Activity-->
-    <string name="s_dialog_confirm_toDefault">Do you want to go back to default settings?</string>
-    <string name="s_dialog_confirm_saveSettings">Do you want to save settings?</string>
 
+
+
+    <!--    For alert dialog-->
+    <string name="d_confirm_toDefault">Do you want to go back to default settings?</string>
+    <string name="d_confirm_saveSettings">Do you want to save settings?</string>
+    <string name="d_confirm_finishOrder">Do you want to finish order?</string>
+
+    <string name="d_result_success">Order was successfully saved</string>
+    <string name="d_result_fail">Something wrong</string>
+
+
+<!--    For Toast-->
+    <string name="toast_order_has_been_saved">Order had been saved</string>
 
 </resources>

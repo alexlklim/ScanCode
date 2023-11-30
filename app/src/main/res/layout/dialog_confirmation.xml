@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text=""
+        android:text="Are you sure?"
         android:textSize="25sp"
         android:textStyle="bold" />
 

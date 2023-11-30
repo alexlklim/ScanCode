@@ -92,9 +92,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         s_btn_comeBack.setOnClickListener(v -> {
             Log.d(TAG, "createListenerForButtons: s_btn_comeBack was pressed");
-            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             finish();
-            startActivity(intent);
         });
         s_btn_saveSettings.setOnClickListener(v -> {
             Log.d(TAG, "createListenerForButtons: s_btn_saveSettings was pressed");
@@ -112,7 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
         Button d_btn_no = dialog.findViewById(R.id.d_btn_no);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialog);
-        d_tv_confirmation.setText(new StringBuilder(getString(R.string.s_dialog_confirm_toDefault)));
+        d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_confirm_toDefault)));
 
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationToDefault: d_btn_yes");
@@ -142,7 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
         Button d_btn_no = dialog.findViewById(R.id.d_btn_no);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialog);
-        d_tv_confirmation.setText(new StringBuilder(getString(R.string.s_dialog_confirm_saveSettings)));
+        d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_confirm_saveSettings)));
 
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationSaveSettings: d_btn_yes");

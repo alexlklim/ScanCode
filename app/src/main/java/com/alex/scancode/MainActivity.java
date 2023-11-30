@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.dismiss();
             intent.putExtra("ORDER_NUMBER", orderNumber);
             startActivity(intent);
+
 //            if (orderNumber.isEmpty()){
 //                Log.d(TAG, "onClick: orderNumber is empty");
 //                Toast.makeText(MainActivity.this, "Order number could not be empty", Toast.LENGTH_SHORT).show();
