@@ -23,7 +23,7 @@ public class SettingsManager extends AppCompatActivity {
             KEY_PREFIX = "prefix", KEY_SUFFIX = "suffix", KEY_ENDING = "ending", KEY_LABEL_TYPE = "labelType",
 
     KEY_IS_SERVER_CONFIGURED = "isServerConfigured",
-            KEY_ID = "identifier", KEY_SERVER_ADDRESS = "serverAddress", KEY_AUTO_SYNCH = "autoSynch";
+            KEY_ID = "identifier", KEY_SERVER_ADDRESS = "serverAddress", KEY_AUTO_SYNCH = "isAutoSynch";
 
 
     public SettingsManager(Context context) {
@@ -35,7 +35,7 @@ public class SettingsManager extends AppCompatActivity {
         setFilterSection(false,
                 false, 0, 0, 0,
                 false, "", "","", LabelType.NONE.getCode(),
-                false, "");
+                false, false, "", 0);
     }
 
     public void setProfileSection(String login, String pw) {
@@ -55,7 +55,7 @@ public class SettingsManager extends AppCompatActivity {
     public void setFilterSection(boolean isNonUniqueCodeAllow,
                                  boolean isCheckCodeLength, int length, int lengthMIN, int lengthMAX,
                                  boolean isDoAdvancedFilter, String prefix, String suffix, String ending, String labelType,
-                                 boolean isServerConfigured, String serverAddress) {
+                                 boolean isServerConfigured, boolean isAutoSynch, String serverAddress, int identifier) {
         SharedPreferences.Editor editor = preferences.edit();
 
         editor.putBoolean(KEY_IS_NON_UNIQUE_CODE_ALLOW, isNonUniqueCodeAllow)
@@ -68,7 +68,9 @@ public class SettingsManager extends AppCompatActivity {
                 .putString(KEY_LABEL_TYPE, labelType)
 
                 .putBoolean(KEY_IS_SERVER_CONFIGURED, isServerConfigured)
+                .putBoolean(KEY_AUTO_SYNCH, isAutoSynch)
                 .putString(KEY_SERVER_ADDRESS, serverAddress)
+                .putInt(KEY_ID, identifier)
 
                 .apply();
     }
