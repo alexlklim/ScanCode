@@ -42,6 +42,7 @@
     <string name="toast_wrong_login_pw">Wrong login or password</string>
     <string name="toast_empty_order_number">Order number could not be empty</string>
     <string name="toast_order_number_already_exists">Order number already exists</string>
+    <string name="toast_code_not_match_filter">The code does not match the filters</string>
 
 
 

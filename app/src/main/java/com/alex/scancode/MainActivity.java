@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             if (orderNumber.isEmpty()){
                 Log.d(TAG, "onClick: orderNumber is empty");
                 Toast.makeText(MainActivity.this, getString(R.string.toast_empty_order_number), Toast.LENGTH_SHORT).show();
-            } else if ( RoomDB.getInstance(context).orderDAO().isOrderExist(orderNumber)){
+            } else if (RoomDB.getInstance(context).orderDAO().isOrderExist(orderNumber)){
                 Log.d(TAG, "onClick: orderNumber already exists");
                 // check is this orderNumber is exist in DB
                 Toast.makeText(MainActivity.this, getString(R.string.toast_order_number_already_exists), Toast.LENGTH_SHORT).show();

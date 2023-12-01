@@ -14,7 +14,7 @@ public class SettingsManager extends AppCompatActivity {
     private SharedPreferences preferences;
     public static final String PREF_NAME = "ScanApp";
     public static final String KEY_ID = "identifier", KEY_LOGIN = "login", KEY_PW = "pw", KEY_LANG = "lang",
-            KEY_IS_DO_FILTER = "isDoFilter", KEY_IS_NON_UNIQUE_CODE_ALLOW = "isNonUniqueCodeAllow",
+            KEY_IS_NON_UNIQUE_CODE_ALLOW = "isNonUniqueCodeAllow",
 
     KEY_IS_CHECK_CODE_LENGTH = "isCheckCodeLength",
             KEY_CODE_LENGTH = "codeLength", KEY_CODE_LENGTH_MAX = "codeLengthMAX", KEY_CODE_LENGTH_MIN = "codeLengthMIN",
@@ -58,15 +58,13 @@ public class SettingsManager extends AppCompatActivity {
     }
 
 
-    public void setFilterSection(boolean isDoFilter, boolean isNonUniqueCodeAllow,
+    public void setFilterSection(boolean isNonUniqueCodeAllow,
                                  boolean isCheckCodeLength, int length, int lengthMIN, int lengthMAX,
                                  boolean isDoAdvancedFilter, String prefix, String suffix, String ending, String labelType,
                                  boolean isServerConfigured, String serverAddress) {
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putBoolean(KEY_IS_DO_FILTER, isDoFilter)
-                .putBoolean(KEY_IS_NON_UNIQUE_CODE_ALLOW, isNonUniqueCodeAllow)
-
+        editor.putBoolean(KEY_IS_NON_UNIQUE_CODE_ALLOW, isNonUniqueCodeAllow)
                 .putBoolean(KEY_IS_CHECK_CODE_LENGTH, isCheckCodeLength)
                 .putInt(KEY_CODE_LENGTH, length).putInt(KEY_CODE_LENGTH_MIN, lengthMIN).putInt(KEY_CODE_LENGTH_MAX, lengthMAX)
 
@@ -83,16 +81,12 @@ public class SettingsManager extends AppCompatActivity {
 
     public void comeBackToDefaultSettings() {
         Log.i(TAG, "comeBackToDefaultSettings: ");
-        setFilterSection(false, false,
+        setFilterSection(false,
                 false, 0, 0, 0,
                 false, "", "","", LabelType.NONE.getCode(),
                 false, "");
     }
 
-
-    public boolean isDoFilter() {
-        return preferences.getBoolean(KEY_IS_DO_FILTER, false);
-    }
 
     public boolean isNonUniqueCodeAllow() {
         return preferences.getBoolean(KEY_IS_NON_UNIQUE_CODE_ALLOW, false);

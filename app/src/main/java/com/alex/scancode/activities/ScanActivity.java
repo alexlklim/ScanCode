@@ -25,9 +25,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
+import com.alex.scancode.db.OrderDAO;
+import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.GPSManager;
+import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.managers.adapters.CodeAdapter;
 import com.alex.scancode.models.Code;
+import com.alex.scancode.models.Order;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
@@ -51,7 +55,7 @@ public class ScanActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private long startTimeInMillis = 0;
 
-
+    Context context;
 
     private TextView sc_tv_timer, sc_tv_dateTime, sc_tv_orderNumber;
 
@@ -61,6 +65,7 @@ public class ScanActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
+        context = getApplicationContext();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
         initializeTopBar();
@@ -87,8 +92,6 @@ public class ScanActivity extends AppCompatActivity {
             Log.d(TAG, "onClick: sc_btn_doFinishOrder was pressed");
             showDialogConfirmationFinishOrder();
         });
-        
-        
     }
 
     private void initializeTopBar() {
@@ -110,13 +113,21 @@ public class ScanActivity extends AppCompatActivity {
 
 
     private void saveNewCodeToLocalMemory(String decodedData, String decodedLabelType){
-        Log.i(TAG, "saveNewCodeToLocalMemory: " + decodedData);
+        Log.i(TAG, "try to saveNewCodeToLocalMemory: " + decodedData);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
-        Code code = new Code(decodedData, decodedLabelType, GPSManager.convertGpsToString(currentLocation));
-        codeList.add(code);
-        Log.d(TAG, "Code was saved: " + code);
-        updateRecyclerView();
+        Code code = filteringData(new Code(
+                decodedData, decodedLabelType,
+                GPSManager.convertGpsToString(currentLocation)));
+        System.out.println(code);
+        if (code != null){
+            codeList.add(code);
+            Log.d(TAG, "Code was saved: " + code);
+            updateRecyclerView();
+        } else {
+            Log.d(TAG, "Code was not saved: doesn't match filters : " + code);
+            Toast.makeText(this, getString(R.string.toast_code_not_match_filter), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateRecyclerView() {
@@ -157,7 +168,6 @@ public class ScanActivity extends AppCompatActivity {
             decodedLabelType = initiatingIntent.getStringExtra(getResources().getString(R.string.datawedge_intent_key_label_type_legacy));
         }
         saveNewCodeToLocalMemory(decodedData, decodedLabelType);
-
     }
 
     private void getLastLocation() {
@@ -259,7 +269,52 @@ public class ScanActivity extends AppCompatActivity {
 
     private boolean saveNewOrder() {
         Log.i(TAG, "saveNewOrder: ");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(orderNumber);
+        for (Code code: codeList){
+            System.out.println(code);
+        }
+        RoomDB roomDB = RoomDB.getInstance(context);
+
+        // saveNewOrder
+        Order order = new Order(orderNumber, (String) sc_tv_dateTime.getText(), (String) sc_tv_timer.getText());
+        roomDB.orderDAO().insert(order);
+        int idOrder = roomDB.orderDAO().getOrderByOrderNumber(orderNumber).getId();
+
+        for (Code code: codeList){
+            code.setOrderID(idOrder);
+            roomDB.codeDAO().insert(code);
+        }
         return true;
+    }
+
+
+    public Code filteringData(Code code) {
+        Log.i(TAG, "filteringData: code");
+        SettingsManager sm = new SettingsManager(this);
+        if (!sm.isNonUniqueCodeAllow() && codeList.stream().anyMatch(c -> c.getCode().equals(code.getCode()))) {
+            Log.d(TAG, "filteringData: CODE NON UNIQUE=");
+            return null;
+        }
+
+        if (sm.isCheckCodeLength()) {
+            Log.d(TAG, "filteringData: isCheckCodeLength=" + sm.isCheckCodeLength());
+            int length = code.getCode().length();
+            if (sm.getCodeLength() != 0 && sm.getCodeLength() != length) return null;
+            if (sm.getCodeLengthMIN() != 0 && sm.getCodeLengthMIN() < length) return null;
+            if (sm.getCodeLengthMAX() != 0 && sm.getCodeLengthMAX() > length) return null;
+        }
+
+        if (sm.isDoAdvancedFilter()) {
+            Log.d(TAG, "filteringData: isDoAdvancedFilter=" + sm.isDoAdvancedFilter());
+            String cod = code.getCode();
+            if (!sm.getCodePrefix().equals("") && !cod.startsWith(sm.getCodePrefix())) return null;
+            if (!sm.getCodeSuffix().equals("") && !cod.contains(sm.getCodeSuffix())) return null;
+            if (!sm.getCodeEnding().equals("") && !cod.endsWith(sm.getCodeEnding())) return null;
+            if (!sm.getCodeLabelType().equals("NONE") && !code.getLabelType().equals(sm.getCodeLabelType())) return null;
+        }
+        Log.d(TAG, "filteringData: code passed all filters");
+        return code;
     }
 
 

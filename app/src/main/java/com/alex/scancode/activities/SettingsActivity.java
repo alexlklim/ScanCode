@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
-    SwitchCompat s_filter_doFilter, s_filter_isNonUniqueAllow, s_filter_checkCodeLength, s_filter_advancedFilter, s_filter_isServerConfigured;
+    SwitchCompat s_filter_isNonUniqueAllow, s_filter_checkCodeLength, s_filter_advancedFilter, s_filter_isServerConfigured;
     EditText s_filter_codeLength, s_filter_codeLengthMIN, s_filter_codeLengthMAX, s_filter_prefix, s_filter_suffix, s_filter_ending, s_filter_serverAddress;
     Spinner s_filter_labelType;
     Button s_btn_toDefault, s_btn_comeBack, s_btn_saveSettings;
@@ -163,12 +163,12 @@ public class SettingsActivity extends AppCompatActivity {
         Log.d(TAG, "saveNewSettings: ");
         System.out.println(s_filter_codeLengthMAX.getText());
         settingsManager.setFilterSection(
-                s_filter_doFilter.isChecked(), s_filter_isNonUniqueAllow.isChecked(),
+                s_filter_isNonUniqueAllow.isChecked(),
 
                 s_filter_checkCodeLength.isChecked(),
-                Integer.parseInt(s_filter_codeLength.getText().toString()),
-                Integer.parseInt(s_filter_codeLengthMIN.getText().toString()),
-                Integer.parseInt(s_filter_codeLengthMAX.getText().toString()),
+                parseIntOrDefault(s_filter_codeLength.getText().toString()),
+                parseIntOrDefault(s_filter_codeLengthMIN.getText().toString()),
+                parseIntOrDefault(s_filter_codeLengthMAX.getText().toString()),
 
                 s_filter_advancedFilter.isChecked(),
                 s_filter_prefix.getText().toString(), s_filter_suffix.getText().toString(), s_filter_ending.getText().toString(),
@@ -176,6 +176,13 @@ public class SettingsActivity extends AppCompatActivity {
 
                 s_filter_isServerConfigured.isChecked(), s_filter_serverAddress.getText().toString()
         );
+    }
+    private int parseIntOrDefault(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     private void comeBackToDefaultSettings() {
@@ -209,7 +216,6 @@ public class SettingsActivity extends AppCompatActivity {
         s_f_section_checkCodeLength = findViewById(R.id.s_f_section_checkCodeLength);
         s_f_section_advancedFilter = findViewById(R.id.s_f_section_advancedFilter);
 
-        s_filter_doFilter = findViewById(R.id.s_filter_doFilter);
         s_filter_checkCodeLength = findViewById(R.id.s_filter_checkCodeLength);
         s_filter_advancedFilter = findViewById(R.id.s_filter_advancedFilter);
         s_filter_isNonUniqueAllow = findViewById(R.id.s_filter_isNonUniqueAllow);
@@ -235,12 +241,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-        s_filter_doFilter.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isChecked)
-                hideSectionDoFilter();
-            else
-                showSectionDoFilter();
-        });
+
         s_filter_checkCodeLength.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked)
                 hideSectionCheckCodeLength();
@@ -254,9 +255,7 @@ public class SettingsActivity extends AppCompatActivity {
                 showSectionAdvancedFilter();
         });
 
-        if (!s_filter_doFilter.isChecked()) {
-            hideSectionDoFilter();
-        }
+
         if (!s_filter_checkCodeLength.isChecked()) {
             hideSectionCheckCodeLength();
         }
@@ -269,7 +268,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void getSharedPreferences() {
         Log.i(TAG, "getSharedPreferences: ");
-        s_filter_doFilter.setChecked(settingsManager.isDoFilter());
         s_filter_checkCodeLength.setChecked(settingsManager.isCheckCodeLength());
         s_filter_advancedFilter.setChecked(settingsManager.isDoAdvancedFilter());
         s_filter_isServerConfigured.setChecked(settingsManager.isServerConfigured());
