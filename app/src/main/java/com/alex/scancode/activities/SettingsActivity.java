@@ -55,15 +55,10 @@ public class SettingsActivity extends AppCompatActivity {
         s_btn_lang_EN = findViewById(R.id.s_btn_lang_ENG);
         s_btn_lang_PL = findViewById(R.id.s_btn_lang_PL);
         s_btn_lang_UA = findViewById(R.id.s_btn_lang_UA);
-        s_btn_lang_EN.setOnClickListener(v -> {
-            changeLanguage("EN");
-        });
-        s_btn_lang_PL.setOnClickListener(v -> {
-            changeLanguage("PL");
-        });
-        s_btn_lang_UA.setOnClickListener(v -> {
-            changeLanguage("UK");
-        });
+
+        s_btn_lang_EN.setOnClickListener(v -> changeLanguage("EN"));
+        s_btn_lang_PL.setOnClickListener(v -> changeLanguage("PL"));
+        s_btn_lang_UA.setOnClickListener(v -> changeLanguage("UK"));
 
     }
     private void changeLanguage(String languageCode) {
@@ -83,19 +78,9 @@ public class SettingsActivity extends AppCompatActivity {
         s_btn_comeBack = findViewById(R.id.s_btn_comeBack);
         s_btn_saveSettings = findViewById(R.id.s_btn_saveSettings);
 
-        s_btn_toDefault.setOnClickListener(v -> {
-            Log.d(TAG, "createListenerForButtons: s_btn_toDefault was pressed");
-            showDialogConfirmationToDefault();
-        });
-
-        s_btn_comeBack.setOnClickListener(v -> {
-            Log.d(TAG, "createListenerForButtons: s_btn_comeBack was pressed");
-            finish();
-        });
-        s_btn_saveSettings.setOnClickListener(v -> {
-            Log.d(TAG, "createListenerForButtons: s_btn_saveSettings was pressed");
-            showDialogConfirmationSaveSettings();
-        });
+        s_btn_toDefault.setOnClickListener(v -> showDialogConfirmationToDefault());
+        s_btn_comeBack.setOnClickListener(v -> finish());
+        s_btn_saveSettings.setOnClickListener(v -> showDialogConfirmationSaveSettings());
     }
 
 
@@ -120,10 +105,7 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        d_btn_no.setOnClickListener(v -> {
-            Log.d(TAG, "showDialogConfirmationToDefault: d_btn_no");
-            alertDialog.dismiss();
-        });
+        d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
 
         alertDialog = builder.create();
         alertDialog.show();
@@ -140,18 +122,10 @@ public class SettingsActivity extends AppCompatActivity {
         builder.setView(dialog);
         d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_confirm_saveSettings)));
 
+        d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
         d_btn_yes.setOnClickListener(v -> {
-            Log.d(TAG, "showDialogConfirmationSaveSettings: d_btn_yes");
             saveNewSettings();
             Toast.makeText(SettingsActivity.this, getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
-            alertDialog.dismiss();
-            finish();
-            startActivity(intent);
-        });
-
-        d_btn_no.setOnClickListener(v -> {
-            Log.d(TAG, "showDialogConfirmationSaveSettings: d_btn_no");
             alertDialog.dismiss();
         });
 
@@ -198,15 +172,11 @@ public class SettingsActivity extends AppCompatActivity {
         s_filter_serverAddress = findViewById(R.id.s_filter_serverAddress);
 
         s_filter_isServerConfigured.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isChecked)
-                hideSectionServerConfiguration();
-            else
-                showSectionServerConfiguration();
+            if (!isChecked) hideSectionServerConfiguration();
+            else showSectionServerConfiguration();
         });
 
-        if (!s_filter_isServerConfigured.isChecked()) {
-            hideSectionServerConfiguration();
-        }
+        if (!s_filter_isServerConfigured.isChecked()) hideSectionServerConfiguration();
 
     }
 
@@ -232,36 +202,25 @@ public class SettingsActivity extends AppCompatActivity {
         s_filter_labelType = findViewById(R.id.s_filter_labelType);
         List<String> labelTypes = LabelType.getListLabelTypes();
         int index = labelTypes.indexOf(settingsManager.getCodeLabelType());
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                new ArrayList<>(labelTypes));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(labelTypes));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s_filter_labelType.setAdapter(adapter);
-        if (index != -1) {
-            s_filter_labelType.setSelection(index);
-        }
 
-
+        if (index != -1) s_filter_labelType.setSelection(index);
 
         s_filter_checkCodeLength.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isChecked)
-                hideSectionCheckCodeLength();
-            else
-                showSectionCheckCodeLength();
+            if (!isChecked) hideSectionCheckCodeLength();
+            else showSectionCheckCodeLength();
         });
         s_filter_advancedFilter.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isChecked)
-                hideSectionAdvancedFilter();
-            else
-                showSectionAdvancedFilter();
+            if (!isChecked) hideSectionAdvancedFilter();
+            else showSectionAdvancedFilter();
         });
 
 
-        if (!s_filter_checkCodeLength.isChecked()) {
-            hideSectionCheckCodeLength();
-        }
-        if (!s_filter_advancedFilter.isChecked()) {
-            hideSectionAdvancedFilter();
-        }
+        if (!s_filter_checkCodeLength.isChecked()) hideSectionCheckCodeLength();
+        if (!s_filter_advancedFilter.isChecked()) hideSectionAdvancedFilter();
+
 
 
     }

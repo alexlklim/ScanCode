@@ -38,26 +38,10 @@ public class MainActivity extends AppCompatActivity {
         main_btn_go_settings = findViewById(R.id.main_btn_go_settings);
 
         // Set OnClickListener for all buttons
-        main_btn_go_scan.setOnClickListener(view -> {
-            Log.d(TAG, "onCreate: main_btn_go_scan was pressed");
-            showInputDialog();
-        });
-        main_btn_go_orders.setOnClickListener(view -> {
-            Log.d(TAG, "onCreate: main_btn_go_orders was pressed");
-            Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
-            startActivity(intent);
-        });
-
-        main_btn_go_settings.setOnClickListener(view -> {
-            Log.d(TAG, "onCreate: main_btn_go_settings was pressed");
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        });
-
-        main_btn_go_exit.setOnClickListener(view -> {
-            Log.d(TAG, "onCreate: main_btn_go_exit was pressed");
-            System.exit(0);
-        });
+        main_btn_go_scan.setOnClickListener(view -> showInputDialog());
+        main_btn_go_orders.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, OrdersActivity.class)));
+        main_btn_go_settings.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
+        main_btn_go_exit.setOnClickListener(view -> System.exit(0));
 
     }
 

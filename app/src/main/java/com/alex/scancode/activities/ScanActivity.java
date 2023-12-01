@@ -88,10 +88,7 @@ public class ScanActivity extends AppCompatActivity {
     private void addListenerForFinish() {
         Log.i(TAG, "addListenerForFinish: ");
         Button sc_btn_doFinishOrder = findViewById(R.id.sc_btn_doFinishOrder);
-        sc_btn_doFinishOrder.setOnClickListener(v -> {
-            Log.d(TAG, "onClick: sc_btn_doFinishOrder was pressed");
-            showDialogConfirmationFinishOrder();
-        });
+        sc_btn_doFinishOrder.setOnClickListener(v -> showDialogConfirmationFinishOrder());
     }
 
     private void initializeTopBar() {
@@ -100,7 +97,7 @@ public class ScanActivity extends AppCompatActivity {
         sc_tv_dateTime = findViewById(R.id.sc_tv_dateTime);
         sc_tv_orderNumber = findViewById(R.id.sc_tv_orderNumber);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.getDefault());
         String formattedDateTime = dateFormat.format(new Date());
         sc_tv_dateTime.setText(formattedDateTime);
 
@@ -195,9 +192,8 @@ public class ScanActivity extends AppCompatActivity {
 
     private void stopStopwatch() {
         Log.i(TAG, "stopStopwatch: ");
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
+        if (countDownTimer != null) countDownTimer.cancel();
+
     }
     private void updateTimer() {
         int seconds = (int) (startTimeInMillis / 1000), minutes = seconds / 60, hours = minutes / 60;
@@ -230,11 +226,7 @@ public class ScanActivity extends AppCompatActivity {
             showDialogOrderSavedResult(result);
         });
 
-        d_btn_no.setOnClickListener(v -> {
-            Log.d(TAG, "showDialogConfirmationFinishOrder: d_btn_no was pressed");
-            alertDialog.dismiss();
-        });
-
+        d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog = builder.create();
         alertDialog.show();
     }
