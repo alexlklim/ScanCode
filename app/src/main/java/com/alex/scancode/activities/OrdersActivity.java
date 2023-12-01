@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.SettingsManager;
+import com.alex.scancode.managers.SynchManager;
 import com.alex.scancode.managers.adapters.OrdersAdapter;
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Order;
@@ -30,6 +31,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
     RecyclerView recyclerView;
     OrdersAdapter orderAdapter;
     private SettingsManager settings;
+    SynchManager synchManager;
 
 
     @Override
@@ -39,9 +41,10 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         setContentView(R.layout.activity_orders);
         context = getApplicationContext();
         settings = new SettingsManager(this);
+        synchManager = new SynchManager(getApplicationContext());
 
         // try to sent not synch orders to server if server configured
-        if (settings.getIsAutoSynch()) syncOrdersWithServer();
+        if (settings.getIsAutoSynch()) synchManager.syncOrdersWithServer();
 
         initializeRecyclerView();
 
@@ -60,18 +63,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         recyclerView.setAdapter(orderAdapter);
     }
 
-    private void syncOrdersWithServer() {
-        Toast.makeText(this, "Synchronization with server", Toast.LENGTH_SHORT).show();
-        Log.i(TAG, "syncOrdersWithServer: ");
-        // logic will be here
 
-        // add Toast for special cases like
-        // 1 all orders synchronized
-        // 2 serverIsNotConfigured
-        // 3 no internet connection
-        // 4 server is not found or answer
-        // 5 something wrong
-    }
 
     @Override
     public void onItemClick(int orderId) {
@@ -89,11 +81,17 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId(); // Store the item ID in a final variable
             if (itemId == R.id.menu_synchOrders) {
+                synchManager.syncOrdersWithServer();
                 return true;
-            } else return itemId == R.id.menu_clearOrders;
+            } else if (itemId == R.id.menu_clearOrders) {
+                synchManager.clearSynchOrders();
+                return true;
+            }
+            return false;
         });
         popupMenu.show();
     }
+
 
 
 
