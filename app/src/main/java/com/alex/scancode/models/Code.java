@@ -24,8 +24,6 @@ public class Code implements Serializable {
     private String labelType;
     @ColumnInfo(name = "gps")
     private String gps;
-    @ColumnInfo(name = "isSent")
-    private int isSent;
     @ColumnInfo(name = "orderID")
     private int orderID;
 
@@ -42,7 +40,6 @@ public class Code implements Serializable {
         this.time = DateTimeManager.getCurrentTimeString();
         this.labelType = labelType.replace("LABEL-TYPE-", "");
         this.gps = gps;
-        this.isSent = 0;
     }
 
     @Override
@@ -53,7 +50,6 @@ public class Code implements Serializable {
                 ", time='" + time + '\'' +
                 ", labelType='" + labelType + '\'' +
                 ", gps='" + gps + '\'' +
-                ", isSent=" + isSent +
                 ", orderID=" + orderID +
                 '}';
     }
@@ -96,14 +92,6 @@ public class Code implements Serializable {
 
     public void setGps(String gps) {
         this.gps = gps;
-    }
-
-    public int getIsSent() {
-        return isSent;
-    }
-
-    public void setIsSent(int isSent) {
-        this.isSent = isSent;
     }
 
     public int getOrderID() {

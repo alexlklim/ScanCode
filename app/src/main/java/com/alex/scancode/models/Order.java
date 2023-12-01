@@ -22,8 +22,8 @@ public class Order {
     @ColumnInfo(name = "timer")
     private String timer;
 
-
-
+    @ColumnInfo(name = "isSynch")
+    private int isSynch;
 
     public Order() {
     }
@@ -33,6 +33,7 @@ public class Order {
         this.orderNumber = orderNumber;
         this.startTime = startTime;
         this.timer = timer;
+        this.isSynch = 0;
     }
 
     public int getId() {
@@ -65,5 +66,13 @@ public class Order {
 
     public void setTimer(String timer) {
         this.timer = timer;
+    }
+
+    public int getIsSynch() {
+        return isSynch;
+    }
+
+    public void setIsSynch(int isSynch) {
+        this.isSynch = isSynch;
     }
 }

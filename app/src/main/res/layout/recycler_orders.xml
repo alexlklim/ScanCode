@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/rv_orders_tv_titleOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="4567865433"/>
+
+    <TextView
+        android:id="@+id/rv_orders_tv_startTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="11 Nov 12:55"/>
+
+    <ImageView
+        android:id="@+id/rv_orders_tv_isSynch"
+        android:src="@drawable/ic_fail"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

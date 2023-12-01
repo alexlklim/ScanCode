@@ -13,7 +13,7 @@ public class SettingsManager extends AppCompatActivity {
 
     private SharedPreferences preferences;
     public static final String PREF_NAME = "ScanApp";
-    public static final String KEY_ID = "identifier", KEY_LOGIN = "login", KEY_PW = "pw", KEY_LANG = "lang",
+    public static final String KEY_LOGIN = "login", KEY_PW = "pw", KEY_LANG = "lang",
             KEY_IS_NON_UNIQUE_CODE_ALLOW = "isNonUniqueCodeAllow",
 
     KEY_IS_CHECK_CODE_LENGTH = "isCheckCodeLength",
@@ -22,22 +22,25 @@ public class SettingsManager extends AppCompatActivity {
     KEY_ADVANCED_FILTER = "advancedFilter",
             KEY_PREFIX = "prefix", KEY_SUFFIX = "suffix", KEY_ENDING = "ending", KEY_LABEL_TYPE = "labelType",
 
-    KEY_IS_SERVER_CONFIGURED = "isServerConfigured", KEY_SERVER_ADDRESS = "serverAddress";
+    KEY_IS_SERVER_CONFIGURED = "isServerConfigured",
+            KEY_ID = "identifier", KEY_SERVER_ADDRESS = "serverAddress", KEY_AUTO_SYNCH = "autoSynch";
 
 
     public SettingsManager(Context context) {
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
-
-    public void setProfileSection(int identifier, String login, String pw) {
-        preferences.edit().putInt(KEY_ID, identifier).apply();
-        preferences.edit().putString(KEY_LOGIN, login).apply();
-        preferences.edit().putString(KEY_PW, pw).apply();
+    public void comeBackToDefaultSettings() {
+        Log.i(TAG, "comeBackToDefaultSettings: ");
+        setFilterSection(false,
+                false, 0, 0, 0,
+                false, "", "","", LabelType.NONE.getCode(),
+                false, "");
     }
 
-    public int getIdentifier() {
-        return preferences.getInt(KEY_ID, 100000);
+    public void setProfileSection(String login, String pw) {
+        preferences.edit().putString(KEY_LOGIN, login).apply();
+        preferences.edit().putString(KEY_PW, pw).apply();
     }
 
     public String getLogin() {
@@ -46,15 +49,6 @@ public class SettingsManager extends AppCompatActivity {
 
     public String getPassword() {
         return preferences.getString(KEY_PW, "admin");
-    }
-
-
-    public String getLang() {
-        return preferences.getString(KEY_LANG, "EN");
-    }
-
-    public void setLang(String lang) {
-        preferences.edit().putString(KEY_LANG, lang).apply();
     }
 
 
@@ -77,14 +71,6 @@ public class SettingsManager extends AppCompatActivity {
                 .putString(KEY_SERVER_ADDRESS, serverAddress)
 
                 .apply();
-    }
-
-    public void comeBackToDefaultSettings() {
-        Log.i(TAG, "comeBackToDefaultSettings: ");
-        setFilterSection(false,
-                false, 0, 0, 0,
-                false, "", "","", LabelType.NONE.getCode(),
-                false, "");
     }
 
 
@@ -135,14 +121,31 @@ public class SettingsManager extends AppCompatActivity {
     }
 
 
+    public void setServerSection(boolean isServerConfigured, String addressServer, int identifier, boolean autoSynch) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(KEY_IS_SERVER_CONFIGURED, isServerConfigured)
+                .putString(KEY_SERVER_ADDRESS, addressServer)
+                .putInt(KEY_ID, identifier)
+                .putBoolean(KEY_AUTO_SYNCH, autoSynch)
+                .apply();
+    }
+
     public boolean isServerConfigured() {
         return preferences.getBoolean(KEY_IS_SERVER_CONFIGURED, false);
     }
 
-
     public String getServerAddress() {
         return preferences.getString(KEY_SERVER_ADDRESS, "");
     }
+
+    public int getIdentifier() {
+        return preferences.getInt(KEY_ID, 100000);
+    }
+
+    public boolean getIsAutoSynch() {
+        return preferences.getBoolean(KEY_AUTO_SYNCH, false);
+    }
+
 
 
 }

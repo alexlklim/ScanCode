@@ -261,6 +261,10 @@ public class ScanActivity extends AppCompatActivity {
         d_btn_comeBackToMenu.setOnClickListener(v -> {
             Log.d(TAG, "showDialogOrderSavedResult: d_btn_comeBackToMenu was pressed");
             alertDialog.dismiss();
+
+            // try to synch if serverConfigured
+
+
             finish();
         });
         alertDialog = builder.create();
@@ -269,14 +273,12 @@ public class ScanActivity extends AppCompatActivity {
 
     private boolean saveNewOrder() {
         Log.i(TAG, "saveNewOrder: ");
-        System.out.println("!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(orderNumber);
         for (Code code: codeList){
             System.out.println(code);
         }
         RoomDB roomDB = RoomDB.getInstance(context);
 
-        // saveNewOrder
+        // save new order
         Order order = new Order(orderNumber, (String) sc_tv_dateTime.getText(), (String) sc_tv_timer.getText());
         roomDB.orderDAO().insert(order);
         int idOrder = roomDB.orderDAO().getOrderByOrderNumber(orderNumber).getId();
