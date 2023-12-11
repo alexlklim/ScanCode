@@ -36,6 +36,17 @@ public class Order {
         this.isSynch = 0;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", timer='" + timer + '\'' +
+                ", isSynch=" + isSynch +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

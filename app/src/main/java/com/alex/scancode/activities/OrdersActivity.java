@@ -44,7 +44,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         synchManager = new SynchManager(getApplicationContext());
 
         // try to sent not synch orders to server if server configured
-        if (settings.getIsAutoSynch()) synchManager.syncOrdersWithServer();
+        if (settings.getIsAutoSynch()) synchManager.synchAllOrders();
 
         initializeRecyclerView();
 
@@ -81,7 +81,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId(); // Store the item ID in a final variable
             if (itemId == R.id.menu_synchOrders) {
-                synchManager.syncOrdersWithServer();
+                synchManager.synchAllOrders();
                 return true;
             } else if (itemId == R.id.menu_clearOrders) {
                 synchManager.clearSynchOrders();

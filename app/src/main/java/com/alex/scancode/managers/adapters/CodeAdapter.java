@@ -42,9 +42,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
     }
 
     public static class CodeViewHolder extends RecyclerView.ViewHolder {
-        public TextView textCode;
-        public TextView textTime;
-        public TextView textLabelType;
+        public TextView textCode, textTime, textLabelType;
 
         public CodeViewHolder(@NonNull View itemView) {
             super(itemView);

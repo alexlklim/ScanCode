@@ -1,36 +1,83 @@
 package com.alex.scancode.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alex.scancode.R;
+import com.alex.scancode.db.RoomDB;
+import com.alex.scancode.managers.SynchManager;
+import com.alex.scancode.managers.adapters.SpecialOrderAdapter;
+import com.alex.scancode.models.Code;
+import com.alex.scancode.models.Order;
+
+import java.util.List;
 
 public class SpecialOrderActivity extends AppCompatActivity {
     private static final String TAG = "SpecialOrderActivity";
+    List<Code> codeList;
+    Order order;
+    RoomDB roomDB;
+    Context context;
+    int orderId;
+    Button s_btn_comeBack, s_btn_synchServer;
+    ImageView so_iv_synchStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         setContentView(R.layout.activity_special_order);
-        tryToOpenSpecialOrder();
-
+        roomDB = RoomDB.getInstance(context);
+        checkIfOrderExist();
         initializeRecyclerView();
+
+        order = roomDB.orderDAO().getOrderByOrderId(orderId);
+        System.out.println(order);
+        addButtonListener();
+    }
+
+    private void addButtonListener() {
+        Log.i(TAG, "addButtonListener: ");
+        s_btn_comeBack = findViewById(R.id.s_btn_comeBack);
+        s_btn_synchServer = findViewById(R.id.s_btn_synchServer);
+        so_iv_synchStatus = findViewById(R.id.so_iv_synchStatus);
+
+        s_btn_comeBack.setOnClickListener(view -> finish());
+        s_btn_synchServer.setOnClickListener(view -> synchWithServer());
+        so_iv_synchStatus.setOnClickListener(view -> synchWithServer());
+    }
+
+    private void synchWithServer() {
+        Log.i(TAG, "synchWithServer: ");
+
+        SynchManager synchManager = new SynchManager(context);
+        synchManager.syncOrdersWithServer(order);
     }
 
     private void initializeRecyclerView() {
-        Log.i(TAG, "initializeRecyclerView: ");
+        RecyclerView recyclerView = findViewById(R.id.sc_rv_codes);
+        codeList = roomDB.codeDAO().getAllByOrderID(orderId);
+        SpecialOrderAdapter adapter = new SpecialOrderAdapter(codeList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
 
-    private void tryToOpenSpecialOrder() {
-        Log.i(TAG, "tryToOpenSpecialOrder: ");
+    private void checkIfOrderExist() {
+        Log.i(TAG, "checkIfOrderExist: ");
         Intent intent = getIntent();
-        int orderId = intent.getIntExtra("orderId", -1);
+        orderId = intent.getIntExtra("orderId", -1);
+        System.out.println(orderId);
         if (orderId == -1){
             Toast.makeText(this, "Something wring", Toast.LENGTH_SHORT).show();
             finish();

@@ -11,7 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_margin="10dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -63,7 +64,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="20"
         android:paddingTop="10dp"
         android:orientation="horizontal">
 
@@ -76,7 +78,8 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:orientation="horizontal">
 
         <Button
@@ -87,11 +90,11 @@
             android:text="Come back" />
 
         <Button
-            android:id="@+id/s_btn_saveSettings"
+            android:id="@+id/s_btn_synchServer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Save settings" />
+            android:text="Synch with server" />
     </LinearLayout>
 
 </LinearLayout>
