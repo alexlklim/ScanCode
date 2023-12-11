@@ -20,8 +20,6 @@ public class SpecialOrderActivity extends AppCompatActivity {
         tryToOpenSpecialOrder();
 
         initializeRecyclerView();
-
-
     }
 
     private void initializeRecyclerView() {

@@ -218,12 +218,17 @@ public class ScanActivity extends AppCompatActivity {
 
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationFinishOrder: d_btn_yes was pressed");
-            stopStopwatch();
-            boolean result = saveNewOrder();
-            if (result)
-                Toast.makeText(ScanActivity.this, getString(R.string.toast_order_has_been_saved), Toast.LENGTH_SHORT).show();
-            alertDialog.dismiss();
-            showDialogOrderSavedResult(result);
+
+            if (codeList.isEmpty()){
+                Toast.makeText(ScanActivity.this, getString(R.string.toast_no_code_in_list), Toast.LENGTH_SHORT).show();
+            } else {
+                stopStopwatch();
+                boolean result = saveNewOrder();
+                if (result)
+                    Toast.makeText(ScanActivity.this, getString(R.string.toast_order_has_been_saved), Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
+                showDialogOrderSavedResult(result);
+            }
         });
 
         d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
