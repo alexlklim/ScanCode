@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
-import com.alex.scancode.db.OrderDAO;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.GPSManager;
 import com.alex.scancode.managers.SettingsManager;
