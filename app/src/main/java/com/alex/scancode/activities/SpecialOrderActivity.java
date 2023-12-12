@@ -88,6 +88,11 @@ public class SpecialOrderActivity extends AppCompatActivity {
     private void synchWithServer() {
         Log.i(TAG, "synchWithServer: ");
 
+        if (order.getIsSynch() == 1){
+            AnswerManager.showToast(getString(R.string.toast_order_already_synch), this);
+            return;
+        }
+
         SynchManager synchManager = new SynchManager(context);
         synchManager.syncOrderWithServer(order)
                 .thenAccept(synchronizedSuccessfully -> {

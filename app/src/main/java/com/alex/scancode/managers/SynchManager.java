@@ -43,7 +43,7 @@ public class SynchManager {
     }
 
     public CompletableFuture<Boolean> syncOrderWithServer(Order order) {
-        Log.d(TAG, "syncOrderWithServer: ");
+        Log.d(TAG, "syncOrderWithServer: " + order.getOrderNumber());
         AnswerManager.showToast(context.getString(R.string.toast_try_to_synch_with_server), context);
 
         settingsManager = new SettingsManager(context);
