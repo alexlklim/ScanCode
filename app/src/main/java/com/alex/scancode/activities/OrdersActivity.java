@@ -92,6 +92,16 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         popupMenu.show();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initializeRecyclerView();
+        // This is called when the activity is about to be displayed
+
+        // Print or log information about what happened
+        Log.i("YourPreviousActivity", "Returned to YourPreviousActivity. Something happened.");
+    }
+
 
 
 

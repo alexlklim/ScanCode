@@ -44,6 +44,8 @@
     <string name="toast_order_number_already_exists">Order number already exists</string>
     <string name="toast_code_not_match_filter">The code does not match the filters</string>
     <string name="toast_no_code_in_list">No code was read</string>
+    <string name="toast_order_deleted_successfully">Order deleted successfully</string>
+
 
 
 

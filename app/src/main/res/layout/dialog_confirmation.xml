@@ -24,6 +24,9 @@
 
         <Button
             android:id="@+id/d_btn_yes"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -32,6 +35,9 @@
 
         <Button
             android:id="@+id/d_btn_no"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"

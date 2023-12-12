@@ -51,13 +51,12 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="25dp"
-
+                android:background="@drawable/rounded_button"
                 android:textColor="@color/white"
+                android:textSize="20sp"
                 android:minWidth="250dp"
                 android:minHeight="70dp"
-                android:background="@drawable/rounded_button"
-                android:text="Check orders"
-                android:textSize="20sp" />
+                android:text="Check orders" />
 
 
         </LinearLayout>

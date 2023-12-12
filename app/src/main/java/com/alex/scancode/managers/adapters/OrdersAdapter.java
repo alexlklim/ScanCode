@@ -85,7 +85,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
 
 
     private void animateItemClicked(View view) {
-        int colorFrom = Color.WHITE;
+        int colorFrom = Color.argb(0, 255, 255, 255);
         int colorTo = Color.GRAY;
 
         // Duration for the initial animation
@@ -115,7 +115,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
     private void restoreBackgroundColor(View view) {
         // Restore the background color to white
         int colorFrom = Color.GRAY;
-        int colorTo = Color.WHITE;
+        int colorTo = Color.argb(0, 255, 255, 255);
 
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
         colorAnimation.setDuration(300); // milliseconds

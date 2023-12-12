@@ -28,7 +28,7 @@ public class SpecialOrderActivity extends AppCompatActivity {
     RoomDB roomDB;
     Context context;
     int orderId;
-    Button s_btn_comeBack, s_btn_synchServer;
+    Button s_btn_comeBack, s_btn_deleteOrder;
     ImageView so_iv_synchStatus;
 
     @Override
@@ -49,12 +49,20 @@ public class SpecialOrderActivity extends AppCompatActivity {
     private void addButtonListener() {
         Log.i(TAG, "addButtonListener: ");
         s_btn_comeBack = findViewById(R.id.s_btn_comeBack);
-        s_btn_synchServer = findViewById(R.id.s_btn_synchServer);
         so_iv_synchStatus = findViewById(R.id.so_iv_synchStatus);
+        s_btn_deleteOrder = findViewById(R.id.s_btn_deleteOrder);
 
         s_btn_comeBack.setOnClickListener(view -> finish());
-        s_btn_synchServer.setOnClickListener(view -> synchWithServer());
         so_iv_synchStatus.setOnClickListener(view -> synchWithServer());
+        s_btn_deleteOrder.setOnClickListener(view -> deleteSpecialOrder(orderId));
+    }
+
+    private void deleteSpecialOrder(int orderId) {
+        Log.i(TAG, "deleteSpecialOrder: ");
+        roomDB.orderDAO().delete(roomDB.orderDAO().getOrderByOrderId(orderId));
+        Log.d(TAG, "deleteSpecialOrder() returned: order deleted successfully");
+        Toast.makeText(this, getString(R.string.toast_order_deleted_successfully), Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void synchWithServer() {
