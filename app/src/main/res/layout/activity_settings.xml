@@ -39,6 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="English"
+                android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/flag_en"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -47,6 +48,7 @@
                 android:id="@+id/s_btn_lang_PL"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:layout_weight="1"
                 android:contentDescription="Poland"
                 android:scaleType="fitCenter"
@@ -57,6 +59,7 @@
                 android:id="@+id/s_btn_lang_UA"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:layout_weight="1"
                 android:contentDescription="Ukraine"
                 android:scaleType="fitCenter"
@@ -76,6 +79,8 @@
                 android:id="@+id/s_tv_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="15sp"
                 android:background="@color/gray"
                 android:text="Filter" />
 
@@ -351,6 +356,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/gray"
+                android:textColor="@color/white"
+                android:textSize="15sp"
                 android:text="Server Configuration" />
 
             <LinearLayout
@@ -467,6 +474,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_button"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 android:text="To default" />
 
             <LinearLayout
@@ -479,6 +489,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_button"
                     android:text="Come back" />
 
                 <Button
@@ -486,6 +500,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/rounded_button"
                     android:text="Save settings" />
             </LinearLayout>
         </LinearLayout>
