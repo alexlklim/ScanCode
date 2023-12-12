@@ -4,47 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:gravity="center"
-    android:paddingBottom="200dp"
-    android:background="@drawable/app_fon"
     tools:context=".activities.LoginActivity">
 
-    <TextView
-        android:id="@+id/login_text_login"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:orientation="vertical" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:textSize="40dp" />
+        android:background="@drawable/app_main_fon"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="80dp">
 
-    <EditText
-        android:id="@+id/login_edit_text_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:minHeight="48dp"
-        android:textSize="20dp"
-        android:hint="login"
-        android:text="" />
+        <TextView
+            android:id="@+id/login_text_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="60dp"
+            android:text="Login"
+            android:textColor="@color/black"
+            android:textSize="35sp" />
 
-    <EditText
-        android:id="@+id/login_edit_text_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="20dp"
-        android:text=""
-        android:hint="password"
-        android:inputType="textPassword"
-        android:minHeight="48dp" />
+        <EditText
+            android:id="@+id/login_edit_text_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="login"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:text=""
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/login_edit_text_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:text=""
+            android:textSize="20sp" />
 
 
-
-    <Button
-        android:id="@+id/login_btn_do_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:textSize="30dp" />
+        <Button
+            android:id="@+id/login_btn_do_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:minWidth="200dp"
+            android:minHeight="40dp"
+            android:text="Login"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
 </LinearLayout>
