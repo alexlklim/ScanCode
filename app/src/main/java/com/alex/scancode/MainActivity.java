@@ -21,7 +21,7 @@ import com.alex.scancode.db.RoomDB;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    Button main_btn_go_scan, main_btn_go_orders, main_btn_go_exit;
+    Button main_btn_go_scan, main_btn_go_orders;
     ImageButton main_btn_go_settings;
     Context context;
 
@@ -34,14 +34,12 @@ public class MainActivity extends AppCompatActivity {
         // initialize the buttons
         main_btn_go_scan = findViewById(R.id.main_btn_go_scan);
         main_btn_go_orders = findViewById(R.id.main_btn_go_orders);
-        main_btn_go_exit = findViewById(R.id.main_btn_go_exit);
         main_btn_go_settings = findViewById(R.id.main_btn_go_settings);
 
         // Set OnClickListener for all buttons
         main_btn_go_scan.setOnClickListener(view -> showInputDialog());
         main_btn_go_orders.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, OrdersActivity.class)));
         main_btn_go_settings.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
-        main_btn_go_exit.setOnClickListener(view -> System.exit(0));
 
     }
 

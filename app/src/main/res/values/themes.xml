@@ -3,7 +3,16 @@
     <style name="Base.Theme.ScanCode" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="colorPrimary">@color/gray</item>
+        <!-- Add other theme attributes as needed -->
+
+        <!-- Custom button style -->
+
+
     </style>
+
+
 
     <style name="Theme.ScanCode" parent="Base.Theme.ScanCode" />
 </resources>

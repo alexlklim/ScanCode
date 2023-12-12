@@ -3,8 +3,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center"
-    android:padding="7dp"
-    android:background="@color/white">
+    android:padding="7dp">
 
     <TextView
         android:id="@+id/rv_orders_tv_titleOrder"
