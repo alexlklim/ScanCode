@@ -45,6 +45,10 @@
     <string name="toast_code_not_match_filter">The code does not match the filters</string>
     <string name="toast_no_code_in_list">No code was read</string>
     <string name="toast_order_deleted_successfully">Order deleted successfully</string>
+    <string name="toast_server_is_not_configured">Server is not configured</string>
+    <string name="toast_try_to_synch_with_server">Synchronization with server</string>
+    <string name="toast_network_is_not_available">Network is not available</string>
+    <string name="toast_server_is_not_available">Server is not available</string>
 
 
 

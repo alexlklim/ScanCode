@@ -1,15 +1,17 @@
 package com.alex.scancode.managers;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Order;
 import com.alex.scancode.models.json.OrderWithCodes;
-import com.google.gson.Gson;
 
 import java.io.BufferedWriter;
 import java.io.OutputStream;
@@ -19,7 +21,11 @@ import java.net.URL;
 import java.util.List;
 
 public class SynchManager {
+    private static final String TAG = "SynchManager";
+
     private static Context context;
+    RoomDB roomDB;
+    SettingsManager settingsManager;
 
     // get orders with isSynch=0
     // add indetificator for them
@@ -29,13 +35,16 @@ public class SynchManager {
         SynchManager.context = context;
     }
 
-    public void syncOrdersWithServer(Order order) {
-        Toast.makeText(context, "Synchronization with server", Toast.LENGTH_SHORT).show();
-        // logic will be here
+    public void syncOrderWithServer(Order order) {
+        Log.d(TAG, "syncOrderWithServer: ");
+        Toast.makeText(context, context.getString(R.string.toast_try_to_synch_with_server), Toast.LENGTH_SHORT).show();
+        settingsManager = new SettingsManager(context);
 
-        SettingsManager settingsManager = new SettingsManager(context);
+        // logic will be here
+        boolean answer = checkCommon();
+
         // create json file order with codes
-        RoomDB roomDB = RoomDB.getInstance(context);
+        roomDB = RoomDB.getInstance(context);
         List<Code> codeList = roomDB.codeDAO().getAllByOrderID(order.getId());
         OrderWithCodes orderWithCodes = new OrderWithCodes(order, codeList, settingsManager.getIdentifier());
         String json = orderWithCodes.toJson();
@@ -97,6 +106,7 @@ public class SynchManager {
 
     public void clearSynchOrders() {
         Toast.makeText(context, "Clear synchronized orders", Toast.LENGTH_SHORT).show();
+        boolean answer = checkCommon();
 
 
         // handle special cases
@@ -107,13 +117,38 @@ public class SynchManager {
 
 
     }
-    public void checkCommon() {
-        // 1 server is not configured
-        // 2 no internet connection
-        // 3 server is not found or answer
-        // 4 something wrong
-    }
 
     public void synchAllOrders() {
+        Toast.makeText(context, "Clear synchronized orders", Toast.LENGTH_SHORT).show();
+        boolean answer = checkCommon();
+
+
+    }
+
+
+
+
+    public boolean checkCommon() {
+        // 1 server is not configured
+        if(!settingsManager.isServerConfigured()){
+            Log.e(TAG, "checkCommon: toast_server_is_not_configured");
+            Toast.makeText(context, context.getString(R.string.toast_server_is_not_configured), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // 2 no internet connection
+        if (NetworkManager.isNetworkAvailable(context)){
+            Log.e(TAG, "checkCommon: toast_network_is_not_available");
+            Toast.makeText(context, context.getString(R.string.toast_network_is_not_available), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // 3 server is not found or answer
+        if (NetworkManager.isServerAvailable(settingsManager.getServerAddress())) {
+            Log.e(TAG, "checkCommon: toast_server_is_not_available");
+            Toast.makeText(context, context.getString(R.string.toast_server_is_not_available), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

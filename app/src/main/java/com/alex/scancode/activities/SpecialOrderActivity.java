@@ -2,6 +2,8 @@ package com.alex.scancode.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -69,7 +71,7 @@ public class SpecialOrderActivity extends AppCompatActivity {
         Log.i(TAG, "synchWithServer: ");
 
         SynchManager synchManager = new SynchManager(context);
-        synchManager.syncOrdersWithServer(order);
+        synchManager.syncOrderWithServer(order);
     }
 
     private void initializeRecyclerView() {
