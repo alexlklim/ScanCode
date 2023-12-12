@@ -2,8 +2,6 @@ package com.alex.scancode.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -54,6 +52,11 @@ public class SpecialOrderActivity extends AppCompatActivity {
         so_iv_synchStatus = findViewById(R.id.so_iv_synchStatus);
         s_btn_deleteOrder = findViewById(R.id.s_btn_deleteOrder);
 
+        if (roomDB.orderDAO().getOrderByOrderId(orderId).getIsSynch() != 0) {
+            so_iv_synchStatus.setImageResource(R.drawable.ic_synch);
+        }
+
+
         s_btn_comeBack.setOnClickListener(view -> finish());
         so_iv_synchStatus.setOnClickListener(view -> synchWithServer());
         s_btn_deleteOrder.setOnClickListener(view -> deleteSpecialOrder(orderId));
@@ -71,7 +74,21 @@ public class SpecialOrderActivity extends AppCompatActivity {
         Log.i(TAG, "synchWithServer: ");
 
         SynchManager synchManager = new SynchManager(context);
-        synchManager.syncOrderWithServer(order);
+        synchManager.syncOrderWithServer(order)
+                .thenAccept(synchronizedSuccessfully -> {
+                    // Code to execute after synchronization is complete
+                    if (synchronizedSuccessfully) {
+                        Log.i(TAG, "synchWithServer: order was updated");
+                        if (roomDB.orderDAO().getOrderByOrderId(orderId).getIsSynch() != 0) {
+                            so_iv_synchStatus.setImageResource(R.drawable.ic_synch);
+                        }
+                    } else {
+                        Toast.makeText(this, getString(R.string.toast_something_wrong_with_server), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // logic if synch is not successful
+
     }
 
     private void initializeRecyclerView() {
@@ -88,7 +105,7 @@ public class SpecialOrderActivity extends AppCompatActivity {
         Intent intent = getIntent();
         orderId = intent.getIntExtra("orderId", -1);
         System.out.println(orderId);
-        if (orderId == -1){
+        if (orderId == -1) {
             Toast.makeText(this, "Something wring", Toast.LENGTH_SHORT).show();
             finish();
         }

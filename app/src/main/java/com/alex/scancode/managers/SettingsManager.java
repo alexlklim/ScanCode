@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alex.scancode.models.enums.LabelType;
+import com.alex.scancode.utiles.Util;
 
 public class SettingsManager extends AppCompatActivity {
     private static final String TAG = "SettingsManager";
@@ -137,7 +138,7 @@ public class SettingsManager extends AppCompatActivity {
     }
 
     public String getServerAddress() {
-        return preferences.getString(KEY_SERVER_ADDRESS, "");
+        return preferences.getString(Util.URL, Util.URL);
     }
 
     public int getIdentifier() {

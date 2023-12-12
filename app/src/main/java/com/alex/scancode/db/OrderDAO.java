@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.alex.scancode.models.Order;
 
@@ -27,6 +28,9 @@ public interface OrderDAO {
 
     @Query("SELECT EXISTS(SELECT 1 FROM orders WHERE orderNumber = :orderNumber LIMIT 1)")
     boolean isOrderExist(String orderNumber);
+
+    @Update
+    void update(Order order);
 
     @Delete
     void delete(Order order);
