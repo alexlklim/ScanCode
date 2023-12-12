@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
+import com.alex.scancode.managers.AnswerManager;
 import com.alex.scancode.managers.SynchManager;
 import com.alex.scancode.managers.adapters.SpecialOrderAdapter;
 import com.alex.scancode.models.Code;
@@ -30,6 +32,7 @@ public class SpecialOrderActivity extends AppCompatActivity {
     int orderId;
     Button s_btn_comeBack, s_btn_deleteOrder;
     ImageView so_iv_synchStatus;
+    TextView so_tv_dateTime, so_tv_totalTime, so_tv_orderNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,20 @@ public class SpecialOrderActivity extends AppCompatActivity {
         order = roomDB.orderDAO().getOrderByOrderId(orderId);
         System.out.println(order);
         addButtonListener();
+
+        initializeTextViews();
+    }
+
+    private void initializeTextViews() {
+        so_tv_orderNumber = findViewById(R.id.so_tv_orderNumber);
+        so_tv_dateTime = findViewById(R.id.so_tv_dateTime);
+        so_tv_totalTime = findViewById(R.id.so_tv_totalTime);
+
+        so_tv_orderNumber.setText("Order N. " + order.getOrderNumber());
+        so_tv_dateTime.setText(order.getStartTime());
+        so_tv_totalTime.setText(order.getTimer());
+
+
     }
 
     private void addButtonListener() {
@@ -55,8 +72,6 @@ public class SpecialOrderActivity extends AppCompatActivity {
         if (roomDB.orderDAO().getOrderByOrderId(orderId).getIsSynch() != 0) {
             so_iv_synchStatus.setImageResource(R.drawable.ic_synch);
         }
-
-
         s_btn_comeBack.setOnClickListener(view -> finish());
         so_iv_synchStatus.setOnClickListener(view -> synchWithServer());
         s_btn_deleteOrder.setOnClickListener(view -> deleteSpecialOrder(orderId));
@@ -66,7 +81,7 @@ public class SpecialOrderActivity extends AppCompatActivity {
         Log.i(TAG, "deleteSpecialOrder: ");
         roomDB.orderDAO().delete(roomDB.orderDAO().getOrderByOrderId(orderId));
         Log.d(TAG, "deleteSpecialOrder() returned: order deleted successfully");
-        Toast.makeText(this, getString(R.string.toast_order_deleted_successfully), Toast.LENGTH_SHORT).show();
+        AnswerManager.showToast(getString(R.string.toast_order_deleted_successfully), this);
         finish();
     }
 
@@ -79,11 +94,13 @@ public class SpecialOrderActivity extends AppCompatActivity {
                     // Code to execute after synchronization is complete
                     if (synchronizedSuccessfully) {
                         Log.i(TAG, "synchWithServer: order was updated");
+                        order.setIsSynch(1);
+                        roomDB.orderDAO().update(order);
                         if (roomDB.orderDAO().getOrderByOrderId(orderId).getIsSynch() != 0) {
                             so_iv_synchStatus.setImageResource(R.drawable.ic_synch);
                         }
                     } else {
-                        Toast.makeText(this, getString(R.string.toast_something_wrong_with_server), Toast.LENGTH_SHORT).show();
+                        AnswerManager.showToast(getString(R.string.toast_something_wrong_with_server), this);
                     }
                 });
 
@@ -106,7 +123,7 @@ public class SpecialOrderActivity extends AppCompatActivity {
         orderId = intent.getIntExtra("orderId", -1);
         System.out.println(orderId);
         if (orderId == -1) {
-            Toast.makeText(this, "Something wring", Toast.LENGTH_SHORT).show();
+            AnswerManager.showToast(getString(R.string.toast_something_wrong), this);
             finish();
         }
     }

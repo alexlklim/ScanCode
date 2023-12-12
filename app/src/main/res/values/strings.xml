@@ -50,6 +50,8 @@
     <string name="toast_network_is_not_available">Network is not available</string>
     <string name="toast_server_is_not_available">Server is not available</string>
     <string name="toast_something_wrong_with_server">Something wrong with server</string>
+    <string name="toast_order_already_synch">Order already synchronized with server</string>
+    <string name="toast_something_wrong">Something wrong</string>
 
 
 

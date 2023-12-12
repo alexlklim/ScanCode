@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
+import com.alex.scancode.managers.AnswerManager;
 import com.alex.scancode.managers.GPSManager;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.managers.adapters.CodeAdapter;
@@ -124,7 +125,8 @@ public class ScanActivity extends AppCompatActivity {
             updateRecyclerView();
         } else {
             Log.d(TAG, "Code was not saved: doesn't match filters : " + code);
-            Toast.makeText(this, getString(R.string.toast_code_not_match_filter), Toast.LENGTH_SHORT).show();
+            AnswerManager.showToast(getString(R.string.toast_code_not_match_filter), this);
+
         }
     }
 
@@ -221,12 +223,13 @@ public class ScanActivity extends AppCompatActivity {
             Log.d(TAG, "showDialogConfirmationFinishOrder: d_btn_yes was pressed");
 
             if (codeList.isEmpty()){
-                Toast.makeText(ScanActivity.this, getString(R.string.toast_no_code_in_list), Toast.LENGTH_SHORT).show();
+                AnswerManager.showToast(getString(R.string.toast_no_code_in_list), this);
+
             } else {
                 stopStopwatch();
                 boolean result = saveNewOrder();
                 if (result)
-                    Toast.makeText(ScanActivity.this, getString(R.string.toast_order_has_been_saved), Toast.LENGTH_SHORT).show();
+                    AnswerManager.showToast(getString(R.string.toast_order_has_been_saved), this);
                 alertDialog.dismiss();
                 showDialogOrderSavedResult(result);
             }

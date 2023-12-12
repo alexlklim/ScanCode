@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.alex.scancode.R;
+import com.alex.scancode.managers.AnswerManager;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.models.enums.LabelType;
 
@@ -98,7 +99,9 @@ public class SettingsActivity extends AppCompatActivity {
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationToDefault: d_btn_yes");
             comeBackToDefaultSettings();
-            Toast.makeText(SettingsActivity.this, getString(R.string.toast_settings_reset), Toast.LENGTH_SHORT).show();
+            AnswerManager.showToast(getString(R.string.toast_settings_reset), this);
+
+
             Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
             alertDialog.dismiss();
             finish();
@@ -123,7 +126,9 @@ public class SettingsActivity extends AppCompatActivity {
         d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
         d_btn_yes.setOnClickListener(v -> {
             saveNewSettings();
-            Toast.makeText(SettingsActivity.this, getString(R.string.toast_settings_saved), Toast.LENGTH_SHORT).show();
+            AnswerManager.showToast(getString(R.string.toast_settings_saved), this);
+
+
             alertDialog.dismiss();
         });
 

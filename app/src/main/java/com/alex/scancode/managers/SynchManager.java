@@ -44,7 +44,8 @@ public class SynchManager {
 
     public CompletableFuture<Boolean> syncOrderWithServer(Order order) {
         Log.d(TAG, "syncOrderWithServer: ");
-        Toast.makeText(context, context.getString(R.string.toast_try_to_synch_with_server), Toast.LENGTH_SHORT).show();
+        AnswerManager.showToast(context.getString(R.string.toast_try_to_synch_with_server), context);
+
         settingsManager = new SettingsManager(context);
 
         // create json file order with codes
@@ -75,13 +76,11 @@ public class SynchManager {
                 // Get the response from the server (optional, if needed)
                 int responseCode = urlConnection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    System.out.println("00000000000000000000000");
-                    order.setIsSynch(1);
-                    roomDB.orderDAO().update(order);
                     resultFuture.complete(true);
                 } else {
                     Log.e(TAG, "doInBackground: toast_server_is_not_available");
-                    showToast(context.getString(R.string.toast_server_is_not_available));
+                    AnswerManager.showToast(context.getString(R.string.toast_server_is_not_available), context);
+
                     resultFuture.complete(false);
                 }
 
@@ -106,14 +105,10 @@ public class SynchManager {
         return resultFuture;
     }
 
-
-    private void showToast(String message) {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show());
-    }
-
     public void clearSynchOrders() {
         Toast.makeText(context, "Clear synchronized orders", Toast.LENGTH_SHORT).show();
+//        AnswerManager.showToast(context.getString(R.string.toast_something_wrong_with_server), context);
+
         boolean answer = checkCommon();
 
 
@@ -128,9 +123,20 @@ public class SynchManager {
 
     public void synchAllOrders() {
         Toast.makeText(context, "Clear synchronized orders", Toast.LENGTH_SHORT).show();
+//        AnswerManager.showToast(context.getString(R.string.toast_order_already_synch), context);
+
         boolean answer = checkCommon();
 
 
+    }
+
+    public boolean checkIfOrderSynch(Order order){
+        if (order.getIsSynch() == 0){
+            return false;
+        } else {
+            AnswerManager.showToast(context.getString(R.string.toast_order_already_synch), context);
+            return true;
+        }
     }
 
 
@@ -141,14 +147,14 @@ public class SynchManager {
         // 1 server is not configured
         if(!settingsManager.isServerConfigured()){
             Log.e(TAG, "checkCommon: toast_server_is_not_configured");
-            Toast.makeText(context, context.getString(R.string.toast_server_is_not_configured), Toast.LENGTH_SHORT).show();
+            AnswerManager.showToast(context.getString(R.string.toast_server_is_not_configured), context);
             return false;
         }
 
         // 2 no internet connection
         if (!NetworkManager.isNetworkAvailable(context)){
             Log.e(TAG, "checkCommon: toast_network_is_not_available");
-            Toast.makeText(context, context.getString(R.string.toast_network_is_not_available), Toast.LENGTH_SHORT).show();
+            AnswerManager.showToast(context.getString(R.string.toast_network_is_not_available), context);
             return false;
         }
         return true;

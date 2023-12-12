@@ -18,6 +18,7 @@ import com.alex.scancode.activities.LoginActivity;
 import com.alex.scancode.activities.OrdersActivity;
 import com.alex.scancode.activities.ScanActivity;
 import com.alex.scancode.db.RoomDB;
+import com.alex.scancode.managers.AnswerManager;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -59,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
             if (orderNumber.isEmpty()){
                 Log.d(TAG, "onClick: orderNumber is empty");
-                Toast.makeText(MainActivity.this, getString(R.string.toast_empty_order_number), Toast.LENGTH_SHORT).show();
+                AnswerManager.showToast(getString(R.string.toast_empty_order_number), context);
             } else if (RoomDB.getInstance(context).orderDAO().isOrderExist(orderNumber)){
                 Log.d(TAG, "onClick: orderNumber already exists");
                 // check is this orderNumber is exist in DB
-                Toast.makeText(MainActivity.this, getString(R.string.toast_order_number_already_exists), Toast.LENGTH_SHORT).show();
+                AnswerManager.showToast(getString(R.string.toast_order_number_already_exists), context);
             } else{
                 Intent intent = new Intent(MainActivity.this, ScanActivity.class);
                 alertDialog.dismiss();

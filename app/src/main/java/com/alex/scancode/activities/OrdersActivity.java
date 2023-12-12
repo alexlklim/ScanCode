@@ -1,25 +1,22 @@
 package com.alex.scancode.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.managers.SynchManager;
 import com.alex.scancode.managers.adapters.OrdersAdapter;
-import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Order;
 
 import java.util.List;
@@ -82,6 +79,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
             int itemId = item.getItemId(); // Store the item ID in a final variable
             if (itemId == R.id.menu_synchOrders) {
                 synchManager.synchAllOrders();
+
                 return true;
             } else if (itemId == R.id.menu_clearOrders) {
                 synchManager.clearSynchOrders();

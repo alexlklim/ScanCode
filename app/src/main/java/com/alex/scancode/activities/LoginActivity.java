@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alex.scancode.R;
+import com.alex.scancode.managers.AnswerManager;
 import com.alex.scancode.managers.SettingsManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,7 +39,8 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
                 startActivity(intent);
             } else {
-                Toast.makeText(this, getString(R.string.toast_wrong_login_pw), Toast.LENGTH_SHORT).show();
+                AnswerManager.showToast(getString(R.string.toast_wrong_login_pw), this);
+
                 Log.d(TAG, "onCreate: checkLoginAndPassword: false");
             }
         });
