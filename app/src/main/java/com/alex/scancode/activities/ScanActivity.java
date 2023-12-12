@@ -68,13 +68,13 @@ public class ScanActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
         initializeTopBar();
-        
+
         // for getting and filtering codes
         IntentFilter filter = new IntentFilter();
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.addAction(getResources().getString(R.string.activity_intent_filter_action));
         registerReceiver(myBroadcastReceiver, filter);
-        
+
         // initialize recyclerView to show data
         recyclerView = findViewById(R.id.sc_rv_codes);
         codeAdapter = new CodeAdapter(codeList);
@@ -112,10 +112,12 @@ public class ScanActivity extends AppCompatActivity {
         Log.i(TAG, "try to saveNewCodeToLocalMemory: " + decodedData);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
+        System.out.println(currentLocation);
+        System.out.println(decodedData);
+        System.out.println(decodedLabelType);
         Code code = filteringData(new Code(
                 decodedData, decodedLabelType,
                 GPSManager.convertGpsToString(currentLocation)));
-        System.out.println(code);
         if (code != null){
             codeList.add(code);
             Log.d(TAG, "Code was saved: " + code);
