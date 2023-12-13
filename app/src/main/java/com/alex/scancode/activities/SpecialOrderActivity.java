@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +40,7 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
     SettingsManager settingsManager;
     SpecialOrderAdapter specialOrderAdapter;
 
+    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate: ");
@@ -137,16 +141,24 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
     public void onItemClick(Code code) {
         Log.i(TAG, "onItemClick: " + code);
         roomDB.codeDAO().delete(code);
-        boolean answer = specialOrderAdapter.newCodeListAfterDeleting(code);
-        if (!answer){
-            roomDB.orderDAO().delete(
-                    roomDB.orderDAO().getOrderByOrderId(code.getOrderID())
-            );
-            Log.i(TAG, "onItemClick: delete order becouse order is empty" + code);
-
+        //
+        if (codeList.size() == 1) showDialogConfirmationToDeleting(code);
+        else {
+            specialOrderAdapter.newCodeListAfterDeleting(code);
         }
+//        if (!answer) deleteOrder(code); // if answer false it means that order dont have any others codes
         specialOrderAdapter.notifyDataSetChanged();
     }
+
+
+
+    private void deleteOrder(Code code) {
+        roomDB.orderDAO().delete(
+                roomDB.orderDAO().getOrderByOrderId(code.getOrderID())
+        );
+        Log.i(TAG, "onItemClick: delete order becouse order is empty" + code);
+    }
+
 
     private void checkIfOrderExist() {
         Log.i(TAG, "checkIfOrderExist: ");
@@ -158,4 +170,31 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
             finish();
         }
     }
+
+
+    private void showDialogConfirmationToDeleting(Code code) {
+        Log.d(TAG, "showDialogConfirmationToDeleting: ");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.dialog_confirmation, null);
+        TextView d_tv_confirmation = dialog.findViewById(R.id.d_tv_confirmation);
+        Button d_btn_yes = dialog.findViewById(R.id.d_btn_yes);
+        Button d_btn_no = dialog.findViewById(R.id.d_btn_no);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialog);
+        d_tv_confirmation.setText(new StringBuilder(getString(R.string.toast_delete_last_code)));
+
+        d_btn_yes.setOnClickListener(v -> {
+            Log.d(TAG, "showDialogConfirmationToDeleting: d_btn_yes");
+            deleteOrder(code);
+            alertDialog.dismiss();
+            finish();
+
+        });
+        d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+
+
 }

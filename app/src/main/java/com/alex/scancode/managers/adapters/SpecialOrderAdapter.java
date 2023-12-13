@@ -50,7 +50,7 @@ public class SpecialOrderAdapter extends RecyclerView.Adapter<SpecialOrderAdapte
         // Set data to views in your item layout
         holder.rvSoCode.setText(code.getCode());
         holder.rvSoTime.setText(DateTimeManager.extractHoursAndMinutes(code.getTime()));
-        if (code.getGps().isEmpty()) holder.rvSoIvGps.setImageResource(R.drawable.ic_gps_not);
+        if (code.getGps().equalsIgnoreCase("none")) holder.rvSoIvGps.setImageResource(R.drawable.ic_gps_not);
         else holder.rvSoIvGps.setImageResource(R.drawable.ic_gps);
 
         holder.itemView.setOnClickListener(view -> {

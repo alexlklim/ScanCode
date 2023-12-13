@@ -53,6 +53,7 @@
     <string name="toast_order_already_synch">Order already synchronized with server</string>
     <string name="toast_something_wrong">Something wrong</string>
     <string name="toast_configure_server_at_first">Configure server ar first</string>
+    <string name="toast_delete_last_code">Do you want delete last code? It couse deleting of order</string>
 
 
 

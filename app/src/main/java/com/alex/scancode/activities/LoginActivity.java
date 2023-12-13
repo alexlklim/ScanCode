@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         login_btn_do_login.setOnClickListener(view -> {
             String login = login_edit_text_login.getText().toString(),
                     password = login_edit_text_password.getText().toString();
-            if (!login.equals(settingsManager.getLogin()) && !password.equals(settingsManager.getPassword())) {
+            if (login.equals(settingsManager.getLogin()) && password.equals(settingsManager.getPassword())) {
                 Log.d(TAG, "onCreate: checkLoginAndPassword: true");
                 Intent intent = new Intent(LoginActivity.this, SettingsActivity.class);
                 finish();

@@ -29,6 +29,7 @@ import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.AnswerManager;
 import com.alex.scancode.managers.GPSManager;
 import com.alex.scancode.managers.SettingsManager;
+import com.alex.scancode.managers.SynchManager;
 import com.alex.scancode.managers.adapters.CodeAdapter;
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Order;
@@ -50,7 +51,7 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
     private List<Code> codeList = new LinkedList<>();
 
     private String orderNumber;
-
+    SettingsManager sm;
 
     private CountDownTimer countDownTimer;
     private long startTimeInMillis = 0;
@@ -67,6 +68,7 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
         context = getApplicationContext();
+        sm = new SettingsManager(this);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
         initializeTopBar();
@@ -120,7 +122,7 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
         System.out.println(decodedLabelType);
         Code code = filteringData(new Code(
                 decodedData, decodedLabelType,
-                GPSManager.convertGpsToString(currentLocation)));
+                GPSManager.convertGpsToString(currentLocation, this)));
         if (code != null){
             codeList.add(code);
             Log.d(TAG, "Code was saved: " + code);
@@ -232,6 +234,10 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
                 boolean result = saveNewOrder();
                 if (result)
                     AnswerManager.showToast(getString(R.string.toast_order_has_been_saved), this);
+                if (sm.isServerConfigured() && sm.isAutoSynch()){
+                    SynchManager synchManager = new SynchManager(context);
+                    synchManager.syncOrderWithServer(roomDB.orderDAO().getOrderByOrderNumber(orderNumber));
+                }
                 alertDialog.dismiss();
                 showDialogOrderSavedResult(result);
             }
@@ -296,7 +302,6 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
 
     public Code filteringData(Code code) {
         Log.i(TAG, "filteringData: code");
-        SettingsManager sm = new SettingsManager(this);
         if (!sm.isNonUniqueCodeAllow() && codeList.stream().anyMatch(c -> c.getCode().equals(code.getCode()))) {
             Log.d(TAG, "filteringData: CODE NON UNIQUE=");
             return null;
@@ -327,7 +332,7 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
     public void onItemClick(Code code) {
         Log.i(TAG, "onItemClick: ");
         System.out.println("**********: " + code.getCode());
-        codeList.remove(code);
-        updateRecyclerView();
+//        codeList.remove(code);
+//        updateRecyclerView();
     }
 }

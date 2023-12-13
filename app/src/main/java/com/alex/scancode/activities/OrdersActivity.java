@@ -41,7 +41,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         synchManager = new SynchManager(getApplicationContext());
 
         // try to sent not synch orders to server if server configured
-        if (settings.getIsAutoSynch()) synchManager.synchAllOrders();
+        if (settings.isAutoSynch()) synchManager.synchAllOrders();
 
         initializeRecyclerView();
 

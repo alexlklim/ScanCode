@@ -23,6 +23,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.alex.scancode.R;
 import com.alex.scancode.managers.AnswerManager;
 import com.alex.scancode.managers.SettingsManager;
+import com.alex.scancode.models.enums.FileType;
 import com.alex.scancode.models.enums.LabelType;
 import com.alex.scancode.models.enums.Lang;
 
@@ -32,11 +33,14 @@ import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
-    SwitchCompat s_filter_isNonUniqueAllow, s_filter_checkCodeLength, s_filter_advancedFilter, s_filter_isServerConfigured, s_filter_autoSynch;
-    EditText s_filter_codeLength, s_filter_codeLengthMIN, s_filter_codeLengthMAX, s_filter_prefix, s_filter_suffix, s_filter_ending, s_filter_serverAddress, s_filter_identifier;
-    Spinner s_filter_labelType, s_filter_lang;
+    SwitchCompat s_filter_isNonUniqueAllow, s_filter_checkCodeLength, s_filter_advancedFilter,
+            s_filter_isServerConfigured, s_filter_autoSynch,
+            s_filter_isAllowEditingDuringScan, s_filter_isAllowEditingOrders, s_filter_isAddLocationToCode;
+    EditText s_filter_codeLength, s_filter_codeLengthMIN, s_filter_codeLengthMAX, s_filter_prefix,
+            s_filter_suffix, s_filter_ending, s_filter_serverAddress, s_filter_identifier,
+            s_filter_oldPw, s_filter_newPw, s_filter_login;
+    Spinner s_filter_labelType, s_filter_lang, s_filter_fileType;
     Button s_btn_toDefault, s_btn_comeBack, s_btn_saveSettings;
-    ImageButton s_btn_lang_EN, s_btn_lang_PL, s_btn_lang_UA;
     LinearLayout s_f_section_doFilter, s_f_section_checkCodeLength, s_f_section_advancedFilter, s_f_section_serverConfiguration;
     private SettingsManager settingsManager;
     private AlertDialog alertDialog;
@@ -46,12 +50,15 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         settingsManager = new SettingsManager(this);
+        initializeProfileSection();
         initializeFilterSection();
         initializeServerConfigurationSection();
+        initializeAdminConfigSection();
         getSharedPreferences();
         createListenerForButtons();
 
     }
+
 
     private void createListenerForButtons() {
         s_btn_toDefault = findViewById(R.id.s_btn_toDefault);
@@ -104,9 +111,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
         d_btn_yes.setOnClickListener(v -> {
-            saveNewSettings();
-            AnswerManager.showToast(getString(R.string.toast_settings_saved), this);
-            alertDialog.dismiss();
+            if (true){
+                alertDialog.dismiss();
+                saveNewSettings();
+                AnswerManager.showToast(getString(R.string.toast_settings_saved), this);
+
+            }
         });
 
         alertDialog = builder.create();
@@ -115,25 +125,43 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void saveNewSettings() {
         Log.d(TAG, "saveNewSettings: ");
-        System.out.println(s_filter_codeLengthMAX.getText());
-        settingsManager.setFilterSection(
-                s_filter_isNonUniqueAllow.isChecked(),
+        settingsManager.setProfileSection(s_filter_login.getText().toString(), s_filter_newPw.getText().toString());
 
-                s_filter_checkCodeLength.isChecked(),
-                parseIntOrDefault(s_filter_codeLength.getText().toString()),
-                parseIntOrDefault(s_filter_codeLengthMIN.getText().toString()),
-                parseIntOrDefault(s_filter_codeLengthMAX.getText().toString()),
+//        settingsManager.setLanguage(Lang.valueOf(s_filter_lang.getSelectedItem().toString()));
 
-                s_filter_advancedFilter.isChecked(),
-                s_filter_prefix.getText().toString(), s_filter_suffix.getText().toString(), s_filter_ending.getText().toString(),
-                s_filter_labelType.getSelectedItem().toString(),
+        settingsManager.setFilterConfig(s_filter_isNonUniqueAllow.isChecked(),
+                s_filter_checkCodeLength.isChecked(), parseIntOrDefault(s_filter_codeLength.getText().toString()), parseIntOrDefault(s_filter_codeLengthMIN.getText().toString()), parseIntOrDefault(s_filter_codeLengthMAX.getText().toString()),
+                s_filter_advancedFilter.isChecked(), s_filter_prefix.getText().toString(), s_filter_suffix.getText().toString(), s_filter_ending.getText().toString(),
+                s_filter_labelType.getSelectedItem().toString());
 
-                s_filter_isServerConfigured.isChecked(),
-                s_filter_autoSynch.isChecked(),
-                s_filter_serverAddress.getText().toString(),
-                parseIntOrDefault(s_filter_identifier.getText().toString())
-        );
+        settingsManager.setServerConfig(s_filter_isServerConfigured.isChecked(), s_filter_autoSynch.isChecked(),
+                s_filter_serverAddress.getText().toString(), parseIntOrDefault(s_filter_identifier.getText().toString()));
+
+        settingsManager.setAdminConfig(s_filter_isAllowEditingDuringScan.isChecked(),
+                s_filter_isAllowEditingOrders.isChecked(),
+                s_filter_isAddLocationToCode.isChecked());
+
     }
+
+//    private boolean checkProfileSection() {
+//        if (!s_filter_oldPw.getText().toString().equals(settingsManager.getPassword())){
+//            AnswerManager.showToast(getString(R.string.toast_something_wrong), this);
+//            return false;
+//        }
+//        if (parseIntOrDefault(s_filter_identifier.getText().toString()) == 0){
+//            AnswerManager.showToast(getString(R.string.toast_something_wrong), this);
+//            return false;
+//        }
+//        if (parseIntOrDefault(s_filter_identifier.getText().toString()) == 0){
+//            AnswerManager.showToast(getString(R.string.toast_something_wrong), this);
+//            return false;
+//        }
+//
+//
+//
+//        return true;
+//    }
+
     private int parseIntOrDefault(String value) {
         try {
             return Integer.parseInt(value);
@@ -165,8 +193,20 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         if (!s_filter_isServerConfigured.isChecked()) s_f_section_serverConfiguration.setVisibility(View.GONE);
-
     }
+
+    private void initializeAdminConfigSection() {
+        s_filter_isAllowEditingDuringScan = findViewById(R.id.s_filter_isAllowEditingDuringScan);
+        s_filter_isAllowEditingOrders = findViewById(R.id.s_filter_isAllowEditingOrders);
+        s_filter_isAddLocationToCode = findViewById(R.id.s_filter_isAddLocationToCode);
+    }
+
+    private void initializeProfileSection() {
+        s_filter_oldPw = findViewById(R.id.s_filter_oldPw);
+        s_filter_newPw = findViewById(R.id.s_filter_newPw);
+        s_filter_login = findViewById(R.id.s_filter_login);
+    }
+
 
     private void initializeFilterSection() {
         Log.i(TAG, "initializeFilterSection: ");
@@ -222,6 +262,15 @@ public class SettingsActivity extends AppCompatActivity {
         s_filter_lang.setAdapter(adapterLang);
         if (indexLang != -1) s_filter_lang.setSelection(indexLang);
 
+        //  initialize spinner FileType
+        s_filter_fileType = findViewById(R.id.s_filter_fileType);
+        List<String> fileTypes = FileType.getFileTypeList();
+        int indexFileTypes = fileTypes.indexOf(settingsManager.getCodeLabelType());
+        ArrayAdapter<String> adapterFileType = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, new ArrayList<>(fileTypes));
+        adapterFileType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s_filter_fileType.setAdapter(adapterFileType);
+        if (indexFileTypes != -1) s_filter_fileType.setSelection(indexFileTypes);
 
     }
 
@@ -240,9 +289,15 @@ public class SettingsActivity extends AppCompatActivity {
         s_filter_ending.setText(settingsManager.getCodeEnding());
 
         s_filter_isServerConfigured.setChecked(settingsManager.isServerConfigured());
-        s_filter_autoSynch.setChecked(settingsManager.getIsAutoSynch());
+        s_filter_autoSynch.setChecked(settingsManager.isAutoSynch());
         s_filter_serverAddress.setText(settingsManager.getServerAddress());
         s_filter_identifier.setText(String.valueOf(settingsManager.getIdentifier()));
+
+        s_filter_isAllowEditingDuringScan.setChecked(settingsManager.isAllowEditingDuringScan());
+        s_filter_isAllowEditingOrders.setChecked(settingsManager.isAllowEditingOrders());
+        s_filter_isAddLocationToCode.setChecked(settingsManager.isAddLocationToCode());
+
+
     }
 
 }
