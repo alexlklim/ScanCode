@@ -10,33 +10,34 @@
 
     <TextView
         android:id="@+id/rv_so_code"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
+        android:layout_weight="8"
         android:textSize="15sp"
         android:text="4567865433"/>
 
     <TextView
         android:id="@+id/rv_so_time"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="4"
+        android:gravity="center"
         android:textSize="15sp"
         android:text="11 Nov 12:55"/>
 
     <ImageView
         android:id="@+id/rv_so_iv_gps"
         android:src="@drawable/ic_gps"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_weight="1" />
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="2" />
 
     <ImageView
         android:id="@+id/rv_so_iv_del"
         android:src="@drawable/ic_delete"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_weight="1" />
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="2" />
 
 
 

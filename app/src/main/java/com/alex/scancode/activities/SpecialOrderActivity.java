@@ -24,7 +24,7 @@ import com.alex.scancode.models.Order;
 
 import java.util.List;
 
-public class SpecialOrderActivity extends AppCompatActivity {
+public class SpecialOrderActivity extends AppCompatActivity implements SpecialOrderAdapter.OnItemClickListener{
     private static final String TAG = "SpecialOrderActivity";
     List<Code> codeList;
     Order order;
@@ -32,9 +32,10 @@ public class SpecialOrderActivity extends AppCompatActivity {
     Context context;
     int orderId;
     Button s_btn_comeBack, s_btn_deleteOrder;
-    ImageView so_iv_synchStatus;
+    ImageView so_iv_synchStatus, rv_so_iv_del;
     TextView so_tv_dateTime, so_tv_totalTime, so_tv_orderNumber;
     SettingsManager settingsManager;
+    SpecialOrderAdapter specialOrderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,13 +124,29 @@ public class SpecialOrderActivity extends AppCompatActivity {
     }
 
     private void initializeRecyclerView() {
+        rv_so_iv_del = findViewById(R.id.rv_so_iv_del);
+
         RecyclerView recyclerView = findViewById(R.id.sc_rv_codes);
         codeList = roomDB.codeDAO().getAllByOrderID(orderId);
-        SpecialOrderAdapter adapter = new SpecialOrderAdapter(codeList);
+        specialOrderAdapter = new SpecialOrderAdapter(codeList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(specialOrderAdapter);
     }
 
+    @Override
+    public void onItemClick(Code code) {
+        Log.i(TAG, "onItemClick: " + code);
+        roomDB.codeDAO().delete(code);
+        boolean answer = specialOrderAdapter.newCodeListAfterDeleting(code);
+        if (!answer){
+            roomDB.orderDAO().delete(
+                    roomDB.orderDAO().getOrderByOrderId(code.getOrderID())
+            );
+            Log.i(TAG, "onItemClick: delete order becouse order is empty" + code);
+
+        }
+        specialOrderAdapter.notifyDataSetChanged();
+    }
 
     private void checkIfOrderExist() {
         Log.i(TAG, "checkIfOrderExist: ");

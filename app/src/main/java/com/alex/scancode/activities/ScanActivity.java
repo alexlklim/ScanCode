@@ -41,7 +41,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-public class ScanActivity extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnItemClickListener{
     private static final String TAG = "ScanActivity";
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -56,6 +56,7 @@ public class ScanActivity extends AppCompatActivity {
     private long startTimeInMillis = 0;
 
     Context context;
+    RoomDB roomDB;
 
     private TextView sc_tv_timer, sc_tv_dateTime, sc_tv_orderNumber;
 
@@ -69,6 +70,7 @@ public class ScanActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
         initializeTopBar();
+        roomDB = RoomDB.getInstance(context);
 
         // for getting and filtering codes
         IntentFilter filter = new IntentFilter();
@@ -78,7 +80,7 @@ public class ScanActivity extends AppCompatActivity {
 
         // initialize recyclerView to show data
         recyclerView = findViewById(R.id.sc_rv_codes);
-        codeAdapter = new CodeAdapter(codeList);
+        codeAdapter = new CodeAdapter(codeList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(codeAdapter);
 
@@ -277,7 +279,7 @@ public class ScanActivity extends AppCompatActivity {
         for (Code code: codeList){
             System.out.println(code);
         }
-        RoomDB roomDB = RoomDB.getInstance(context);
+        roomDB = RoomDB.getInstance(context);
 
         // save new order
         Order order = new Order(orderNumber, (String) sc_tv_dateTime.getText(), (String) sc_tv_timer.getText());
@@ -321,4 +323,11 @@ public class ScanActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(Code code) {
+        Log.i(TAG, "onItemClick: ");
+        System.out.println("**********: " + code.getCode());
+        codeList.remove(code);
+        updateRecyclerView();
+    }
 }

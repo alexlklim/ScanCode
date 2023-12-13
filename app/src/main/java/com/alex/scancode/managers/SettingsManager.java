@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alex.scancode.models.enums.LabelType;
+import com.alex.scancode.models.enums.Lang;
 import com.alex.scancode.utiles.Util;
 
 public class SettingsManager extends AppCompatActivity {
@@ -17,14 +18,11 @@ public class SettingsManager extends AppCompatActivity {
     public static final String KEY_LOGIN = "login", KEY_PW = "pw", KEY_LANG = "lang",
             KEY_IS_NON_UNIQUE_CODE_ALLOW = "isNonUniqueCodeAllow",
 
-    KEY_IS_CHECK_CODE_LENGTH = "isCheckCodeLength",
-            KEY_CODE_LENGTH = "codeLength", KEY_CODE_LENGTH_MAX = "codeLengthMAX", KEY_CODE_LENGTH_MIN = "codeLengthMIN",
+    KEY_IS_CHECK_CODE_LENGTH = "isCheckCodeLength", KEY_CODE_LENGTH = "codeLength", KEY_CODE_LENGTH_MAX = "codeLengthMAX", KEY_CODE_LENGTH_MIN = "codeLengthMIN",
 
-    KEY_ADVANCED_FILTER = "advancedFilter",
-            KEY_PREFIX = "prefix", KEY_SUFFIX = "suffix", KEY_ENDING = "ending", KEY_LABEL_TYPE = "labelType",
+    KEY_ADVANCED_FILTER = "advancedFilter", KEY_PREFIX = "prefix", KEY_SUFFIX = "suffix", KEY_ENDING = "ending", KEY_LABEL_TYPE = "labelType",
 
-    KEY_IS_SERVER_CONFIGURED = "isServerConfigured",
-            KEY_ID = "identifier", KEY_SERVER_ADDRESS = "serverAddress", KEY_AUTO_SYNCH = "isAutoSynch";
+    KEY_IS_SERVER_CONFIGURED = "isServerConfigured", KEY_ID = "identifier", KEY_SERVER_ADDRESS = "serverAddress", KEY_AUTO_SYNCH = "isAutoSynch";
 
 
     public SettingsManager(Context context) {
@@ -50,6 +48,10 @@ public class SettingsManager extends AppCompatActivity {
 
     public String getPassword() {
         return preferences.getString(KEY_PW, "admin");
+    }
+
+    public String getLang() {
+        return preferences.getString(KEY_LANG, Lang.ENG.name());
     }
 
 

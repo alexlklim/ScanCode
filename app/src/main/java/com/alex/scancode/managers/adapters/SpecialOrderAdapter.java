@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
+import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.DateTimeManager;
 import com.alex.scancode.models.Code;
 
@@ -18,8 +19,20 @@ public class SpecialOrderAdapter extends RecyclerView.Adapter<SpecialOrderAdapte
 
     private List<Code> codeList;
 
-    public SpecialOrderAdapter(List<Code> codeList) {
+    private OnItemClickListener onItemClickListener;
+
+    public SpecialOrderAdapter(List<Code> codeList, OnItemClickListener onItemClickListener) {
         this.codeList = codeList;
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public boolean newCodeListAfterDeleting(Code code){
+        codeList.remove(code);
+        if (codeList.isEmpty()){
+            return false;
+        }
+        return true;
+
     }
 
     @NonNull
@@ -40,7 +53,11 @@ public class SpecialOrderAdapter extends RecyclerView.Adapter<SpecialOrderAdapte
         if (code.getGps().isEmpty()) holder.rvSoIvGps.setImageResource(R.drawable.ic_gps_not);
         else holder.rvSoIvGps.setImageResource(R.drawable.ic_gps);
 
-
+        holder.itemView.setOnClickListener(view -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(code);
+            }
+        });
         // Handle clicks or other interactions here if needed
     }
 
@@ -61,4 +78,10 @@ public class SpecialOrderAdapter extends RecyclerView.Adapter<SpecialOrderAdapte
             rvSoIvDel = itemView.findViewById(R.id.rv_so_iv_del);
         }
     }
+
+
+    public interface OnItemClickListener {
+        void onItemClick(Code code);
+    }
+
 }

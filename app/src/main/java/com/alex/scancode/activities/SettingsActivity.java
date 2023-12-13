@@ -24,6 +24,7 @@ import com.alex.scancode.R;
 import com.alex.scancode.managers.AnswerManager;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.models.enums.LabelType;
+import com.alex.scancode.models.enums.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
     SwitchCompat s_filter_isNonUniqueAllow, s_filter_checkCodeLength, s_filter_advancedFilter, s_filter_isServerConfigured, s_filter_autoSynch;
     EditText s_filter_codeLength, s_filter_codeLengthMIN, s_filter_codeLengthMAX, s_filter_prefix, s_filter_suffix, s_filter_ending, s_filter_serverAddress, s_filter_identifier;
-    Spinner s_filter_labelType;
+    Spinner s_filter_labelType, s_filter_lang;
     Button s_btn_toDefault, s_btn_comeBack, s_btn_saveSettings;
     ImageButton s_btn_lang_EN, s_btn_lang_PL, s_btn_lang_UA;
     LinearLayout s_f_section_doFilter, s_f_section_checkCodeLength, s_f_section_advancedFilter, s_f_section_serverConfiguration;
@@ -49,30 +50,8 @@ public class SettingsActivity extends AppCompatActivity {
         initializeServerConfigurationSection();
         getSharedPreferences();
         createListenerForButtons();
-        addListenerForLangButtons();
-    }
-
-    private void addListenerForLangButtons() {
-        s_btn_lang_EN = findViewById(R.id.s_btn_lang_ENG);
-        s_btn_lang_PL = findViewById(R.id.s_btn_lang_PL);
-        s_btn_lang_UA = findViewById(R.id.s_btn_lang_UA);
-
-        s_btn_lang_EN.setOnClickListener(v -> changeLanguage("EN"));
-        s_btn_lang_PL.setOnClickListener(v -> changeLanguage("PL"));
-        s_btn_lang_UA.setOnClickListener(v -> changeLanguage("UK"));
 
     }
-    private void changeLanguage(String languageCode) {
-        Resources resources = getResources();
-        Configuration config = resources.getConfiguration();
-        config.locale = new Locale(languageCode);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
-    }
-
-
 
     private void createListenerForButtons() {
         s_btn_toDefault = findViewById(R.id.s_btn_toDefault);
@@ -127,8 +106,6 @@ public class SettingsActivity extends AppCompatActivity {
         d_btn_yes.setOnClickListener(v -> {
             saveNewSettings();
             AnswerManager.showToast(getString(R.string.toast_settings_saved), this);
-
-
             alertDialog.dismiss();
         });
 
@@ -209,16 +186,7 @@ public class SettingsActivity extends AppCompatActivity {
         s_filter_suffix = findViewById(R.id.s_filter_suffix);
         s_filter_ending = findViewById(R.id.s_filter_ending);
 
-        // initialize spinner
-        s_filter_labelType = findViewById(R.id.s_filter_labelType);
-        List<String> labelTypes = LabelType.getListLabelTypes();
-        int index = labelTypes.indexOf(settingsManager.getCodeLabelType());
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(labelTypes));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        s_filter_labelType.setAdapter(adapter);
-
-        if (index != -1) s_filter_labelType.setSelection(index);
-
+       initializeSpinners();
 
         s_filter_checkCodeLength.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) s_f_section_checkCodeLength.setVisibility(View.GONE);
@@ -231,6 +199,30 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (!s_filter_checkCodeLength.isChecked()) s_f_section_checkCodeLength.setVisibility(View.GONE);
         if (!s_filter_advancedFilter.isChecked()) s_f_section_advancedFilter.setVisibility(View.GONE);
+    }
+
+    private void initializeSpinners() {
+        // initialize spinner labelType
+        s_filter_labelType = findViewById(R.id.s_filter_labelType);
+        List<String> labelTypes = LabelType.getListLabelTypes();
+        int indexLabelType = labelTypes.indexOf(settingsManager.getCodeLabelType());
+        ArrayAdapter<String> adapterLabelType = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, new ArrayList<>(labelTypes));
+        adapterLabelType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s_filter_labelType.setAdapter(adapterLabelType);
+        if (indexLabelType != -1) s_filter_labelType.setSelection(indexLabelType);
+
+        // initialize spinner Lang
+        s_filter_lang = findViewById(R.id.s_filter_lang);
+        List<String> languages = Lang.getAllLang();
+        int indexLang = languages.indexOf(settingsManager.getLang());
+        ArrayAdapter<String> adapterLang = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, new ArrayList<>(languages));
+        adapterLabelType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s_filter_lang.setAdapter(adapterLang);
+        if (indexLang != -1) s_filter_lang.setSelection(indexLang);
+
+
     }
 
     private void getSharedPreferences() {
