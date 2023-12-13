@@ -48,6 +48,7 @@ public class SynchManager {
 
         settingsManager = new SettingsManager(context);
 
+
         // create json file order with codes
         roomDB = RoomDB.getInstance(context);
         List<Code> codeList = roomDB.codeDAO().getAllByOrderID(order.getId());
@@ -96,12 +97,6 @@ public class SynchManager {
             resultFuture.complete(false);
             return null;
         });
-
-        // add Toast for special cases like
-        // checkCommon();
-        // 1 all orders synchronized successfully
-        // 2 all orders already synchronized
-
         return resultFuture;
     }
 

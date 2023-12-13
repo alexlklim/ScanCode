@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.AnswerManager;
+import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.managers.SynchManager;
 import com.alex.scancode.managers.adapters.SpecialOrderAdapter;
 import com.alex.scancode.models.Code;
@@ -33,6 +34,7 @@ public class SpecialOrderActivity extends AppCompatActivity {
     Button s_btn_comeBack, s_btn_deleteOrder;
     ImageView so_iv_synchStatus;
     TextView so_tv_dateTime, so_tv_totalTime, so_tv_orderNumber;
+    SettingsManager settingsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class SpecialOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.activity_special_order);
+        settingsManager = new SettingsManager(this);
         roomDB = RoomDB.getInstance(context);
         checkIfOrderExist();
         initializeRecyclerView();
@@ -88,10 +91,16 @@ public class SpecialOrderActivity extends AppCompatActivity {
     private void synchWithServer() {
         Log.i(TAG, "synchWithServer: ");
 
+
         if (order.getIsSynch() == 1){
             AnswerManager.showToast(getString(R.string.toast_order_already_synch), this);
             return;
         }
+        if (!settingsManager.isServerConfigured()){
+            AnswerManager.showToast(context.getString(R.string.toast_configure_server_at_first), context);
+            return;
+        }
+
 
         SynchManager synchManager = new SynchManager(context);
         synchManager.syncOrderWithServer(order)

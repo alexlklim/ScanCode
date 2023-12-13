@@ -52,6 +52,7 @@
     <string name="toast_something_wrong_with_server">Something wrong with server</string>
     <string name="toast_order_already_synch">Order already synchronized with server</string>
     <string name="toast_something_wrong">Something wrong</string>
+    <string name="toast_configure_server_at_first">Configure server ar first</string>
 
 
 
