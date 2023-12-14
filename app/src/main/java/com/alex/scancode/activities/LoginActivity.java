@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alex.scancode.R;
-import com.alex.scancode.managers.AnswerManager;
+import com.alex.scancode.managers.Ans;
 import com.alex.scancode.managers.SettingsManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -39,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
                 startActivity(intent);
             } else {
-                AnswerManager.showToast(getString(R.string.toast_wrong_login_pw), this);
+                Ans.showToast(getString(R.string.toast_wrong_login_pw), this);
 
                 Log.d(TAG, "onCreate: checkLoginAndPassword: false");
             }

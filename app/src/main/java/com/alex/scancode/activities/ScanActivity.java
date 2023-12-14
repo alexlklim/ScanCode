@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
-import com.alex.scancode.managers.AnswerManager;
+import com.alex.scancode.managers.Ans;
 import com.alex.scancode.managers.GPSManager;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.managers.SynchManager;
@@ -129,7 +128,7 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
             updateRecyclerView();
         } else {
             Log.d(TAG, "Code was not saved: doesn't match filters : " + code);
-            AnswerManager.showToast(getString(R.string.toast_code_not_match_filter), this);
+            Ans.showToast(getString(R.string.toast_code_not_match_filter), this);
 
         }
     }
@@ -227,13 +226,13 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
             Log.d(TAG, "showDialogConfirmationFinishOrder: d_btn_yes was pressed");
 
             if (codeList.isEmpty()){
-                AnswerManager.showToast(getString(R.string.toast_no_code_in_list), this);
+                Ans.showToast(getString(R.string.toast_no_code_in_list), this);
 
             } else {
                 stopStopwatch();
                 boolean result = saveNewOrder();
                 if (result)
-                    AnswerManager.showToast(getString(R.string.toast_order_has_been_saved), this);
+                    Ans.showToast(getString(R.string.toast_order_has_been_saved), this);
                 if (sm.isServerConfigured() && sm.isAutoSynch()){
                     SynchManager synchManager = new SynchManager(context);
                     synchManager.syncOrderWithServer(roomDB.orderDAO().getOrderByOrderNumber(orderNumber));

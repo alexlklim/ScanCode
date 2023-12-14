@@ -1,8 +1,6 @@
 package com.alex.scancode.activities;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,18 +8,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.alex.scancode.R;
-import com.alex.scancode.managers.AnswerManager;
+import com.alex.scancode.managers.Ans;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.models.enums.FileType;
 import com.alex.scancode.models.enums.LabelType;
@@ -29,7 +25,6 @@ import com.alex.scancode.models.enums.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
@@ -85,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationToDefault: d_btn_yes");
             comeBackToDefaultSettings();
-            AnswerManager.showToast(getString(R.string.toast_settings_reset), this);
+            Ans.showToast(getString(R.string.toast_settings_reset), this);
 
 
             Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
@@ -114,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (true){
                 alertDialog.dismiss();
                 saveNewSettings();
-                AnswerManager.showToast(getString(R.string.toast_settings_saved), this);
+                Ans.showToast(getString(R.string.toast_settings_saved), this);
 
             }
         });

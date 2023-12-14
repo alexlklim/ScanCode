@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-public class AnswerManager {
+public class Ans {
 
     public static void showToast(String message, Context context) {
         Handler handler = new Handler(Looper.getMainLooper());

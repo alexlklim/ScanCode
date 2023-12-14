@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
-import com.alex.scancode.managers.AnswerManager;
+import com.alex.scancode.managers.Ans;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.managers.SynchManager;
 import com.alex.scancode.managers.adapters.SpecialOrderAdapter;
@@ -55,9 +54,12 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         order = roomDB.orderDAO().getOrderByOrderId(orderId);
         System.out.println(order);
         addButtonListener();
-
         initializeTextViews();
+        if (order.getIsSynch() == 0){
+            if (settingsManager.isAutoSynch()) synchWithServer();
+        }
     }
+
 
     private void initializeTextViews() {
         so_tv_orderNumber = findViewById(R.id.so_tv_orderNumber);
@@ -89,25 +91,26 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         Log.i(TAG, "deleteSpecialOrder: ");
         roomDB.orderDAO().delete(roomDB.orderDAO().getOrderByOrderId(orderId));
         Log.d(TAG, "deleteSpecialOrder() returned: order deleted successfully");
-        AnswerManager.showToast(getString(R.string.toast_order_deleted_successfully), this);
+        Ans.showToast(getString(R.string.toast_order_deleted_successfully), this);
         finish();
     }
 
     private void synchWithServer() {
         Log.i(TAG, "synchWithServer: ");
 
-
         if (order.getIsSynch() == 1){
-            AnswerManager.showToast(getString(R.string.toast_order_already_synch), this);
+            Ans.showToast(getString(R.string.toast_order_already_synch), this);
             return;
         }
         if (!settingsManager.isServerConfigured()){
-            AnswerManager.showToast(context.getString(R.string.toast_configure_server_at_first), context);
+            Ans.showToast(context.getString(R.string.toast_configure_server_at_first), context);
             return;
         }
 
-
         SynchManager synchManager = new SynchManager(context);
+
+        if (!synchManager.checkCommon()) return;
+
         synchManager.syncOrderWithServer(order)
                 .thenAccept(synchronizedSuccessfully -> {
                     // Code to execute after synchronization is complete
@@ -119,7 +122,7 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
                             so_iv_synchStatus.setImageResource(R.drawable.ic_synch);
                         }
                     } else {
-                        AnswerManager.showToast(getString(R.string.toast_something_wrong_with_server), this);
+                        Ans.showToast(getString(R.string.toast_something_wrong_with_server), this);
                     }
                 });
 
@@ -166,7 +169,7 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         orderId = intent.getIntExtra("orderId", -1);
         System.out.println(orderId);
         if (orderId == -1) {
-            AnswerManager.showToast(getString(R.string.toast_something_wrong), this);
+            Ans.showToast(getString(R.string.toast_something_wrong), this);
             finish();
         }
     }

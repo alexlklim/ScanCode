@@ -1,19 +1,5 @@
 package com.alex.scancode.dialogs;
 
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
-
-import com.alex.scancode.R;
-import com.alex.scancode.activities.SettingsActivity;
-import com.alex.scancode.managers.AnswerManager;
-
 public class Dialogs {
 //    private AlertDialog alertDialog;
 //

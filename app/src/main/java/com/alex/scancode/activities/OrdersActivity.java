@@ -14,21 +14,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
+import com.alex.scancode.managers.Ans;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.managers.SynchManager;
 import com.alex.scancode.managers.adapters.OrdersAdapter;
 import com.alex.scancode.models.Order;
+import com.alex.scancode.models.json.OrderWithCodes;
+import com.alex.scancode.models.json.OrdersList;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.OnItemClickListener{
+public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.OnItemClickListener {
     private static final String TAG = "OrdersActivity";
     Context context;
     List<Order> orderList;
     RecyclerView recyclerView;
     OrdersAdapter orderAdapter;
-    private SettingsManager settings;
     SynchManager synchManager;
+    RoomDB roomDB;
+    SettingsManager sm;
 
 
     @Override
@@ -36,17 +41,34 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         Log.i(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+        roomDB = RoomDB.getInstance(this);
         context = getApplicationContext();
-        settings = new SettingsManager(this);
-        synchManager = new SynchManager(getApplicationContext());
-
-        // try to sent not synch orders to server if server configured
-        if (settings.isAutoSynch()) synchManager.synchAllOrders();
+        sm = new SettingsManager(this);
+        synchManager = new SynchManager(this);
 
         initializeRecyclerView();
 
         ImageView imageView = findViewById(R.id.your_image_view);
         imageView.setOnClickListener(v -> showPopupMenu(imageView));
+
+        if (sm.isAutoSynch()) synchWithServer();
+    }
+
+    private void synchWithServer() {
+        Log.i(TAG, "synchWithServer: Sycnh With server!!!");
+
+        if (!synchManager.synchNotSynchOrders()){
+            return;
+        }
+        List<OrderWithCodes> orderWithCodesList = synchManager.getNotSynchOrdersWithCodes();
+        List<Order> orders = new ArrayList<>();
+        for (OrderWithCodes orderWithCodes: orderWithCodesList){
+            Order order = roomDB.orderDAO().getOrderByOrderNumber(orderWithCodes.getOrder().getOrderNumber());
+            order.setIsSynch(1);
+            roomDB.orderDAO().update(order);
+        }
+        orderAdapter.notifyDataSetChanged();
+        initializeRecyclerView();
 
     }
 
@@ -58,8 +80,8 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(orderAdapter);
-    }
 
+    }
 
 
     @Override
@@ -78,7 +100,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId(); // Store the item ID in a final variable
             if (itemId == R.id.menu_synchOrders) {
-                synchManager.synchAllOrders();
+                synchManager.synchNotSynchOrders();
 
                 return true;
             } else if (itemId == R.id.menu_clearOrders) {
@@ -99,8 +121,6 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         // Print or log information about what happened
         Log.i("YourPreviousActivity", "Returned to YourPreviousActivity. Something happened.");
     }
-
-
 
 
 }

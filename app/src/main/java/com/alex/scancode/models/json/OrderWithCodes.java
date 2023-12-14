@@ -7,16 +7,15 @@ import com.google.gson.Gson;
 import java.util.List;
 
 public class OrderWithCodes {
-    private List<Code> codeList;
-
-    private Order order;
     private int identifier;
+    private Order order;
+    private List<Code> codeList;
 
 
     public OrderWithCodes(Order order, List<Code> codeList, int identifier) {
+        this.identifier = identifier;
         this.order = order;
         this.codeList = codeList;
-        this.identifier = identifier;
     }
 
     // Getter and setter methods for Order and codeList
@@ -25,5 +24,17 @@ public class OrderWithCodes {
     public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+
+    public int getIdentifier() {
+        return identifier;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public List<Code> getCodeList() {
+        return codeList;
     }
 }
