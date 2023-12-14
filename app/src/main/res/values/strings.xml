@@ -33,9 +33,13 @@
 
     <string name="d_result_success">Order was successfully saved</string>
     <string name="d_result_fail">Something wrong</string>
+    <string name="d_delete_order">Do you want delete order?</string>
+    <string name="d_delete_last_code">Do you want delete last code? It couse deleting of order</string>
+    <string name="d_delete_order_without_synch">Delete order without synchronization?</string>
 
 
-<!--    For Toast-->
+
+    <!--    For Toast-->
     <string name="toast_order_has_been_saved">Order had been saved</string>
     <string name="toast_settings_reset">Settings have been reset</string>
     <string name="toast_settings_saved">Settings have been saved</string>
@@ -53,7 +57,6 @@
     <string name="toast_order_already_synch">Order already synchronized with server</string>
     <string name="toast_something_wrong">Something wrong</string>
     <string name="toast_configure_server_at_first">Configure server ar first</string>
-    <string name="toast_delete_last_code">Do you want delete last code? It couse deleting of order</string>
 
 
 

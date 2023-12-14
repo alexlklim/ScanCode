@@ -89,7 +89,13 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         so_iv_synchStatus.setOnClickListener(view -> synchWithServer());
 
         if (settingsManager.isAllowEditingOrders()){
-            s_btn_deleteOrder.setOnClickListener(view -> deleteSpecialOrder(orderId));
+            s_btn_deleteOrder.setOnClickListener(view -> {
+                if (order.getIsSynch() == 0) {
+                    showDialogConfirmationToDeleteOrderWithoutSynch();
+                } else {
+                    showDialogConfirmationToDeleteOrder();
+                }
+            });
         } else {
             ViewGroup parent = (ViewGroup) s_btn_deleteOrder.getParent();
             if (parent != null) {
@@ -164,7 +170,7 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
 
 
 
-    private void deleteOrder(Code code) {
+    private void deleteOrderByCode(Code code) {
         roomDB.orderDAO().delete(
                 roomDB.orderDAO().getOrderByOrderId(code.getOrderID())
         );
@@ -193,11 +199,58 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         Button d_btn_no = dialog.findViewById(R.id.d_btn_no);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialog);
-        d_tv_confirmation.setText(new StringBuilder(getString(R.string.toast_delete_last_code)));
+        d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_delete_last_code)));
 
         d_btn_yes.setOnClickListener(v -> {
             Log.d(TAG, "showDialogConfirmationToDeleting: d_btn_yes");
-            deleteOrder(code);
+            deleteOrderByCode(code);
+            alertDialog.dismiss();
+            finish();
+
+        });
+        d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+
+    private void showDialogConfirmationToDeleteOrder() {
+        Log.d(TAG, "showDialogConfirmationToDeleteOrder: ");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.dialog_confirmation, null);
+        TextView d_tv_confirmation = dialog.findViewById(R.id.d_tv_confirmation);
+        Button d_btn_yes = dialog.findViewById(R.id.d_btn_yes);
+        Button d_btn_no = dialog.findViewById(R.id.d_btn_no);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialog);
+        d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_delete_order)));
+
+        d_btn_yes.setOnClickListener(v -> {
+            Log.d(TAG, "showDialogConfirmationToDeleting: d_btn_yes");
+            deleteSpecialOrder(orderId);
+            alertDialog.dismiss();
+            finish();
+
+        });
+        d_btn_no.setOnClickListener(v -> alertDialog.dismiss());
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void showDialogConfirmationToDeleteOrderWithoutSynch() {
+        Log.d(TAG, "showDialogConfirmationToDeleteOrder: ");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.dialog_confirmation, null);
+        TextView d_tv_confirmation = dialog.findViewById(R.id.d_tv_confirmation);
+        Button d_btn_yes = dialog.findViewById(R.id.d_btn_yes);
+        Button d_btn_no = dialog.findViewById(R.id.d_btn_no);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialog);
+        d_tv_confirmation.setText(new StringBuilder(getString(R.string.d_delete_order_without_synch)));
+
+        d_btn_yes.setOnClickListener(v -> {
+            Log.d(TAG, "showDialogConfirmationToDeleting: d_btn_yes");
+            deleteSpecialOrder(orderId);
             alertDialog.dismiss();
             finish();
 

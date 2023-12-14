@@ -44,14 +44,14 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
         holder.textTime.setText("Time: " + code.getTime());
         holder.textLabelType.setText("Type: " + code.getLabelType());
 
-        holder.rv_iv_delete.setOnClickListener(view -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(code);
-            }
-
-            // Change the color of rv_iv_delete to black
-            holder.rv_iv_delete.setColorFilter(Color.BLACK);
-        });
+//        holder.rv_iv_delete.setOnClickListener(view -> {
+//            if (onItemClickListener != null) {
+//                onItemClickListener.onItemClick(code);
+//            }
+//
+//            // Change the color of rv_iv_delete to black
+//            holder.rv_iv_delete.setColorFilter(Color.BLACK);
+//        });
     }
 
     @Override
@@ -61,7 +61,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
     public static class CodeViewHolder extends RecyclerView.ViewHolder {
         public TextView textCode, textTime, textLabelType;
-        ImageView rv_iv_delete;
+//        ImageView rv_iv_delete;
 
         public CodeViewHolder(@NonNull View itemView) {
             super(itemView);
