@@ -1,6 +1,9 @@
 package com.alex.scancode.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +19,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.alex.scancode.MainActivity;
 import com.alex.scancode.R;
 import com.alex.scancode.managers.Ans;
+import com.alex.scancode.managers.LocaleHelper;
 import com.alex.scancode.managers.SettingsManager;
 import com.alex.scancode.models.enums.FileType;
 import com.alex.scancode.models.enums.LabelType;
@@ -25,6 +30,7 @@ import com.alex.scancode.models.enums.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
@@ -51,7 +57,6 @@ public class SettingsActivity extends AppCompatActivity {
         initializeAdminConfigSection();
         getSharedPreferences();
         createListenerForButtons();
-
     }
 
 
@@ -122,7 +127,7 @@ public class SettingsActivity extends AppCompatActivity {
         Log.d(TAG, "saveNewSettings: ");
         settingsManager.setProfileSection(s_filter_login.getText().toString(), s_filter_newPw.getText().toString());
 
-//        settingsManager.setLanguage(Lang.valueOf(s_filter_lang.getSelectedItem().toString()));
+        changeLang(s_filter_lang.getSelectedItem().toString());
 
         settingsManager.setFilterConfig(s_filter_isNonUniqueAllow.isChecked(),
                 s_filter_checkCodeLength.isChecked(), parseIntOrDefault(s_filter_codeLength.getText().toString()), parseIntOrDefault(s_filter_codeLengthMIN.getText().toString()), parseIntOrDefault(s_filter_codeLengthMAX.getText().toString()),
@@ -135,27 +140,8 @@ public class SettingsActivity extends AppCompatActivity {
         settingsManager.setAdminConfig(s_filter_isAllowEditingDuringScan.isChecked(),
                 s_filter_isAllowEditingOrders.isChecked(),
                 s_filter_isAddLocationToCode.isChecked());
-
     }
 
-//    private boolean checkProfileSection() {
-//        if (!s_filter_oldPw.getText().toString().equals(settingsManager.getPassword())){
-//            AnswerManager.showToast(getString(R.string.toast_something_wrong), this);
-//            return false;
-//        }
-//        if (parseIntOrDefault(s_filter_identifier.getText().toString()) == 0){
-//            AnswerManager.showToast(getString(R.string.toast_something_wrong), this);
-//            return false;
-//        }
-//        if (parseIntOrDefault(s_filter_identifier.getText().toString()) == 0){
-//            AnswerManager.showToast(getString(R.string.toast_something_wrong), this);
-//            return false;
-//        }
-//
-//
-//
-//        return true;
-//    }
 
     private int parseIntOrDefault(String value) {
         try {
@@ -220,6 +206,7 @@ public class SettingsActivity extends AppCompatActivity {
         s_filter_prefix = findViewById(R.id.s_filter_prefix);
         s_filter_suffix = findViewById(R.id.s_filter_suffix);
         s_filter_ending = findViewById(R.id.s_filter_ending);
+
 
        initializeSpinners();
 
@@ -294,5 +281,20 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+
+
+    public void changeLang(String lang){
+        String language = Lang.getCodeByName(lang);
+        LocaleHelper.setLocale(SettingsActivity.this, language);
+        recreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
+
+
+
 
 }

@@ -4,25 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum Lang {
-    ENG("English"),
-    PL("Polish"),
-    UA("Ukrainian");
+    English("en"),
+    Polish("pl"),
+    Ukrainian("uk");
 
-    private final String displayName;
+    private final String code;
 
-    Lang(String displayName) {
-        this.displayName = displayName;
+    Lang(String code) {
+        this.code = code;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getCode() {
+        return code;
     }
 
     public static List<String> getAllLang() {
-        List<String> valuesList = new ArrayList<>();
-        for (Lang lang : Lang.values()) {
-            valuesList.add(lang.getDisplayName());
+        List<String> names = new ArrayList<>();
+        for (Lang lang : values()) {
+            names.add(lang.name());
         }
-        return valuesList;
+        return names;
+    }
+
+    public static String getCodeByName(String langName) {
+        for (Lang lang : values()) {
+            if (lang.name().equalsIgnoreCase(langName)) {
+                return lang.getCode();
+            }
+        }
+        // Return null or throw an exception based on your requirement
+        return null;
     }
 }

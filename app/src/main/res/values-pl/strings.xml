@@ -2,4 +2,59 @@
 <resources>
     <string name="new_order">Nowe zamówienie</string>
     <string name="settings">Ustawienia</string>
+    <string name="orders">Zamówienia</string>
+    <string name="login">Zaloguj</string>
+    <string name="password">Hasło</string>
+    <string name="check_orders">Sprawdź zamówienia</string>
+    <string name="order_number">Numer zamówienia</string>
+    <string name="start_time">Czas rozpoczęcia</string>
+    <string name="synch">Synchronizacja</string>
+    <string name="menu">Menu</string>
+    <string name="yes">TAK</string>
+    <string name="no">NIE</string>
+    <string name="are_you_sure">Czy jesteś pewien/a?</string>
+    <string name="enter_the_order_number">Wprowadź numer zamówienia:</string>
+    <string name="create_new_order">Utwórz nowe zamówienie</string>
+    <string name="okay">OK</string>
+    <string name="the_order_was_saved">Zamówienie zostało zapisane</string>
+    <string name="finish">Zakończ</string>
+
+
+
+    <string name="d_confirm_toDefault">Czy chcesz wrócić do ustawień domyślnych?</string>
+    <string name="d_confirm_saveSettings">Czy chcesz zapisać ustawienia?</string>
+    <string name="d_confirm_finishOrder">Czy chcesz zakończyć zamówienie?</string>
+
+    <string name="d_result_success">Zamówienie zostało pomyślnie zapisane</string>
+    <string name="d_result_fail">Coś poszło nie tak</string>
+    <string name="d_delete_order">Czy chcesz usunąć zamówienie?</string>
+    <string name="d_delete_last_code">Czy chcesz usunąć ostatni kod? Spowoduje to usunięcie zamówienia</string>
+    <string name="d_delete_order_without_synch">Usunąć zamówienie bez synchronizacji?</string>
+
+    <!-- For Toast -->
+    <string name="toast_order_has_been_saved">Zamówienie zostało zapisane</string>
+    <string name="toast_settings_reset">Ustawienia zostały zresetowane</string>
+    <string name="toast_settings_saved">Ustawienia zostały zapisane</string>
+    <string name="toast_wrong_login_pw">Błędny login lub hasło</string>
+    <string name="toast_empty_order_number">Numer zamówienia nie może być pusty</string>
+    <string name="toast_order_number_already_exists">Numer zamówienia już istnieje</string>
+    <string name="toast_code_not_match_filter">Kod nie pasuje do filtrów</string>
+    <string name="toast_no_code_in_list">Nie odczytano żadnego kodu</string>
+    <string name="toast_order_deleted_successfully">Zamówienie zostało pomyślnie usunięte</string>
+    <string name="toast_server_is_not_configured">Serwer nie jest skonfigurowany</string>
+    <string name="toast_try_to_synch_with_server">Synchronizacja z serwerem</string>
+    <string name="toast_network_is_not_available">Sieć jest niedostępna</string>
+    <string name="toast_server_is_not_available">Serwer jest niedostępny</string>
+    <string name="toast_something_wrong_with_server">Coś jest nie tak z serwerem</string>
+    <string name="toast_order_already_synch">Zamówienie jest już zsynchronizowane z serwerem</string>
+    <string name="toast_something_wrong">Coś poszło nie tak</string>
+    <string name="toast_configure_server_at_first">Skonfiguruj serwer najpierw</string>
+    <string name="toast_synch_new_orders">Synchronizacja nowych zamówień</string>
+    <string name="toast_clear_synch_orders">Wyczyść zsynchronizowane zamówienia</string>
+
+
+
+
+
+
 </resources>

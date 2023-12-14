@@ -94,15 +94,17 @@ public class SynchManager {
 
     public void clearSynchOrders() {
         Log.d(TAG, "clearSynchOrders: ");
-        Toast.makeText(context, "Clear synchronized orders", Toast.LENGTH_SHORT).show();
-//        AnswerManager.showToast(context.getString(R.string.toast_something_wrong_with_server), context);
+        Ans.showToast(context.getString(R.string.toast_clear_synch_orders), context);
+
         roomDB = RoomDB.getInstance(context);
         roomDB.orderDAO().deleteAllSynchOrders();
 
     }
 
     public boolean synchNotSynchOrders() {
-        Toast.makeText(context, "Synch not synch orders", Toast.LENGTH_SHORT).show();
+        Ans.showToast(context.getString(R.string.toast_server_is_not_available), context);
+
+
 
         List<OrderWithCodes> orderWithCodesList = getNotSynchOrdersWithCodes();
         for (OrderWithCodes orderWithCodes: orderWithCodesList){
@@ -127,20 +129,6 @@ public class SynchManager {
         }
         return mainList;
     }
-
-
-
-//    public boolean checkIfOrderSynch(Order order){
-//        if (order.getIsSynch() == 0){
-//            return false;
-//        } else {
-//            Ans.showToast(context.getString(R.string.toast_order_already_synch), context);
-//            return true;
-//        }
-//    }
-
-
-
 
     public boolean checkCommon() {
         Log.d(TAG, "checkCommon: ");

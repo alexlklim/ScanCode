@@ -2,6 +2,8 @@ package com.alex.scancode;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,14 +18,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alex.scancode.activities.LoginActivity;
 import com.alex.scancode.activities.OrdersActivity;
 import com.alex.scancode.activities.ScanActivity;
+import com.alex.scancode.activities.SettingsActivity;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.Ans;
+import com.alex.scancode.managers.LocaleHelper;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     Button main_btn_go_scan, main_btn_go_orders;
     ImageButton main_btn_go_settings;
     Context context;
+    Resources resources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +44,25 @@ public class MainActivity extends AppCompatActivity {
         main_btn_go_settings = findViewById(R.id.main_btn_go_settings);
 
         // Set OnClickListener for all buttons
-        main_btn_go_scan.setOnClickListener(view -> showInputDialog());
+        main_btn_go_scan.setOnClickListener(view -> {
+            showInputDialog();
+        });
         main_btn_go_orders.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, OrdersActivity.class)));
         main_btn_go_settings.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
 
+
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
+    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
+
 
     private AlertDialog alertDialog;
 
@@ -57,14 +78,14 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onClick: scan_btn_do_start_order was pressed");
             String orderNumber = scan_text_order_number.getText().toString();
 
-            if (orderNumber.isEmpty()){
+            if (orderNumber.isEmpty()) {
                 Log.d(TAG, "onClick: orderNumber is empty");
                 Ans.showToast(getString(R.string.toast_empty_order_number), context);
-            } else if (RoomDB.getInstance(context).orderDAO().isOrderExist(orderNumber)){
+            } else if (RoomDB.getInstance(context).orderDAO().isOrderExist(orderNumber)) {
                 Log.d(TAG, "onClick: orderNumber already exists");
                 // check is this orderNumber is exist in DB
                 Ans.showToast(getString(R.string.toast_order_number_already_exists), context);
-            } else{
+            } else {
                 Intent intent = new Intent(MainActivity.this, ScanActivity.class);
                 alertDialog.dismiss();
                 intent.putExtra("ORDER_NUMBER", orderNumber);

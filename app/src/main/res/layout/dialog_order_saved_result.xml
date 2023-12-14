@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text="The order was saved"
+        android:text="@string/the_order_was_saved"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
         android:background="@drawable/rounded_button"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:text="Okay"
+        android:text="@string/okay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

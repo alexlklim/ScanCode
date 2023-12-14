@@ -52,7 +52,7 @@
                 android:textSize="20sp"
                 android:minWidth="250dp"
                 android:minHeight="70dp"
-                android:text="Check orders" />
+                android:text="@string/check_orders" />
 
 
         </LinearLayout>
@@ -71,7 +71,7 @@
                 android:layout_gravity="end"
                 android:layout_margin="25dp"
                 android:background="@android:color/transparent"
-                android:contentDescription="Settings"
+                android:contentDescription="@string/settings"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_setting"
                 tools:ignore="SpeakableTextPresentCheck" />

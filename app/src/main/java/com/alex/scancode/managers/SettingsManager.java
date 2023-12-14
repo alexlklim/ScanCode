@@ -38,7 +38,7 @@ public class SettingsManager extends AppCompatActivity {
     public void comeBackToDefaultSettings() {
         Log.i(TAG, "comeBackToDefaultSettings: ");
         setProfileSection("admin", "admin");
-        setLanguage(Lang.ENG);
+        setLanguage(Lang.English);
         setFilterConfig(false, false, 0, 0, 0,
                 false, "", "","", LabelType.NONE.getCode());
         setServerConfig(false, false, "", 0 );
@@ -103,7 +103,7 @@ public class SettingsManager extends AppCompatActivity {
     }
 
     public String getLang() {
-        return preferences.getString(KEY_LANG, Lang.ENG.name());
+        return preferences.getString(KEY_LANG, Lang.English.name());
     }
 
 

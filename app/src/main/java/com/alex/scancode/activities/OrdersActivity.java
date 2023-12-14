@@ -28,7 +28,6 @@ import java.util.List;
 public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.OnItemClickListener {
     private static final String TAG = "OrdersActivity";
     Context context;
-    List<Order> orderList;
     RecyclerView recyclerView;
     OrdersAdapter orderAdapter;
     SynchManager synchManager;
@@ -41,6 +40,8 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         Log.i(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+
+        // initialize main elements
         roomDB = RoomDB.getInstance(this);
         context = getApplicationContext();
         sm = new SettingsManager(this);
@@ -48,18 +49,22 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
 
         initializeRecyclerView();
 
+        // menu icon to get access new functions
         ImageView imageView = findViewById(R.id.menu_view);
         imageView.setOnClickListener(v -> showPopupMenu(imageView));
 
+        // if autoSync is true it try to sent notSynch data to server
         if (sm.isAutoSynch()) synchWithServer();
     }
 
     private void synchWithServer() {
         Log.i(TAG, "synchWithServer: Sycnh With server!!!");
 
+        // if it reterns false it means something wrong with server and attempt was not successful
         if (!synchManager.synchNotSynchOrders()){
             return;
         }
+        // if data sent, it needs to change their status to isSynch=true
         List<OrderWithCodes> orderWithCodesList = synchManager.getNotSynchOrdersWithCodes();
         List<Order> orders = new ArrayList<>();
         for (OrderWithCodes orderWithCodes: orderWithCodesList){
@@ -67,6 +72,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
             order.setIsSynch(1);
             roomDB.orderDAO().update(order);
         }
+        // update the view
         orderAdapter.notifyDataSetChanged();
         initializeRecyclerView();
 
@@ -74,7 +80,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
 
     private void initializeRecyclerView() {
         Log.i(TAG, "initializeRecyclerView: ");
-        RoomDB roomDB = RoomDB.getInstance(context);
+        // create recyclerView and set adapter
         recyclerView = findViewById(R.id.o_rv_orders);
         orderAdapter = new OrdersAdapter(roomDB.orderDAO().getAll(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -86,6 +92,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
 
     @Override
     public void onItemClick(int orderId) {
+        // make possible to click on special order
         Log.i(TAG, "onItemClick: " + orderId);
         Intent intent = new Intent(this, SpecialOrderActivity.class);
         intent.putExtra("orderId", orderId);

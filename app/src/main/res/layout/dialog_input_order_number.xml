@@ -12,14 +12,15 @@
         android:textSize="25sp"
         android:textStyle="bold"
         android:padding="20dp"
-        android:text="Enter the order number:"/>
+        android:text="@string/enter_the_order_number"/>
 
     <EditText
         android:id="@+id/scan_text_order_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:hint="Order number"
+        android:inputType="text"
+        android:hint="@string/order_number"
         android:minHeight="48dp" />
 
     <Button
@@ -29,6 +30,6 @@
         android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create new order"/>
+        android:text="@string/create_new_order"/>
 
 </LinearLayout>

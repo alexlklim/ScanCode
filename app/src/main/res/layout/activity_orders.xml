@@ -25,7 +25,7 @@
                 android:layout_height="30dp"
                 android:layout_weight="20"
                 android:gravity="center"
-                android:text="Orders"
+                android:text="@string/orders"
                 android:textSize="20sp" />
 
             <ImageView
@@ -33,13 +33,14 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="2"
+                android:contentDescription="@string/menu"
                 android:src="@drawable/ic_more"
                 android:textSize="20sp" />
         </LinearLayout>
 
 
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center"
@@ -49,19 +50,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="order number" />
+                android:text="@string/order_number" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="start time" />
+                android:text="@string/start_time" />
 
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:text="synch" />
+                android:text="@string/synch" />
 
         </LinearLayout>
 

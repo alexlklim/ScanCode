@@ -14,6 +14,22 @@
     <!--    For Main Activity-->
     <string name="new_order">New Order</string>
     <string name="settings">Settings</string>
+    <string name="orders">Orders</string>
+    <string name="login">Login</string>
+    <string name="password">password</string>
+    <string name="check_orders">Check orders</string>
+    <string name="order_number">order number</string>
+    <string name="start_time">start time</string>
+    <string name="synch">synch</string>
+    <string name="menu">menu</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="enter_the_order_number">Enter the order number:</string>
+    <string name="create_new_order">Create new order</string>
+    <string name="okay">Okay</string>
+    <string name="the_order_was_saved">The order was saved</string>
+    <string name="finish">Finish</string>
 
 
     <!--    For Scan Activity-->
@@ -57,8 +73,8 @@
     <string name="toast_order_already_synch">Order already synchronized with server</string>
     <string name="toast_something_wrong">Something wrong</string>
     <string name="toast_configure_server_at_first">Configure server ar first</string>
-
-
+    <string name="toast_synch_new_orders">Synchronization of new orders</string>
+    <string name="toast_clear_synch_orders">Clear synchronized orders</string>
 
 
 </resources>
