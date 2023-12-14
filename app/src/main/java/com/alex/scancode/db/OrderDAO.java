@@ -17,10 +17,10 @@ public interface OrderDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Order order);
 
-    @Query("SELECT * FROM orders")
+    @Query("SELECT * FROM orders ORDER BY id DESC")
     List<Order> getAll();
 
-    @Query("SELECT * FROM orders WHERE isSynch = 1")
+    @Query("SELECT * FROM orders WHERE isSynch = 0")
     List<Order> getNonSynchOrders();
 
     @Query("SELECT * FROM orders WHERE orderNumber = :orderNumber")

@@ -115,11 +115,6 @@ public class SynchManager {
 
     }
 
-    public OrdersList getNotSynchOrders(){
-        settingsManager = new SettingsManager(context);
-        OrdersList ordersList = new OrdersList(settingsManager.getIdentifier(), getNotSynchOrdersWithCodes());
-        return ordersList;
-    }
 
     public List<OrderWithCodes> getNotSynchOrdersWithCodes(){
         settingsManager = new SettingsManager(context);
