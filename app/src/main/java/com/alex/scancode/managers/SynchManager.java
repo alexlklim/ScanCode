@@ -93,18 +93,11 @@ public class SynchManager {
 
 
     public void clearSynchOrders() {
+        Log.d(TAG, "clearSynchOrders: ");
         Toast.makeText(context, "Clear synchronized orders", Toast.LENGTH_SHORT).show();
 //        AnswerManager.showToast(context.getString(R.string.toast_something_wrong_with_server), context);
-        settingsManager = new SettingsManager(context);
-        boolean answer = checkCommon();
-
-
-        // handle special cases
-        // checkCommon();
-        // 1 all codes synchronized -> clear all
-        // 2 all orders not synchronized -> do nothing
-        // 3 show numbers of orders which was deleted
-
+        roomDB = RoomDB.getInstance(context);
+        roomDB.orderDAO().deleteAllSynchOrders();
 
     }
 
@@ -132,7 +125,7 @@ public class SynchManager {
         settingsManager = new SettingsManager(context);
         roomDB = RoomDB.getInstance(context);
         List<OrderWithCodes> mainList = new ArrayList<>();
-        List<Order> orderListNotSynch = roomDB.orderDAO().getNonSynchOrders(0);
+        List<Order> orderListNotSynch = roomDB.orderDAO().getNonSynchOrders();
 
         for (Order order: orderListNotSynch){
             mainList.add(new OrderWithCodes(order, roomDB.codeDAO().getAllByOrderID(order.getId()), settingsManager.getIdentifier()));
@@ -142,14 +135,14 @@ public class SynchManager {
 
 
 
-    public boolean checkIfOrderSynch(Order order){
-        if (order.getIsSynch() == 0){
-            return false;
-        } else {
-            Ans.showToast(context.getString(R.string.toast_order_already_synch), context);
-            return true;
-        }
-    }
+//    public boolean checkIfOrderSynch(Order order){
+//        if (order.getIsSynch() == 0){
+//            return false;
+//        } else {
+//            Ans.showToast(context.getString(R.string.toast_order_already_synch), context);
+//            return true;
+//        }
+//    }
 
 
 

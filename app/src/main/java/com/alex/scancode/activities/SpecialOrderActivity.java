@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -84,7 +87,17 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         }
         s_btn_comeBack.setOnClickListener(view -> finish());
         so_iv_synchStatus.setOnClickListener(view -> synchWithServer());
-        s_btn_deleteOrder.setOnClickListener(view -> deleteSpecialOrder(orderId));
+
+        if (settingsManager.isAllowEditingOrders()){
+            s_btn_deleteOrder.setOnClickListener(view -> deleteSpecialOrder(orderId));
+        } else {
+            ViewGroup parent = (ViewGroup) s_btn_deleteOrder.getParent();
+            if (parent != null) {
+                parent.removeView(s_btn_deleteOrder);
+            }
+            s_btn_comeBack.setGravity(Gravity.CENTER); // Set gravity to center for the come back button
+
+        }
     }
 
     private void deleteSpecialOrder(int orderId) {
@@ -125,14 +138,10 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
                         Ans.showToast(getString(R.string.toast_something_wrong_with_server), this);
                     }
                 });
-
-        // logic if synch is not successful
-
     }
 
     private void initializeRecyclerView() {
         rv_so_iv_del = findViewById(R.id.rv_so_iv_del);
-
         RecyclerView recyclerView = findViewById(R.id.sc_rv_codes);
         codeList = roomDB.codeDAO().getAllByOrderID(orderId);
         specialOrderAdapter = new SpecialOrderAdapter(codeList, this);

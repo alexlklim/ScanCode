@@ -20,8 +20,8 @@ public interface OrderDAO {
     @Query("SELECT * FROM orders")
     List<Order> getAll();
 
-    @Query("SELECT * FROM orders WHERE isSynch = :isSynch")
-    List<Order> getNonSynchOrders(int isSynch);
+    @Query("SELECT * FROM orders WHERE isSynch = 1")
+    List<Order> getNonSynchOrders();
 
     @Query("SELECT * FROM orders WHERE orderNumber = :orderNumber")
     Order getOrderByOrderNumber(String orderNumber);
@@ -39,6 +39,9 @@ public interface OrderDAO {
 
     @Delete
     void delete(Order order);
+
+    @Query("DELETE FROM orders WHERE isSynch = 1")
+    void deleteAllSynchOrders();
 
 
 }

@@ -68,7 +68,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             textCode = itemView.findViewById(R.id.textCode);
             textTime = itemView.findViewById(R.id.textTime);
             textLabelType = itemView.findViewById(R.id.textType);
-            rv_iv_delete = itemView.findViewById(R.id.rv_iv_delete);
+//            rv_iv_delete = itemView.findViewById(R.id.rv_iv_delete);
         }
     }
 

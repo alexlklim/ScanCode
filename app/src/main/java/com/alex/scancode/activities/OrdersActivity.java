@@ -48,7 +48,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
 
         initializeRecyclerView();
 
-        ImageView imageView = findViewById(R.id.your_image_view);
+        ImageView imageView = findViewById(R.id.menu_view);
         imageView.setOnClickListener(v -> showPopupMenu(imageView));
 
         if (sm.isAutoSynch()) synchWithServer();
@@ -100,11 +100,12 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId(); // Store the item ID in a final variable
             if (itemId == R.id.menu_synchOrders) {
-                synchManager.synchNotSynchOrders();
-
+                synchWithServer();
                 return true;
             } else if (itemId == R.id.menu_clearOrders) {
                 synchManager.clearSynchOrders();
+                orderAdapter.notifyDataSetChanged();
+                initializeRecyclerView();
                 return true;
             }
             return false;
