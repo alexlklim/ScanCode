@@ -10,8 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
-import com.alex.scancode.db.RoomDB;
-import com.alex.scancode.managers.DateTimeManager;
+import com.alex.scancode.managers.DateTimeMan;
 import com.alex.scancode.models.Code;
 
 import java.util.List;
@@ -49,7 +48,7 @@ public class SpecialOrderAdapter extends RecyclerView.Adapter<SpecialOrderAdapte
 
         // Set data to views in your item layout
         holder.rvSoCode.setText(code.getCode());
-        holder.rvSoTime.setText(DateTimeManager.extractHoursAndMinutes(code.getTime()));
+        holder.rvSoTime.setText(DateTimeMan.extractHoursAndMinutes(code.getTime()));
         if (code.getGps().equalsIgnoreCase("none")) holder.rvSoIvGps.setImageResource(R.drawable.ic_gps_not);
         else holder.rvSoIvGps.setImageResource(R.drawable.ic_gps);
 

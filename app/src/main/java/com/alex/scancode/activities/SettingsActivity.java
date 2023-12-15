@@ -2,8 +2,6 @@ package com.alex.scancode.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,18 +17,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.alex.scancode.MainActivity;
 import com.alex.scancode.R;
 import com.alex.scancode.managers.Ans;
-import com.alex.scancode.managers.LocaleHelper;
-import com.alex.scancode.managers.SettingsManager;
+import com.alex.scancode.managers.LangMan;
+import com.alex.scancode.managers.SettingsMan;
 import com.alex.scancode.models.enums.FileType;
 import com.alex.scancode.models.enums.LabelType;
 import com.alex.scancode.models.enums.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
@@ -43,14 +39,14 @@ public class SettingsActivity extends AppCompatActivity {
     Spinner s_filter_labelType, s_filter_lang, s_filter_fileType;
     Button s_btn_toDefault, s_btn_comeBack, s_btn_saveSettings;
     LinearLayout s_f_section_doFilter, s_f_section_checkCodeLength, s_f_section_advancedFilter, s_f_section_serverConfiguration;
-    private SettingsManager settingsManager;
+    private SettingsMan sm;
     private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        settingsManager = new SettingsManager(this);
+        sm = new SettingsMan(this);
         initializeProfileSection();
         initializeFilterSection();
         initializeServerConfigurationSection();
@@ -125,19 +121,19 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void saveNewSettings() {
         Log.d(TAG, "saveNewSettings: ");
-        settingsManager.setProfileSection(s_filter_login.getText().toString(), s_filter_newPw.getText().toString());
+        sm.setProfileSection(s_filter_login.getText().toString(), s_filter_newPw.getText().toString());
 
         changeLang(s_filter_lang.getSelectedItem().toString());
 
-        settingsManager.setFilterConfig(s_filter_isNonUniqueAllow.isChecked(),
+        sm.setFilterConfig(s_filter_isNonUniqueAllow.isChecked(),
                 s_filter_checkCodeLength.isChecked(), parseIntOrDefault(s_filter_codeLength.getText().toString()), parseIntOrDefault(s_filter_codeLengthMIN.getText().toString()), parseIntOrDefault(s_filter_codeLengthMAX.getText().toString()),
                 s_filter_advancedFilter.isChecked(), s_filter_prefix.getText().toString(), s_filter_suffix.getText().toString(), s_filter_ending.getText().toString(),
                 s_filter_labelType.getSelectedItem().toString());
 
-        settingsManager.setServerConfig(s_filter_isServerConfigured.isChecked(), s_filter_autoSynch.isChecked(),
+        sm.setServerConfig(s_filter_isServerConfigured.isChecked(), s_filter_autoSynch.isChecked(),
                 s_filter_serverAddress.getText().toString(), parseIntOrDefault(s_filter_identifier.getText().toString()));
 
-        settingsManager.setAdminConfig(s_filter_isAllowEditingDuringScan.isChecked(),
+        sm.setAdminConfig(s_filter_isAllowEditingDuringScan.isChecked(),
                 s_filter_isAllowEditingOrders.isChecked(),
                 s_filter_isAddLocationToCode.isChecked());
     }
@@ -152,7 +148,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void comeBackToDefaultSettings() {
-        settingsManager.comeBackToDefaultSettings();
+        sm.comeBackToDefaultSettings();
     }
 
 
@@ -227,7 +223,7 @@ public class SettingsActivity extends AppCompatActivity {
         // initialize spinner labelType
         s_filter_labelType = findViewById(R.id.s_filter_labelType);
         List<String> labelTypes = LabelType.getListLabelTypes();
-        int indexLabelType = labelTypes.indexOf(settingsManager.getCodeLabelType());
+        int indexLabelType = labelTypes.indexOf(sm.getCodeLabelType());
         ArrayAdapter<String> adapterLabelType = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, new ArrayList<>(labelTypes));
         adapterLabelType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -237,7 +233,7 @@ public class SettingsActivity extends AppCompatActivity {
         // initialize spinner Lang
         s_filter_lang = findViewById(R.id.s_filter_lang);
         List<String> languages = Lang.getAllLang();
-        int indexLang = languages.indexOf(settingsManager.getLang());
+        int indexLang = languages.indexOf(sm.getLang());
         ArrayAdapter<String> adapterLang = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, new ArrayList<>(languages));
         adapterLabelType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -247,7 +243,7 @@ public class SettingsActivity extends AppCompatActivity {
         //  initialize spinner FileType
         s_filter_fileType = findViewById(R.id.s_filter_fileType);
         List<String> fileTypes = FileType.getFileTypeList();
-        int indexFileTypes = fileTypes.indexOf(settingsManager.getCodeLabelType());
+        int indexFileTypes = fileTypes.indexOf(sm.getCodeLabelType());
         ArrayAdapter<String> adapterFileType = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, new ArrayList<>(fileTypes));
         adapterFileType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -258,26 +254,26 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void getSharedPreferences() {
         Log.i(TAG, "getSharedPreferences: ");
-        s_filter_isNonUniqueAllow.setChecked(settingsManager.isNonUniqueCodeAllow());
+        s_filter_isNonUniqueAllow.setChecked(sm.isNonUniqueCodeAllow());
 
-        s_filter_checkCodeLength.setChecked(settingsManager.isCheckCodeLength());
-        s_filter_codeLength.setText(String.valueOf(settingsManager.getCodeLength()));
-        s_filter_codeLengthMIN.setText(String.valueOf(settingsManager.getCodeLengthMIN()));
-        s_filter_codeLengthMAX.setText(String.valueOf(settingsManager.getCodeLengthMAX()));
+        s_filter_checkCodeLength.setChecked(sm.isCheckCodeLength());
+        s_filter_codeLength.setText(String.valueOf(sm.getCodeLength()));
+        s_filter_codeLengthMIN.setText(String.valueOf(sm.getCodeLengthMIN()));
+        s_filter_codeLengthMAX.setText(String.valueOf(sm.getCodeLengthMAX()));
 
-        s_filter_advancedFilter.setChecked(settingsManager.isDoAdvancedFilter());
-        s_filter_prefix.setText(settingsManager.getCodePrefix());
-        s_filter_suffix.setText(settingsManager.getCodeSuffix());
-        s_filter_ending.setText(settingsManager.getCodeEnding());
+        s_filter_advancedFilter.setChecked(sm.isDoAdvancedFilter());
+        s_filter_prefix.setText(sm.getCodePrefix());
+        s_filter_suffix.setText(sm.getCodeSuffix());
+        s_filter_ending.setText(sm.getCodeEnding());
 
-        s_filter_isServerConfigured.setChecked(settingsManager.isServerConfigured());
-        s_filter_autoSynch.setChecked(settingsManager.isAutoSynch());
-        s_filter_serverAddress.setText(settingsManager.getServerAddress());
-        s_filter_identifier.setText(String.valueOf(settingsManager.getIdentifier()));
+        s_filter_isServerConfigured.setChecked(sm.isServerConfigured());
+        s_filter_autoSynch.setChecked(sm.isAutoSynch());
+        s_filter_serverAddress.setText(sm.getServerAddress());
+        s_filter_identifier.setText(String.valueOf(sm.getIdentifier()));
 
-        s_filter_isAllowEditingDuringScan.setChecked(settingsManager.isAllowEditingDuringScan());
-        s_filter_isAllowEditingOrders.setChecked(settingsManager.isAllowEditingOrders());
-        s_filter_isAddLocationToCode.setChecked(settingsManager.isAddLocationToCode());
+        s_filter_isAllowEditingDuringScan.setChecked(sm.isAllowEditingDuringScan());
+        s_filter_isAllowEditingOrders.setChecked(sm.isAllowEditingOrders());
+        s_filter_isAddLocationToCode.setChecked(sm.isAddLocationToCode());
 
 
     }
@@ -285,13 +281,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void changeLang(String lang){
         String language = Lang.getCodeByName(lang);
-        LocaleHelper.setLocale(SettingsActivity.this, language);
+        LangMan.setLocale(SettingsActivity.this, language);
         recreate();
     }
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LocaleHelper.onAttach(base));
+        super.attachBaseContext(LangMan.onAttach(base));
     }
 
 

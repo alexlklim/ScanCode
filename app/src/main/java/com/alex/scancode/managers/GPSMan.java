@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GPSManager {
+public class GPSMan {
     private static final String TAG = "GPSManager";
-    static SettingsManager sm;
+    static SettingsMan sm;
 
     public static String convertGpsToString(Location gps, Context context) {
         Log.i(TAG, "convertGpsToString: ");
-        sm = new SettingsManager(context);
+        sm = new SettingsMan(context);
 
 
         if (!sm.isAddLocationToCode()) {

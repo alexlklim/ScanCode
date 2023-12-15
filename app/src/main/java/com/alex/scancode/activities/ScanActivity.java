@@ -26,9 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.Ans;
-import com.alex.scancode.managers.GPSManager;
-import com.alex.scancode.managers.SettingsManager;
-import com.alex.scancode.managers.SynchManager;
+import com.alex.scancode.managers.GPSMan;
+import com.alex.scancode.managers.SettingsMan;
+import com.alex.scancode.managers.SynchMan;
 import com.alex.scancode.managers.adapters.CodeAdapter;
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Order;
@@ -50,7 +50,7 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
     private List<Code> codeList = new LinkedList<>();
 
     private String orderNumber;
-    SettingsManager sm;
+    SettingsMan sm;
 
     private CountDownTimer countDownTimer;
     private long startTimeInMillis = 0;
@@ -67,7 +67,7 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
         context = getApplicationContext();
-        sm = new SettingsManager(this);
+        sm = new SettingsMan(this);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
         initializeTopBar();
@@ -121,7 +121,7 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
         System.out.println(decodedLabelType);
         Code code = filteringData(new Code(
                 decodedData, decodedLabelType,
-                GPSManager.convertGpsToString(currentLocation, this)));
+                GPSMan.convertGpsToString(currentLocation, this)));
         if (code != null){
             codeList.add(code);
             Log.d(TAG, "Code was saved: " + code);
@@ -234,8 +234,8 @@ public class ScanActivity extends AppCompatActivity implements CodeAdapter.OnIte
                 if (result)
                     Ans.showToast(getString(R.string.toast_order_has_been_saved), this);
                 if (sm.isServerConfigured() && sm.isAutoSynch()){
-                    SynchManager synchManager = new SynchManager(context);
-                    synchManager.syncOrderWithServer(roomDB.orderDAO().getOrderByOrderNumber(orderNumber));
+                    SynchMan synchMan = new SynchMan(context);
+                    synchMan.syncOrderWithServer(roomDB.orderDAO().getOrderByOrderNumber(orderNumber));
                 }
                 alertDialog.dismiss();
                 showDialogOrderSavedResult(result);

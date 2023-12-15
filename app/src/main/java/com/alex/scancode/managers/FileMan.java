@@ -1,6 +1,6 @@
 package com.alex.scancode.managers;
 
-public class FileManager {
+public class FileMan {
 
     // it should be written in the end
 

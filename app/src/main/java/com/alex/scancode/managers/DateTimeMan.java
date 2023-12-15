@@ -6,7 +6,7 @@ import android.icu.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
-public class DateTimeManager {
+public class DateTimeMan {
 
     @SuppressLint("SimpleDateFormat")
     public static String extractHoursAndMinutes(String dateTimeString) {

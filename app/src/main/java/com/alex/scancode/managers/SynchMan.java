@@ -2,14 +2,12 @@ package com.alex.scancode.managers;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Order;
 import com.alex.scancode.models.json.OrderWithCodes;
-import com.alex.scancode.models.json.OrdersList;
 
 import java.io.BufferedWriter;
 import java.io.OutputStream;
@@ -21,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class SynchManager {
+public class SynchMan {
     private static final String TAG = "SynchManager";
 
     private static Context context;
     RoomDB roomDB;
-    SettingsManager settingsManager;
+    SettingsMan sm;
     URL url;
 
-    public SynchManager(Context context) {
-        SynchManager.context = context;
+    public SynchMan(Context context) {
+        SynchMan.context = context;
     }
 
     public CompletableFuture<Boolean> syncOrderWithServer(Order order) {
@@ -38,18 +36,20 @@ public class SynchManager {
         Ans.showToast(context.getString(R.string.toast_try_to_synch_with_server), context);
 
         if (!checkCommon()) return null;
-        settingsManager = new SettingsManager(context);
+
+
+        sm = new SettingsMan(context);
         // create json file order with codes
         roomDB = RoomDB.getInstance(context);
         List<Code> codeList = roomDB.codeDAO().getAllByOrderID(order.getId());
-        OrderWithCodes orderWithCodes = new OrderWithCodes(order, codeList, settingsManager.getIdentifier());
+        OrderWithCodes orderWithCodes = new OrderWithCodes(order, codeList, sm.getIdentifier());
         String json = orderWithCodes.toJson();
 
         CompletableFuture<Boolean> resultFuture = new CompletableFuture<>();
 
         CompletableFuture.runAsync(() -> {
             try {
-                url = new URL(settingsManager.getServerAddress());
+                url = new URL(sm.getServerAddress());
 
                 // Create a HttpURLConnection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -119,28 +119,28 @@ public class SynchManager {
 
 
     public List<OrderWithCodes> getNotSynchOrdersWithCodes(){
-        settingsManager = new SettingsManager(context);
+        sm = new SettingsMan(context);
         roomDB = RoomDB.getInstance(context);
         List<OrderWithCodes> mainList = new ArrayList<>();
         List<Order> orderListNotSynch = roomDB.orderDAO().getNonSynchOrders();
 
         for (Order order: orderListNotSynch){
-            mainList.add(new OrderWithCodes(order, roomDB.codeDAO().getAllByOrderID(order.getId()), settingsManager.getIdentifier()));
+            mainList.add(new OrderWithCodes(order, roomDB.codeDAO().getAllByOrderID(order.getId()), sm.getIdentifier()));
         }
         return mainList;
     }
 
     public boolean checkCommon() {
         Log.d(TAG, "checkCommon: ");
-        settingsManager = new SettingsManager(context);// 1 server is not configured
-        if(!settingsManager.isServerConfigured()){
+        sm = new SettingsMan(context);// 1 server is not configured
+        if(!sm.isServerConfigured()){
             Log.e(TAG, "checkCommon: toast_server_is_not_configured");
             Ans.showToast(context.getString(R.string.toast_server_is_not_configured), context);
             return false;
         }
 
         // 2 no internet connection
-        if (!NetworkManager.isNetworkAvailable(context)){
+        if (!NetworkMan.isNetworkAvailable(context)){
             Log.e(TAG, "checkCommon: toast_network_is_not_available");
             Ans.showToast(context.getString(R.string.toast_network_is_not_available), context);
             return false;

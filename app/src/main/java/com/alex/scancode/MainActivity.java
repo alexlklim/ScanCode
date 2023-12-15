@@ -2,7 +2,6 @@ package com.alex.scancode;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,12 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alex.scancode.activities.LoginActivity;
 import com.alex.scancode.activities.OrdersActivity;
 import com.alex.scancode.activities.ScanActivity;
-import com.alex.scancode.activities.SettingsActivity;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.Ans;
-import com.alex.scancode.managers.LocaleHelper;
-
-import java.util.Locale;
+import com.alex.scancode.managers.LangMan;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -60,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LocaleHelper.onAttach(base));
+        super.attachBaseContext(LangMan.onAttach(base));
     }
 
 

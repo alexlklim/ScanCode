@@ -5,11 +5,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class NetworkManager {
+public class NetworkMan {
     // Method to check if the device has an active internet connection
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

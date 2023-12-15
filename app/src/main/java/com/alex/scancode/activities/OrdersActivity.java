@@ -14,13 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
-import com.alex.scancode.managers.Ans;
-import com.alex.scancode.managers.SettingsManager;
-import com.alex.scancode.managers.SynchManager;
+import com.alex.scancode.managers.SettingsMan;
+import com.alex.scancode.managers.SynchMan;
 import com.alex.scancode.managers.adapters.OrdersAdapter;
 import com.alex.scancode.models.Order;
 import com.alex.scancode.models.json.OrderWithCodes;
-import com.alex.scancode.models.json.OrdersList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +28,9 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
     Context context;
     RecyclerView recyclerView;
     OrdersAdapter orderAdapter;
-    SynchManager synchManager;
+    SynchMan synchMan;
     RoomDB roomDB;
-    SettingsManager sm;
+    SettingsMan sm;
 
 
     @Override
@@ -44,8 +42,8 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         // initialize main elements
         roomDB = RoomDB.getInstance(this);
         context = getApplicationContext();
-        sm = new SettingsManager(this);
-        synchManager = new SynchManager(this);
+        sm = new SettingsMan(this);
+        synchMan = new SynchMan(this);
 
         initializeRecyclerView();
 
@@ -61,11 +59,11 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
         Log.i(TAG, "synchWithServer: Sycnh With server!!!");
 
         // if it reterns false it means something wrong with server and attempt was not successful
-        if (!synchManager.synchNotSynchOrders()){
+        if (!synchMan.synchNotSynchOrders()){
             return;
         }
         // if data sent, it needs to change their status to isSynch=true
-        List<OrderWithCodes> orderWithCodesList = synchManager.getNotSynchOrdersWithCodes();
+        List<OrderWithCodes> orderWithCodesList = synchMan.getNotSynchOrdersWithCodes();
         List<Order> orders = new ArrayList<>();
         for (OrderWithCodes orderWithCodes: orderWithCodesList){
             Order order = roomDB.orderDAO().getOrderByOrderNumber(orderWithCodes.getOrder().getOrderNumber());
@@ -110,7 +108,7 @@ public class OrdersActivity extends AppCompatActivity implements OrdersAdapter.O
                 synchWithServer();
                 return true;
             } else if (itemId == R.id.menu_clearOrders) {
-                synchManager.clearSynchOrders();
+                synchMan.clearSynchOrders();
                 orderAdapter.notifyDataSetChanged();
                 initializeRecyclerView();
                 return true;

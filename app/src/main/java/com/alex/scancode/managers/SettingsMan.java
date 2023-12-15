@@ -11,7 +11,7 @@ import com.alex.scancode.models.enums.LabelType;
 import com.alex.scancode.models.enums.Lang;
 import com.alex.scancode.utiles.Util;
 
-public class SettingsManager extends AppCompatActivity {
+public class SettingsMan extends AppCompatActivity {
     private static final String TAG = "SettingsManager";
 
     private SharedPreferences preferences;
@@ -31,7 +31,7 @@ public class SettingsManager extends AppCompatActivity {
 
 
 
-    public SettingsManager(Context context) {
+    public SettingsMan(Context context) {
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
@@ -109,6 +109,7 @@ public class SettingsManager extends AppCompatActivity {
 
 
 
+
     // for filtering
     public boolean isNonUniqueCodeAllow() {
         return preferences.getBoolean(KEY_IS_NON_UNIQUE_CODE_ALLOW, false);
@@ -167,7 +168,7 @@ public class SettingsManager extends AppCompatActivity {
     }
 
     public String getServerAddress() {
-        return preferences.getString(Util.URL, Util.URL);
+        return preferences.getString(KEY_SERVER_ADDRESS, Util.URL);
     }
 
     public int getIdentifier() {

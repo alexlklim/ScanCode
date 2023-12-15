@@ -5,11 +5,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.alex.scancode.managers.DateTimeManager;
+import com.alex.scancode.managers.DateTimeMan;
 import com.alex.scancode.utiles.Util;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 @Entity(tableName = Util.TABLE_NAME_CODE)
@@ -37,7 +36,7 @@ public class Code implements Serializable {
     @Ignore
     public Code(String code, String labelType, String gps) {
         this.code = code;
-        this.time = DateTimeManager.getCurrentTimeString();
+        this.time = DateTimeMan.getCurrentTimeString();
         this.labelType = labelType.replace("LABEL-TYPE-", "");
         this.gps = gps;
     }

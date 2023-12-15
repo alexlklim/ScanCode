@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -21,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alex.scancode.R;
 import com.alex.scancode.db.RoomDB;
 import com.alex.scancode.managers.Ans;
-import com.alex.scancode.managers.SettingsManager;
-import com.alex.scancode.managers.SynchManager;
+import com.alex.scancode.managers.SettingsMan;
+import com.alex.scancode.managers.SynchMan;
 import com.alex.scancode.managers.adapters.SpecialOrderAdapter;
 import com.alex.scancode.models.Code;
 import com.alex.scancode.models.Order;
@@ -39,7 +38,7 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
     Button s_btn_comeBack, s_btn_deleteOrder;
     ImageView so_iv_synchStatus, rv_so_iv_del;
     TextView so_tv_dateTime, so_tv_totalTime, so_tv_orderNumber;
-    SettingsManager settingsManager;
+    SettingsMan sm;
     SpecialOrderAdapter specialOrderAdapter;
 
     AlertDialog alertDialog;
@@ -49,7 +48,7 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.activity_special_order);
-        settingsManager = new SettingsManager(this);
+        sm = new SettingsMan(this);
         roomDB = RoomDB.getInstance(context);
         checkIfOrderExist();
         initializeRecyclerView();
@@ -59,7 +58,7 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         addButtonListener();
         initializeTextViews();
         if (order.getIsSynch() == 0){
-            if (settingsManager.isAutoSynch()) synchWithServer();
+            if (sm.isAutoSynch()) synchWithServer();
         }
     }
 
@@ -88,7 +87,7 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
         s_btn_comeBack.setOnClickListener(view -> finish());
         so_iv_synchStatus.setOnClickListener(view -> synchWithServer());
 
-        if (settingsManager.isAllowEditingOrders()){
+        if (sm.isAllowEditingOrders()){
             s_btn_deleteOrder.setOnClickListener(view -> {
                 if (order.getIsSynch() == 0) {
                     showDialogConfirmationToDeleteOrderWithoutSynch();
@@ -121,16 +120,16 @@ public class SpecialOrderActivity extends AppCompatActivity implements SpecialOr
             Ans.showToast(getString(R.string.toast_order_already_synch), this);
             return;
         }
-        if (!settingsManager.isServerConfigured()){
+        if (!sm.isServerConfigured()){
             Ans.showToast(context.getString(R.string.toast_configure_server_at_first), context);
             return;
         }
 
-        SynchManager synchManager = new SynchManager(context);
+        SynchMan synchMan = new SynchMan(context);
 
-        if (!synchManager.checkCommon()) return;
+        if (!synchMan.checkCommon()) return;
 
-        synchManager.syncOrderWithServer(order)
+        synchMan.syncOrderWithServer(order)
                 .thenAccept(synchronizedSuccessfully -> {
                     // Code to execute after synchronization is complete
                     if (synchronizedSuccessfully) {
